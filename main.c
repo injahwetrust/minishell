@@ -6,7 +6,7 @@
 /*   By: injah <injah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/06 18:30:36 by injah            ###   ########.fr       */
+/*   Updated: 2023/06/06 19:41:43 by injah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@ typedef struct s_data
 	char	**env;
 	char	*cur_dir;
 	char	*prompt;
+	
+
+
+	int	pipe;
 }	t_data;
 
 
@@ -62,8 +66,9 @@ void	exec(char *cmd, t_data *data)
 		path = get_exec(s_cmd[0], data);
 		if (execve(path, s_cmd, data->env) <= -1)
 		{
-			errno = ESRCH;
-			perror(s_cmd[0]);
+			//errno = ESRCH;
+			//perror(s_cmd[0]);
+			printf("command not found: %s\n",s_cmd[0]);
 			free(cmd);
 			ft_free_tab(s_cmd);
 			free(data->paths);
@@ -106,6 +111,15 @@ void	edit_prompt(t_data *data, char *cwd)
 	data->prompt = ft_strjoin(data->prompt,RESET"$ ", 1);
 }
 
+void	edit_pipe(t_data *data, char *trim)
+{
+	int	i;
+	
+	i = -1;
+	while (trim[++i])
+		if (trim[i] == '|')
+			data->pipe++;
+}
 
 int main(int ac, char **av, char **env) 
 {
@@ -118,6 +132,7 @@ int main(int ac, char **av, char **env)
 	(void)av;
 	data.env = env;
 	edit_paths(&data);
+	data.pipe = 0;
 	while (1) 
 	{
 		getcwd(cwd, sizeof(cwd));
@@ -130,10 +145,16 @@ int main(int ac, char **av, char **env)
 			break;
 		}
 		trim = ft_strtrim(input, " \t");
-		if (trim == NULL)
+		if (trim == NULL || !ft_strncmp(trim, "", 1))
 		 	continue;
+		edit_pipe(&data, trim);
 		if (ft_strncmp("pwd", trim, 3) == 0)
 			printf("%s\n", cwd);
+		else if (ft_strncmp("cd", trim, 2) == 0)
+		{
+			trim = ft_strtrim(trim + 2, " \t");
+			chdir(trim);
+		}
 		else
 			exec(trim, &data);
 		add_history(input);
