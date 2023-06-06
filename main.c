@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: injah <injah@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/06 15:53:42 by injah            ###   ########.fr       */
+/*   Updated: 2023/06/06 16:42:28 by vanitas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <string.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "../libft/libft.h"
+#include "libft/libft.h"
 
 typedef struct s_data
 {
@@ -79,7 +79,7 @@ void	exec(char *cmd, t_data *data)
 		waitpid(pid, NULL, 0);
 }
 
-char    **edit_paths(t_data *data, char **env)
+char	**edit_paths(t_data *data, char **env)
 {
     int     i;
     
@@ -87,6 +87,7 @@ char    **edit_paths(t_data *data, char **env)
     data->paths = ft_split(getenv("PATH"), ':');
     while (data->paths[++i])
 		data->paths[i] = ft_strjoin(data->paths[i], "/", 1);
+	return (env);
 }
 
 int main(int ac, char **av, char **env) 
@@ -95,6 +96,9 @@ int main(int ac, char **av, char **env)
 	char* input;
 	char cwd[1024];
 	char* trim;
+
+	(void)ac;
+	(void)av;
 	edit_paths(&data, env);
 	data.env = env;
 	while (1) 
@@ -119,5 +123,5 @@ int main(int ac, char **av, char **env)
 		free(trim);
 	}
 	ft_free_tab(data.paths);
-	return 0;
+	return (0);
 }
