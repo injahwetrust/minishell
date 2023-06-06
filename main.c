@@ -3,27 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: injah <injah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/06 16:42:28 by vanitas          ###   ########.fr       */
+/*   Updated: 2023/06/06 18:30:36 by injah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/wait.h>
-#include <errno.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include "libft/libft.h"
+
+#include "minishell.h"
+
 
 typedef struct s_data
 {
 	char	**paths;
 	char	**env;
+	char	*cur_dir;
+	char	*prompt;
 }	t_data;
 
 
@@ -46,7 +42,6 @@ char	*get_exec(char *cmd, t_data *data)
 	while (data->paths[++i])
 	{
 		path = ft_strjoin(data->paths[i], cmd, 1);
-		printf ("%s\n", path);
 		if (access(path, F_OK | X_OK) == 0)
 			return (path);
 		free(path);
@@ -79,7 +74,7 @@ void	exec(char *cmd, t_data *data)
 		waitpid(pid, NULL, 0);
 }
 
-char	**edit_paths(t_data *data, char **env)
+void	edit_paths(t_data *data)
 {
     int     i;
     
@@ -87,27 +82,50 @@ char	**edit_paths(t_data *data, char **env)
     data->paths = ft_split(getenv("PATH"), ':');
     while (data->paths[++i])
 		data->paths[i] = ft_strjoin(data->paths[i], "/", 1);
-	return (env);
 }
+
+void	edit_prompt(t_data *data, char *cwd)
+{
+	int	i;
+	int	j;
+	
+	i = 0;
+	j = 0;
+	while (cwd[i])
+		i++;
+	while (cwd[i] != '/' && i > 0)
+		i--;
+	while (j < i)
+	{
+		cwd++;
+		j++;
+	}
+	data->prompt = ft_strjoin(BG_GREEN BO_BLACK"Minishell~", getenv("USER"), 0);
+	data->prompt = ft_strjoin(data->prompt, RESET BO_GREEN" ", 1);
+	data->prompt = ft_strjoin(data->prompt, cwd, 1);
+	data->prompt = ft_strjoin(data->prompt,RESET"$ ", 1);
+}
+
 
 int main(int ac, char **av, char **env) 
 {
 	t_data	data;
 	char* input;
-	char cwd[1024];
+	char cwd[PATH_MAX];
 	char* trim;
 
 	(void)ac;
 	(void)av;
-	edit_paths(&data, env);
 	data.env = env;
+	edit_paths(&data);
 	while (1) 
 	{
 		getcwd(cwd, sizeof(cwd));
-		printf ("\033[1m\033[35m");
-		input = readline(ft_strjoin(cwd, " \033[1m\033[32mMinishell\033[0m$ ", 0));
+		edit_prompt(&data, cwd);
+		input = readline(data.prompt);
 		if (input == NULL)
 		{
+			free(data.prompt);
 			free(input);
 			break;
 		}
@@ -120,6 +138,7 @@ int main(int ac, char **av, char **env)
 			exec(trim, &data);
 		add_history(input);
 		free(input);
+		free(data.prompt);
 		free(trim);
 	}
 	ft_free_tab(data.paths);
