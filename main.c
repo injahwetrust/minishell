@@ -6,38 +6,11 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/08 21:59:46 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/08 22:16:17 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
-
-
-typedef struct s_data
-{
-	char	**paths;
-	char	**env;
-	char	*cur_dir;
-	char	*prompt;
-	
-	int	base_fd[2];
-	char	**cmd;
-	char cwd[PATH_MAX];
-	int	p_fd[2];
-	int	pipe;
-}	t_data;
-
-
-void	ft_free_tab(char **tab)
-{
-	int	i;
-	
-	i = -1;
-	while (tab[++i])
-		free(tab[i]);
-	free(tab);
-}
 
 char	*get_exec(char *cmd, t_data *data)
 {
@@ -51,85 +24,6 @@ char	*get_exec(char *cmd, t_data *data)
 			return (data->paths[i]);
 	}
 	return (cmd);
-}
-
-void	end_process(t_data *data)
-{
-	ft_free_tab(data->cmd);
-	ft_free_tab(data->paths);
-	exit(0);
-}
-
-void	echo(t_data *data, char *cmd)
-{
-	int	i;
-	int	nl;
-	
-	if (ft_strncmp("echo", cmd, 4) == 0)
-	{
-		i = 3;
-		nl = 1;
-		while (cmd[++i])
-		{
-			if (cmd[i] == '-' && cmd[i + 1] == 'n' && (cmd[i + 2] == ' ' || cmd[i + 2] == '\t'))
-				nl = 0;
-			if (cmd[i] != ' ' && cmd[i] != '\t')
-				break;
-		}
-		i = 3;
-		if (nl == 0)
-			while (cmd[i] != 'n')
-				i++;
-		else
-			i = 3;
-		i++;
-		while (cmd[i] == ' ' || cmd[i] == '\t')
-			i++;
-		while (cmd[i])
-		{
-			ft_printf("%c", cmd[i]);
-			i++;
-		}
-		if (nl == 1)
-			ft_printf("\n");
-		end_process(data);
-	}
-}
-
-void	recoded(t_data *data, char *cmd)
-{
-	if (ft_strcmp("pwd", cmd) == 0)
-	{
-		ft_printf("%s\n", data->cwd);
-		end_process(data);
-	}
-	else if (ft_strcmp("cd", cmd) == 0)
-	{
-		cmd = ft_strtrim(cmd + 2, " \t", 1);
-		chdir(cmd);
-		end_process(data);
-	}
-	else if (ft_strcmp("env", cmd) == 0)
-	{
-		while (*data->env)
-		{
-			ft_printf("%s\n", *data->env);
-			data->env++;
-		}
-		end_process(data);
-	}
-	else if (ft_strcmp("exit", cmd) == 0)
-		end_process(data);
-	echo(data, cmd);
-}
-
-void	close_n_dup(t_data *data)
-{
-	close(data->base_fd[0]);
-	close(data->base_fd[1]);
-	close(data->p_fd[0]);
-	dup2(data->p_fd[1], 1);
-	close(data->p_fd[1]);
 }
 
 void	go(char *cmd, t_data *data)

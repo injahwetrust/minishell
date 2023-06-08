@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: injah <injah@student.42.fr>                +#+  +:+       +#+         #
+#    By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/06 16:33:49 by vanitas           #+#    #+#              #
-#    Updated: 2023/06/06 16:56:04 by injah            ###   ########.fr        #
+#    Updated: 2023/06/08 22:15:50 by bvaujour         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,8 @@ LIBFT_FILE	=	libft.a
 LIBFT_LIB	=	$(addprefix $(LIBFT_PATH), $(LIBFT_FILE))
 
 SRC		=	main.c					\
+			command.c				\
+			utils.c					\
 			
 OBJ			=	$(SRC:.c=.o)
 

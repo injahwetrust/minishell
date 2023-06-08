@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: injah <injah@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/06/06 17:23:09 by injah            ###   ########.fr       */
+/*   Updated: 2023/06/08 22:15:07 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,24 @@
 # define BGO_MAGENTA "\x1B[1m\x1B[45m"
 # define BGO_CYAN    "\x1B[1m\x1B[46m"
 # define BGO_WHITE   "\x1B[1m\x1B[47m"
+
+typedef struct s_data
+{
+	char	**paths;
+	char	**env;
+	char	*cur_dir;
+	char	*prompt;
+	
+	int	base_fd[2];
+	char	**cmd;
+	char cwd[PATH_MAX];
+	int	p_fd[2];
+	int	pipe;
+}	t_data;
+
+void	recoded(t_data *data, char *cmd);
+void	end_process(t_data *data);
+void	ft_free_tab(char **tab);
+void	close_n_dup(t_data *data);
 
 #endif
