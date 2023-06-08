@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/08 18:47:52 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/08 21:59:46 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,43 @@ void	end_process(t_data *data)
 	ft_free_tab(data->paths);
 	exit(0);
 }
+
+void	echo(t_data *data, char *cmd)
+{
+	int	i;
+	int	nl;
+	
+	if (ft_strncmp("echo", cmd, 4) == 0)
+	{
+		i = 3;
+		nl = 1;
+		while (cmd[++i])
+		{
+			if (cmd[i] == '-' && cmd[i + 1] == 'n' && (cmd[i + 2] == ' ' || cmd[i + 2] == '\t'))
+				nl = 0;
+			if (cmd[i] != ' ' && cmd[i] != '\t')
+				break;
+		}
+		i = 3;
+		if (nl == 0)
+			while (cmd[i] != 'n')
+				i++;
+		else
+			i = 3;
+		i++;
+		while (cmd[i] == ' ' || cmd[i] == '\t')
+			i++;
+		while (cmd[i])
+		{
+			ft_printf("%c", cmd[i]);
+			i++;
+		}
+		if (nl == 1)
+			ft_printf("\n");
+		end_process(data);
+	}
+}
+
 void	recoded(t_data *data, char *cmd)
 {
 	if (ft_strcmp("pwd", cmd) == 0)
@@ -81,31 +118,47 @@ void	recoded(t_data *data, char *cmd)
 		}
 		end_process(data);
 	}
+	else if (ft_strcmp("exit", cmd) == 0)
+		end_process(data);
+	echo(data, cmd);
+}
+
+void	close_n_dup(t_data *data)
+{
+	close(data->base_fd[0]);
+	close(data->base_fd[1]);
+	close(data->p_fd[0]);
+	dup2(data->p_fd[1], 1);
+	close(data->p_fd[1]);
+}
+
+void	go(char *cmd, t_data *data)
+{
+	char	**s_cmd;
+	char	*path;
+
+	s_cmd = ft_split(cmd, ' ');
+	path = get_exec(s_cmd[0], data);
+	if (execve(path, s_cmd, data->env) <= -1)
+	{
+		ft_dprintf(2, "command not found: %s\n", s_cmd[0]);
+		ft_free_tab(data->cmd);
+		ft_free_tab(s_cmd);
+		ft_free_tab(data->paths);
+		exit(0);
+	}
 }
 
 void	exec(char *cmd, t_data *data)
 {
-	char	**s_cmd;
-	char	*path;
 	pid_t	pid;
 	
 	pid = fork();
 	if (pid == 0)
 	{
-		close(data->p_fd[0]);
-		dup2(data->p_fd[1], 1);
-		close(data->p_fd[1]);
+		close_n_dup(data);
 		recoded(data, cmd);
-		s_cmd = ft_split(cmd, ' ');
-		path = get_exec(s_cmd[0], data);
-		if (execve(path, s_cmd, data->env) <= -1)
-		{
-			ft_dprintf(2, "command not found: %s\n", s_cmd[0]);
-			ft_free_tab(data->cmd);
-			ft_free_tab(s_cmd);
-			ft_free_tab(data->paths);
-			exit(0);
-		}
+		go(cmd, data);
 	}
 	else
 	{
@@ -147,16 +200,6 @@ void	edit_prompt(t_data *data, char *cwd)
 	data->prompt = ft_strjoin(data->prompt,RESET"$ ", 1);
 }
 
-/*void	edit_pipe(t_data *data, char *input)
-{
-	int	i;
-	
-	i = -1;
-	while (input[++i])
-		if (input[i] == '|')
-			data->pipe++;
-}*/
-
 void	execution(t_data *data)
 {
 	int	i;
@@ -183,16 +226,16 @@ void	print(t_data *data)
 	{
 		ret = read(0, buff, sizeof(buff));
 		buff[ret] = '\0';
-		write(2, buff, ft_strlen(buff));
+		ft_printf("%s", buff);
 	}
 	dup2(data->base_fd[0], 0);
+	close (data->base_fd[0]);
 	dup2(data->base_fd[1], 1);
+	close (data->base_fd[1]);
 }
 
 void	init(t_data *data, char **env)
 {
-	data->base_fd[0] = dup(0);
-	data->base_fd[1] = dup(1);
 	data->env = env;
 	edit_paths(data);
 	data->pipe = 0;
@@ -208,9 +251,20 @@ int	main(int ac, char **av, char **env)
 	init(&data, env);
 	while (1) 
 	{
+		data.base_fd[0] = dup(0);
+		data.base_fd[1] = dup(1);
 		getcwd(data.cwd, sizeof(data.cwd));
 		edit_prompt(&data, data.cwd);
 		input = readline(data.prompt);
+		if (!ft_strcmp(input, "exit"))
+		{
+			free(data.prompt);
+			free(input);
+			ft_free_tab(data.paths);
+			close (data.base_fd[0]);
+			close (data.base_fd[1]);
+			exit(0);
+		}
 		if (input == NULL || !ft_strcmp(input, ""))
 		{
 			free(data.prompt);
@@ -228,6 +282,8 @@ int	main(int ac, char **av, char **env)
 		print(&data);
 		ft_free_tab(data.cmd);
 	}
-	ft_free_tab(data.paths);
+	//close (data.base_fd[0]);
+	//close (data.base_fd[1]);
+	//ft_free_tab(data.paths);
 	return (0);
 }
