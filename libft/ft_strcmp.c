@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/01 11:56:56 by bvaujour          #+#    #+#             */
-/*   Updated: 2022/12/01 11:59:49 by bvaujour         ###   ########.fr       */
+/*   Created: 2023/06/08 16:57:22 by bvaujour          #+#    #+#             */
+/*   Updated: 2023/06/08 18:34:32 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+int ft_strcmp(const char *s1, const char *s2)
+{
+    int i;
 
-# include <unistd.h>
-# include <stdarg.h>
-
-int	ft_printf(const char *str, ...);
-int	format(char c, va_list ap);
-int	ft_dprintf(int fd, const char *str, ...);
-#endif
+    i = 0;
+    while (s1[i] && s2[i])
+    {
+        if (s1[i] != s2[i])
+            return (s1[i] - s2[i]);
+        i++;
+    }
+    return (s1[i] - s2[i]);
+}

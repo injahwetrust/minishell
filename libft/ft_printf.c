@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 12:21:00 by bvaujour          #+#    #+#             */
-/*   Updated: 2022/11/30 12:23:20 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/08 16:24:11 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_printf(const char *str, ...)
 
 	i = 0;
 	len = 0;
-	va_start(ap, *str);
+	va_start(ap, str);
 	while (str[i])
 	{
 		if (str[i] == '%')
