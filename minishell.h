@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/06/09 11:13:52 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/09 14:01:48 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,6 @@ void	ft_free_tab(char **tab);
 void	close_n_dup(t_data *data);
 void    new_envi(t_data *data, char *str);
 char	*parse_export(char *input);
+void	cd_manage(t_data *data, char *cmd);
 
 #endif

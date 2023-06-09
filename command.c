@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:12:41 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/09 12:27:44 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/09 14:42:34 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,15 +101,25 @@ void	print_env(t_data *data)
 
 void	cd_manage(t_data *data, char *cmd)
 {
+	char *path;
 
 	if (cmd[2] == '\0')
 	{
-		ft_dprintf(2, "\xE2\x9D\x8C"RED"NEED A PATH\n"RESET);
-		end_process(data);
+		chdir("//home");
+		close (data->base_fd[0]);
+		close (data->base_fd[1]);
+		return ;
 	}
-	cmd = ft_strtrim(cmd + 2, " \t", 1);
-	chdir(cmd);
-	end_process(data);
+	path = ft_strdup(cmd + 2);
+	if (!path)
+		exit(ft_dprintf(2, "Malloc error\n"));
+	path = ft_strtrim(path, " \t", 1);
+	if (!path)
+		exit(ft_dprintf(2, "Malloc error\n"));
+	ft_dprintf(2, "path = %s\n", path);
+	chdir(path);
+	close (data->base_fd[0]);
+	close (data->base_fd[1]);
 }
 
 void	recoded(t_data *data, char *cmd, int option)
@@ -120,11 +130,9 @@ void	recoded(t_data *data, char *cmd, int option)
 		ft_printf("%s\n", data->cwd);
 		end_process(data);
 	}
-	else if (ft_strcmp("cd", cmd) == 0)
-		cd_manage(data, cmd);
 	else if (ft_strcmp("env", cmd) == 0)
 		print_env(data);
-	else if (ft_strcmp("exit", cmd) == 0)
+	else if (ft_strcmp("exit", cmd) == 0 || ft_strncmp("export", cmd, 6) == 0 || ft_strncmp("cd", cmd, 2) == 0)
 	{
 		if (option == 1)
 			free(cmd);

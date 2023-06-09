@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/09 12:17:03 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/09 14:58:45 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,29 +97,14 @@ void	edit_prompt(t_data *data, char *cwd)
 void	execution(t_data *data)
 {
 	int	i;
-	char	*exp;
 	
 	i = -1;
 	while (data->cmd[++i])
 	{
-		data->cmd[i] = ft_strtrim(data->cmd[i], " \t", 1);
-		if (ft_strncmp("export", data->cmd[i], 6) == 0 && (i > 0 || data->cmd[i + 1]))
-		{
-			exp = ft_strdup("exit");
-			exec(exp, data, 1);
-			free(exp);
-			continue;
-		}
-		else if (ft_strncmp("export", data->cmd[i], 6) == 0)
-    	{
-			data->cmd[i] = parse_export(data->cmd[i]);
-			if (data->cmd[i] == NULL)
-				continue;
-        	new_envi(data, data->cmd[i]);
-			continue;
-		}
 		if (pipe(data->p_fd) == -1)
 			exit(ft_dprintf(2, "\xE2\x9A\xA0\xEF\xB8\x8F Pipe error\n"));
+		data->cmd[i] = ft_strtrim(data->cmd[i], " \t", 1);
+		//ft_dprintf(2, "YOY |%s|\n\n", data->cmd[i]);
 		exec(data->cmd[i], data, 0);
 		data->child++;
 	}
@@ -151,42 +136,106 @@ void	init(t_data *data, char **env)
 	data->pipe = 0;
 }
 
+void	init_loop(t_data *data)
+{
+		data->child = 0;
+		data->pipe = 0;
+		data->base_fd[0] = dup(0);
+		data->base_fd[1] = dup(1);
+		getcwd(data->cwd, sizeof(data->cwd));
+		edit_prompt(data, data->cwd);
+}
+
+void	edit_pipe(t_data *data, char *input)
+{
+	int	i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] == '|')
+			data->pipe++;
+		i++;
+	}
+}
+
+int	manage_nonchild(t_data *data, char *input)
+{
+	int	ret;
+
+	ret = 0;
+	if (ft_strncmp("cd", input, 2) == 0 && data->pipe == 0)
+	{
+		cd_manage(data, input);
+		free(data->prompt);
+		free(input);
+		close (data->base_fd[0]);
+		close (data->base_fd[1]);
+		ret = 1;
+	}
+	else if (!ft_strcmp(input, "exit"))
+	{
+		rl_clear_history ();
+		free(data->prompt);
+		free(input);
+		ft_free_tab(data->paths);
+		close (data->base_fd[0]);
+		close (data->base_fd[1]);
+		ft_free_tab(data->env);
+		ft_printf("Exiting Minishell\n");
+		ret = 2;
+		exit(0);
+	}
+	else if (ft_strncmp("export", input, 6) == 0)
+    {
+		input = parse_export(input);
+		if (input == NULL)
+		{
+			ret = 1;
+			free(input);
+			free(data->prompt);
+			close (data->base_fd[0]);
+			close (data->base_fd[1]);
+			return (ret);
+		}
+        new_envi(data, input);
+		ret = 1;
+		free(data->prompt);
+		close (data->base_fd[0]);
+		close (data->base_fd[1]);
+		free(input);
+	}
+	return (ret);
+}
+
 int	main(int ac, char **av, char **env) 
 {
 	t_data	data;
-	char* input;
+	char *input;
+	int	ret;
 	(void)ac;
 	(void)av;
 	
 	init(&data, env);
 	while (1) 
 	{
-		data.child = 0;
-		data.base_fd[0] = dup(0);
-		data.base_fd[1] = dup(1);
-		getcwd(data.cwd, sizeof(data.cwd));
-		edit_prompt(&data, data.cwd);
+		init_loop(&data);
 		input = readline(data.prompt);
-		if (!ft_strcmp(input, "exit"))
-		{
-			rl_clear_history ();
-			free(data.prompt);
-			free(input);
-			ft_free_tab(data.paths);
-			close (data.base_fd[0]);
-			close (data.base_fd[1]);
-			ft_free_tab(data.env);
-			ft_printf("Exiting Minishell\n");
-			exit(0);
-		}
+		add_history(input);
 		if (input == NULL || !ft_strcmp(input, ""))
 		{
 			free(data.prompt);
 			free(input);
 			continue;
 		}
-		add_history(input);
 		input = ft_strtrim(input, " \t", 1);
+		
+		
+		
+		edit_pipe(&data, input);
+		ret = manage_nonchild(&data, input);
+		if (ret == 1)
+			continue;
 		data.cmd = ft_split(input, '|');
 		free(input);
 		free(data.prompt);
