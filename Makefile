@@ -6,7 +6,7 @@
 #    By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/06 16:33:49 by vanitas           #+#    #+#              #
-#    Updated: 2023/06/08 22:15:50 by bvaujour         ###   ########.fr        #
+#    Updated: 2023/06/09 09:29:27 by bvaujour         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,8 @@ NAME		=	minishell
 CC			=	cc
 
 FLAG		=	-Wall -Wextra -Werror
+
+VFLAGS		=	valgrind --trace-children=yes --leak-check=full --show-leak-kinds=all --track-fds=yes
 
 LIBFT_PATH	=	./libft/
 
@@ -34,6 +36,13 @@ all: $(NAME)
 $(NAME): $(LIBFT_LIB) $(OBJ)
 	$(CC) $(OBJ) $(LIBFT_LIB) -o $(NAME) -lreadline
 
+boot: $(NAME)
+	./$(NAME)
+
+valgrind: $(NAME)
+	$(VFLAGS) ./$(NAME)
+	
+	
 .c.o:
 	$(CC) $(FLAG) -c $< -o $@
 

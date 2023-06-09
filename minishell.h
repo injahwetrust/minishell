@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/06/08 22:15:07 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/09 11:13:52 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct s_data
 {
 	char	**paths;
 	char	**env;
+    char    **new_env;
 	char	*cur_dir;
 	char	*prompt;
 	
@@ -73,11 +74,14 @@ typedef struct s_data
 	char cwd[PATH_MAX];
 	int	p_fd[2];
 	int	pipe;
+	int	child;
 }	t_data;
 
-void	recoded(t_data *data, char *cmd);
+void	recoded(t_data *data, char *cmd, int option);
 void	end_process(t_data *data);
 void	ft_free_tab(char **tab);
 void	close_n_dup(t_data *data);
+void    new_envi(t_data *data, char *str);
+char	*parse_export(char *input);
 
 #endif

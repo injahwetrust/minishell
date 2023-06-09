@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 14:54:59 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/08 17:02:39 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/09 10:58:58 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	*ft_calloc(size_t nmemb, size_t size);
 char	*ft_strdup(const char *s);
 char	*ft_strjoin(char *s1, char *s2, int option);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	**ft_tabdup(char **tab);
 char	*ft_strtrim(char *s1, char const *set, int option);
 char	**ft_split(const char *str, char c);
 char	*ft_itoa(int n);

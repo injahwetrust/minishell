@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/08 22:16:17 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/09 11:47:13 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	go(char *cmd, t_data *data)
 	}
 }
 
-void	exec(char *cmd, t_data *data)
+void	exec(char *cmd, t_data *data, int option)
 {
 	pid_t	pid;
 	
@@ -51,7 +51,7 @@ void	exec(char *cmd, t_data *data)
 	if (pid == 0)
 	{
 		close_n_dup(data);
-		recoded(data, cmd);
+		recoded(data, cmd, option);
 		go(cmd, data);
 	}
 	else
@@ -97,15 +97,32 @@ void	edit_prompt(t_data *data, char *cwd)
 void	execution(t_data *data)
 {
 	int	i;
-
+	char	*exp;
+	
 	i = -1;
 	while (data->cmd[++i])
 	{
-		if (pipe(data->p_fd) == -1)
-			exit(0);
 		data->cmd[i] = ft_strtrim(data->cmd[i], " \t", 1);
 		ft_dprintf(2, "cmd %d = |%s|\n", i, data->cmd[i]);
-		exec(data->cmd[i], data);
+		if (ft_strncmp("export", data->cmd[i], 6) == 0 && (i > 0 || data->cmd[i + 1]))
+		{
+			exp = ft_strdup("exit");
+			exec(exp, data, 1);
+			free(exp);
+			continue;
+		}
+		else if (ft_strncmp("export", data->cmd[i], 6) == 0)
+    	{
+			data->cmd[i] = parse_export(data->cmd[i]);
+			if (data->cmd[i] == NULL)
+				continue;
+        	new_envi(data, data->cmd[i]);
+			continue;
+		}
+		if (pipe(data->p_fd) == -1)
+			exit(0);
+		exec(data->cmd[i], data, 0);
+		data->child++;
 	}
 }
 
@@ -130,7 +147,7 @@ void	print(t_data *data)
 
 void	init(t_data *data, char **env)
 {
-	data->env = env;
+	data->env = ft_tabdup(env);
 	edit_paths(data);
 	data->pipe = 0;
 }
@@ -138,13 +155,14 @@ void	init(t_data *data, char **env)
 int	main(int ac, char **av, char **env) 
 {
 	t_data	data;
-	char* input = "env|grep lo";
+	char* input;
 	(void)ac;
 	(void)av;
 	
 	init(&data, env);
 	while (1) 
 	{
+		data.child = 0;
 		data.base_fd[0] = dup(0);
 		data.base_fd[1] = dup(1);
 		getcwd(data.cwd, sizeof(data.cwd));
@@ -152,11 +170,13 @@ int	main(int ac, char **av, char **env)
 		input = readline(data.prompt);
 		if (!ft_strcmp(input, "exit"))
 		{
+			rl_clear_history ();
 			free(data.prompt);
 			free(input);
 			ft_free_tab(data.paths);
 			close (data.base_fd[0]);
 			close (data.base_fd[1]);
+			ft_free_tab(data.env);
 			exit(0);
 		}
 		if (input == NULL || !ft_strcmp(input, ""))
@@ -173,11 +193,13 @@ int	main(int ac, char **av, char **env)
 		execution(&data);
 		while (wait(NULL) > 0)
 			;
-		print(&data);
+		if (data.child)
+			print(&data);
 		ft_free_tab(data.cmd);
+		close (data.base_fd[0]);
+		close (data.base_fd[1]);
 	}
-	//close (data.base_fd[0]);
-	//close (data.base_fd[1]);
 	//ft_free_tab(data.paths);
+	//ft_free_tab(data.env);
 	return (0);
 }
