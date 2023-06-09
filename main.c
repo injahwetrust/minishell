@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/09 11:47:13 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/09 12:17:03 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	edit_prompt(t_data *data, char *cwd)
 		j++;
 	}
 	data->prompt = ft_strjoin(BG_GREEN BO_BLACK"Minishell~", getenv("USER"), 0);
-	data->prompt = ft_strjoin(data->prompt, RESET BO_GREEN" ", 1);
+	data->prompt = ft_strjoin(data->prompt, RESET BO_GREEN"🐸", 1);
 	data->prompt = ft_strjoin(data->prompt, cwd, 1);
 	data->prompt = ft_strjoin(data->prompt,RESET"$ ", 1);
 }
@@ -103,7 +103,6 @@ void	execution(t_data *data)
 	while (data->cmd[++i])
 	{
 		data->cmd[i] = ft_strtrim(data->cmd[i], " \t", 1);
-		ft_dprintf(2, "cmd %d = |%s|\n", i, data->cmd[i]);
 		if (ft_strncmp("export", data->cmd[i], 6) == 0 && (i > 0 || data->cmd[i + 1]))
 		{
 			exp = ft_strdup("exit");
@@ -120,7 +119,7 @@ void	execution(t_data *data)
 			continue;
 		}
 		if (pipe(data->p_fd) == -1)
-			exit(0);
+			exit(ft_dprintf(2, "\xE2\x9A\xA0\xEF\xB8\x8F Pipe error\n"));
 		exec(data->cmd[i], data, 0);
 		data->child++;
 	}
@@ -177,6 +176,7 @@ int	main(int ac, char **av, char **env)
 			close (data.base_fd[0]);
 			close (data.base_fd[1]);
 			ft_free_tab(data.env);
+			ft_printf("Exiting Minishell\n");
 			exit(0);
 		}
 		if (input == NULL || !ft_strcmp(input, ""))

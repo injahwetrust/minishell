@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:12:41 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/09 11:52:56 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/09 12:27:44 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,16 +86,29 @@ static void echo(t_data *data, char *cmd)
 	end_process(data);
 }
 
-void	printf_env(t_data *data)
+void	print_env(t_data *data)
 {
 	int	i;
 
 	i = 0;
 	while (data->env[i])
 	{
-		ft_printf("*%s\n", data->env[i]);
+		ft_printf("%s\n", data->env[i]);
 		i++;
 	}
+	end_process(data);
+}
+
+void	cd_manage(t_data *data, char *cmd)
+{
+
+	if (cmd[2] == '\0')
+	{
+		ft_dprintf(2, "\xE2\x9D\x8C"RED"NEED A PATH\n"RESET);
+		end_process(data);
+	}
+	cmd = ft_strtrim(cmd + 2, " \t", 1);
+	chdir(cmd);
 	end_process(data);
 }
 
@@ -108,13 +121,9 @@ void	recoded(t_data *data, char *cmd, int option)
 		end_process(data);
 	}
 	else if (ft_strcmp("cd", cmd) == 0)
-	{
-		cmd = ft_strtrim(cmd + 2, " \t", 1);
-		chdir(cmd);
-		end_process(data);
-	}
+		cd_manage(data, cmd);
 	else if (ft_strcmp("env", cmd) == 0)
-		printf_env(data);
+		print_env(data);
 	else if (ft_strcmp("exit", cmd) == 0)
 	{
 		if (option == 1)
