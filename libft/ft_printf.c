@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 12:21:00 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/08 16:24:11 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/09 18:38:57 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,18 @@ int	ft_printf(const char *str, ...)
 	i = 0;
 	len = 0;
 	va_start(ap, str);
-	while (str[i])
+	while (*str)
 	{
+		i = 0;
+		while (str[i] && str[i] != '%')
+			i++;
+		len += write (1, str, i);
 		if (str[i] == '%')
 		{
 			len += format(str[i + 1], ap);
-			i++;
+			i += 2;
 		}
-		else
-		{
-			write (1, &str[i], 1);
-			len++;
-		}
-		i++;
+		str += i;
 	}
 	va_end(ap);
 	return (len);

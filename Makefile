@@ -6,7 +6,7 @@
 #    By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/06 16:33:49 by vanitas           #+#    #+#              #
-#    Updated: 2023/06/09 09:29:27 by bvaujour         ###   ########.fr        #
+#    Updated: 2023/06/10 10:51:19 by bvaujour         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,9 +15,9 @@ NAME		=	minishell
 
 CC			=	cc
 
-FLAG		=	-Wall -Wextra -Werror
+FLAG		=	-Wall -Wextra -Werror -g3
 
-VFLAGS		=	valgrind --trace-children=yes --leak-check=full --show-leak-kinds=all --track-fds=yes
+VFLAGS		=	valgrind --trace-children=yes --leak-check=full --show-leak-kinds=all --show-reachable=no --track-fds=yes
 
 LIBFT_PATH	=	./libft/
 

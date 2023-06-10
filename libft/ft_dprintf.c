@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 16:15:03 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/08 16:29:01 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/09 18:38:25 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,14 @@ void	ft_printchar_fd(int fd, char c, int *len)
 	*len += 1;
 }
 
-void	ft_putstr_fd(int fd, const char *str, int *len)
+void	ft_printstr_fd(int fd, const char *str, int *len)
 {
-	int	i;
-
-	i = 0;
 	if (!str)
 	{
 		*len += write (fd, "(null)", 6);
 		return ;
 	}
-	while (str[i])
-	{
-		write (fd, &str[i], 1);
-		i++;
-		*len += 1;
-	}
+	*len += write(fd, str, ft_strlen(str));
 }
 
 void	ft_putnbr_base_fd(int fd, long long nbr, char *base, int *len)
@@ -63,7 +55,7 @@ int	format_fd(int fd, char c, va_list ap)
 	else if (c == 'c')
 		ft_printchar_fd(fd, va_arg(ap, int), &len);
 	else if (c == 's')
-		ft_putstr_fd(fd, va_arg(ap, char *), &len);
+		ft_printstr_fd(fd, va_arg(ap, char *), &len);
 	else if (c == 'i' || c == 'd')
 		ft_putnbr_base_fd(fd, va_arg(ap, int), "0123456789", &len);
 	else if (c == 'u')
@@ -84,20 +76,26 @@ int	ft_dprintf(int fd, const char *str, ...)
 	i = 0;
 	len = 0;
 	va_start(ap, str);
-	while (str[i])
+	while (*str)
 	{
+		i = 0;
+		while (str[i] && str[i] != '%')
+			i++;
+		len += write (fd, str, i);
 		if (str[i] == '%')
 		{
 			len += format_fd(fd, str[i + 1], ap);
-			i++;
+			i += 2;
 		}
-		else
-		{
-			write (fd, &str[i], 1);
-			len++;
-		}
-		i++;
+		str += i;
 	}
 	va_end(ap);
 	return (len);
 }
+
+/*int	main()
+{
+	char *str = "helloworld";
+
+	ft_dprintf(2, "%s 12345\n", str);
+}*/

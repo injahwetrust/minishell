@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   convertion.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 11:31:53 by bvaujour          #+#    #+#             */
-/*   Updated: 2022/12/01 11:31:56 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/09 18:33:36 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,13 @@ void	ft_printchar(char c, int *len)
 
 void	ft_printstr(const char *str, int *len)
 {
-	int	i;
 
-	i = 0;
 	if (!str)
 	{
 		*len += write (1, "(null)", 6);
 		return ;
 	}
-	while (str[i])
-	{
-		write (1, &str[i], 1);
-		i++;
-		*len += 1;
-	}
+	*len += write (1, str, ft_strlen(str));
 }
 
 void	ft_address(void const *p, char *base, int *len, int token)

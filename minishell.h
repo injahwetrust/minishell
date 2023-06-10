@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/06/09 14:01:48 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/10 10:40:23 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,18 @@ typedef struct s_data
 	int	child;
 }	t_data;
 
-void	recoded(t_data *data, char *cmd, int option);
+void	recoded(t_data *data, char *cmd);
 void	end_process(t_data *data);
 void	ft_free_tab(char **tab);
 void	close_n_dup(t_data *data);
-void    new_envi(t_data *data, char *str);
+void    add_in_env(t_data *data, char *str);
 char	*parse_export(char *input);
+char	*parse_unset(char *input);
 void	cd_manage(t_data *data, char *cmd);
+int		manage_nonchild(t_data *data, char *input);
+void	edit_pipe(t_data *data, char *input);
+void	edit_prompt(t_data *data, char *cwd);
+void	edit_paths(t_data *data);
+char	*ez_money(t_data *data, char *cmd);
 
 #endif
