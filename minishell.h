@@ -6,7 +6,7 @@
 /*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/06/10 14:34:57 by vanitas          ###   ########.fr       */
+/*   Updated: 2023/06/10 16:05:49 by vanitas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,4 +97,5 @@ void	handler_1(int sig);
 void	handler_2(int sig);
 void	handler_back_slash(int sig);
 
+void	free_all(t_data *data, char *input);
 #endif
