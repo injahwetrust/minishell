@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 15:13:26 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/10 02:32:34 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/10 18:19:40 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*ft_strtrim(char *s1, char const *set, int option)
 		i++;
 	while (j > 0 && in_cs(s1[j], set) == 1)
 		j--;
-	if (j == 0)
+	if (j == 0 && in_cs(s1[0], set))
 		return (ft_strdup(""));
 	strim = malloc (sizeof(char) * (j - i + 2));
 	if (strim == 0)
