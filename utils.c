@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:11:04 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/10 10:40:53 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/10 16:33:47 by vanitas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,4 +124,16 @@ void	edit_paths(t_data *data)
     data->paths = ft_split(getenv("PATH"), ':');
     while (data->paths[++i])
 		data->paths[i] = ft_strjoin(data->paths[i], "/", 1);
+}
+void	free_all(t_data *data, char *input)
+{
+	rl_clear_history();
+	free(data->prompt);
+	free(input);
+	ft_free_tab(data->paths);
+	close (data->base_fd[0]);
+	close (data->base_fd[1]);
+	ft_free_tab(data->env);
+	ft_printf("Exiting Minishell\n");
+	signals(3);
 }

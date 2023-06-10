@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/10 16:29:42 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/10 16:33:25 by vanitas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,11 +127,16 @@ int	main(int ac, char **av, char **env)
 		signals(1);
 		input = readline(data.prompt);
 		add_history(input);
-		if (input == NULL || !ft_strcmp(input, ""))
+		if (input == NULL)
+		{
+			free_all(&data, input);
+			break;
+		}
+		else if (!ft_strcmp(input, ""))
 		{
 			free(data.prompt);
 			free(input);
-			continue;
+			continue;	
 		}
 		input = ft_strtrim(input, " \t", 1);
 		edit_pipe(&data, input);
