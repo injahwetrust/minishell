@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:12:41 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/10 16:29:58 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/11 01:06:25 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,55 +259,63 @@ int	manage_nonchild(t_data *data, char *input)
 	return (ret);
 }
 
-char	*replace_dollar(char *cmd, char *macro, int size, t_data *data)
+int		in_ex(t_data *data, char c)
 {
-	char	*to_add;
-	char	*final;
-	int		i;
-	int		j;
-	int		k;
+	int	i;
+
+	i = 0;
+	while (data->ex[i])
+	{
+		if (c == data->ex[i])
+			return (1);
+		i++;	
+	}
+	return (0);
+}
+char	*get_macro(t_data *data, char *cmd, char *begin)
+{
+	char	*macro;
+	int	i;
+	int	j;
 	
-	i = -1;
-	j = 0;
-	to_add = ft_strdup(getenv(macro));
-	final = malloc(sizeof(char) * size + 1);
-	if (!final || !to_add)
-		end_process(data);
-	while (cmd[++i] != '$')
-		final[i] = cmd[i];
-	k = i + ft_strlen(macro) + 1;
-	while (to_add[j])
-		final[i++] = to_add[j++];
-	while (cmd[k])
-		final[i++] = cmd[k++];
-	final[i] = '\0';
-	free(cmd);
-	return (free(to_add), final);
+	i = 0;
+	j = -1;
+	while (in_ex(data, cmd[i]))
+		i++;
+	macro = malloc(sizeof(char) * i + 1);
+	if (macro == NULL)
+		exit(0); // faire une fonction pour exit proprement
+	while (++j < i)
+		macro[j] = cmd[j];
+	macro[j] = '\0';
+	if (getenv(macro) != NULL)
+		begin = ft_strjoin(begin, getenv(macro), 1);
+	i = 0;
+	while (in_ex(data, cmd[i]))
+		i++;
+	begin = ft_strjoin(begin, cmd + i, 1);
+	free(macro);
+	return (begin);
 }
 
 char	*ez_money(t_data *data, char *cmd)
 {
-	int	i;
-	int	j;
-	int	total_size;
-	char	*macro;
+	int		i;
+	int		j;
+	char	*begin;
+	char	*replaced;
 	
-	i = -1;
-	j = 0;
-	while (cmd[++i])
-		if (cmd[i] == '$')
-			break;
-	if (!cmd[i])
-		return (cmd);
-	i++;
-	while (cmd[i + j] != ' ' &&  cmd[i + j] != '\t' && cmd[i + j])
-		j++;
-	macro = malloc(sizeof(char) * (j + 1));
-	if (macro == NULL)
-		end_process(data);
-	macro[j] = '\0';
-	ft_strlcpy(macro, cmd + i, j);
-	total_size = ft_strlen(cmd) + ft_strlen(getenv(macro)) - (j + 1);
-	cmd = replace_dollar(cmd, macro, total_size, data);
-	return (free(macro), cmd);
+	i = 0;
+	j = -1;
+	while (cmd[i] != '$' && cmd[i])
+		i++;
+	begin = malloc(sizeof(char) * i + 1);
+	if (begin == NULL)
+		exit(0); // faire une fonction pour exit proprement
+	while (++j < i)
+		begin[j] = cmd[j];
+	begin[j] = '\0';
+	replaced = get_macro(data, cmd + i + 1, begin);
+	free(cmd);
+	return (replaced);
 }

@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/10 18:13:09 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/11 01:14:14 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,7 @@ void	execution(t_data *data)
 		if (pipe(data->p_fd) == -1)
 			exit(ft_dprintf(2, "\xE2\x9A\xA0\xEF\xB8\x8F Pipe error\n")); // faire une fonction pour exit proprement
 		data->cmd[i] = ft_strtrim(data->cmd[i], " \t", 1);
-		data->cmd[i] = ez_money(data, data->cmd[i]);
 		exec(data->cmd[i], data);
-		data->child++;
 	}
 }
 
@@ -97,18 +95,34 @@ void	print(t_data *data)
 void	init(t_data *data, char **env)
 {
 	data->env = ft_tabdup(env);
+	data->ex = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
 	edit_paths(data);
 	data->pipe = 0;
 }
 
 void	init_loop(t_data *data)
 {
+		data->dollar = 0;
 		data->child = 0;
 		data->pipe = 0;
 		data->base_fd[0] = dup(0);
 		data->base_fd[1] = dup(1);
 		getcwd(data->cwd, sizeof(data->cwd));
 		edit_prompt(data, data->cwd);
+}
+
+void	edit_dollar(t_data *data, char *input)
+{
+	int	i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] == '$')
+			data->dollar++;
+		i++;
+	}
+	
 }
 
 int	main(int ac, char **av, char **env) 
@@ -135,11 +149,19 @@ int	main(int ac, char **av, char **env)
 		}
 		else if (!ft_strcmp(input, ""))
 		{
+			close (data.base_fd[0]);
+			close (data.base_fd[1]);
 			free(data.prompt);
 			free(input);
 			continue;	
 		}
 		input = ft_strtrim(input, " \t", 1);
+		edit_dollar(&data, input);
+		while (data.dollar)
+		{
+			input = ez_money(&data, input);
+			data.dollar--;
+		}
 		ft_printf("%s\n", input);
 		edit_pipe(&data, input);
 		
@@ -153,8 +175,8 @@ int	main(int ac, char **av, char **env)
 		execution(&data);
 		while (wait(NULL) > 0)
 			;
-		if (data.child)
-			print(&data);
+		//if (data.child)
+		print(&data);
 		ft_free_tab(data.cmd);
 		dup2(data.base_fd[0], 0);
 		close (data.base_fd[0]);

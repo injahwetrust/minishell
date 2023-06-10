@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/06/10 18:06:27 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/10 23:06:26 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,14 @@ typedef struct s_data
     char    **new_env;
 	char	*cur_dir;
 	char	*prompt;
-	
+	char	*ex;
 	int	base_fd[2];
 	char	**cmd;
 	char cwd[PATH_MAX];
 	int	p_fd[2];
 	int	pipe;
 	int	child;
+	int	dollar;
 }	t_data;
 
 void	recoded(t_data *data, char *cmd);
