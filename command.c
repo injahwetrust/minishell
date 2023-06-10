@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:12:41 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/10 14:37:51 by vanitas          ###   ########.fr       */
+/*   Updated: 2023/06/10 16:29:58 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,7 +215,7 @@ int	manage_nonchild(t_data *data, char *input)
 		close (data->base_fd[1]);
 		ret = 1;
 	}
-	if (ft_strncmp("unset", input, 5) == 0 && data->pipe == 0)
+	else if (ft_strncmp("unset", input, 5) == 0 && data->pipe == 0)
 	{
 		input = parse_unset(input);
 		remove_from_env(data, input);
