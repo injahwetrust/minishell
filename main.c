@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/10 10:52:11 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/10 14:39:35 by vanitas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	exec(char *cmd, t_data *data)
 	pid_t	pid;
 	
 	pid = fork();
+	signals(2);
 	if (pid == 0)
 	{
 		close_n_dup(data);
@@ -123,6 +124,7 @@ int	main(int ac, char **av, char **env)
 	{
 		ret = 0;
 		init_loop(&data);
+		signals(1);
 		input = readline(data.prompt);
 		add_history(input);
 		if (input == NULL || !ft_strcmp(input, ""))
