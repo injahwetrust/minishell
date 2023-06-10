@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/10 18:04:32 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/10 18:13:09 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	main(int ac, char **av, char **env)
 	int	ret;
 	(void)ac;
 	(void)av;
-	printf(BO_GREEN HEADER RESET);
+	ft_printf(BO_GREEN HEADER RESET);
 	
 	init(&data, env);
 	while (1) 
@@ -140,6 +140,7 @@ int	main(int ac, char **av, char **env)
 			continue;	
 		}
 		input = ft_strtrim(input, " \t", 1);
+		ft_printf("%s\n", input);
 		edit_pipe(&data, input);
 		
 		
