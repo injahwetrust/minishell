@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:12:41 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/10 11:16:17 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/10 14:37:51 by vanitas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,7 +235,7 @@ int	manage_nonchild(t_data *data, char *input)
 		close (data->base_fd[1]);
 		ft_free_tab(data->env);
 		ft_printf("Exiting Minishell\n");
-		exit(0);
+		signals(3);
 	}
 	else if (ft_strncmp("export", input, 6) == 0 && data->pipe == 0)
     {

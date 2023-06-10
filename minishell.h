@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/06/10 10:40:23 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/10 14:34:57 by vanitas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <readline/history.h>
 # include "libft/libft.h"
 # include <limits.h>
+# include <signal.h>
 
 # define RESET   "\x1B[0m"
 # define BLACK   "\x1B[30m"
@@ -90,5 +91,10 @@ void	edit_pipe(t_data *data, char *input);
 void	edit_prompt(t_data *data, char *cwd);
 void	edit_paths(t_data *data);
 char	*ez_money(t_data *data, char *cmd);
+
+void	signals(int sig);
+void	handler_1(int sig);
+void	handler_2(int sig);
+void	handler_back_slash(int sig);
 
 #endif
