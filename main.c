@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/10 17:19:25 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/10 18:04:32 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	main(int ac, char **av, char **env)
 	int	ret;
 	(void)ac;
 	(void)av;
-	printf(CYAN HEADER2 RESET);
+	printf(BO_GREEN HEADER RESET);
 	
 	init(&data, env);
 	while (1) 

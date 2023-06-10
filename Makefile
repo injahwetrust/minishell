@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+         #
+#    By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/06 16:33:49 by vanitas           #+#    #+#              #
-#    Updated: 2023/06/10 14:34:42 by vanitas          ###   ########.fr        #
+#    Updated: 2023/06/10 17:59:22 by bvaujour         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ OBJ			=	$(SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(LIBFT_LIB) $(OBJ)
+$(NAME): $(LIBFT_LIB) $(OBJ) minishell.h Makefile
 	$(CC) $(OBJ) $(LIBFT_LIB) -o $(NAME) -lreadline
 
 boot: $(NAME)
