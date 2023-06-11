@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:11:04 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/10 16:33:47 by vanitas          ###   ########.fr       */
+/*   Updated: 2023/06/11 03:12:46 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,21 @@ char	*parse_unset(char *input)
 	return (new);
 }
 
-char	*parse_export(char *input)
+int		wrong_ident(t_data *data, char c)
+{
+	int	i;
+
+	i = 0;
+	while (data->wrong_char[i])
+	{
+		if (data->wrong_char[i] == c)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+char	*parse_export(t_data *data, char *input)
 {
 	int	i;
 	int	equal;
@@ -66,14 +80,27 @@ char	*parse_export(char *input)
 	equal = 0;
 	new = ft_strdup(input + 6);
 	if (!new)
-		return (NULL);
+		return (NULL);	// faire une fonction pour exit proprement
 	new = ft_strtrim(new, " \t", 1);
 	if (!new)
-		return (NULL);
+		return (NULL);	// faire une fonction pour exit proprement
 	if (new[0] == '=')
 		return (NULL);
 	while (new[i] && new[i] != '=')
+	{
+		if (wrong_ident(data, new[i]) || (i == 0 && new[i] >= '0' && new[i] <= '9'))
+		{
+			i = 0;
+			ft_dprintf(2, "Minishell: export: wrong identifier: ");
+			while (new[i] != '=' && new[i] != ' ' &&  new[i] != '\t' && new[i])
+				i++;
+			write(2, new, i);
+			ft_dprintf(2, "\n");
+		}
+		if (!in_ex(data, new[i]))
+			return (NULL);
 		i++;
+	}
 	if (!new[i])
 		return (NULL);
 	i = 0;
@@ -81,12 +108,9 @@ char	*parse_export(char *input)
 	{
 		if (new[i] == '=')
 			equal = 1;
-		if (new[i] == ' ' && equal == 0)
-		{
-			ft_dprintf(2, "minishell: export: wrong identifier\n");
+		else if (new[i] == ' ' && equal == 0)
 			return (NULL);
-		}
-		if (new[i] == ' ' && equal == 1)
+		else if (new[i] == ' ' && equal == 1)
 			new[i] = '\0';
 		i++;
 	}

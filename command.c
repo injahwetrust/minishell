@@ -6,11 +6,25 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:12:41 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/11 01:06:25 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/11 03:07:37 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int		in_ex(t_data *data, char c)
+{
+	int	i;
+
+	i = 0;
+	while (data->ex[i])
+	{
+		if (c == data->ex[i])
+			return (1);
+		i++;	
+	}
+	return (0);
+}
 
 int	is_in_env(t_data *data, char *str)
 {
@@ -67,6 +81,7 @@ int	replace_in_env(t_data *data, char *str)
 	
 	i = 0;
 	j = 0;
+	ft_printf("%s\n", str);
 	while (str[i] != '=')
 		i++;
 	while (data->env[j])
@@ -110,13 +125,9 @@ static void echo(t_data *data, char *cmd)
 
 	i = 3;
 	nl = 1;
-	while (cmd[++i])
-	{
+	while (cmd[++i] && cmd[i] != ' ' && cmd[i] != '\t')
 		if (cmd[i] == '-' && cmd[i + 1] == 'n' && (cmd[i + 2] == ' ' || cmd[i + 2] == '\t'))
 			nl = 0;
-		if (cmd[i] != ' ' && cmd[i] != '\t')
-			break;
-	}
 	if (nl == 0)
 		while (cmd[i] != 'n')
 			i++;
@@ -239,7 +250,7 @@ int	manage_nonchild(t_data *data, char *input)
 	}
 	else if (ft_strncmp("export", input, 6) == 0 && data->pipe == 0)
     {
-		input = parse_export(input);
+		input = parse_export(data, input);
 		if (input == NULL)
 		{
 			ret = 1;
@@ -259,19 +270,6 @@ int	manage_nonchild(t_data *data, char *input)
 	return (ret);
 }
 
-int		in_ex(t_data *data, char c)
-{
-	int	i;
-
-	i = 0;
-	while (data->ex[i])
-	{
-		if (c == data->ex[i])
-			return (1);
-		i++;	
-	}
-	return (0);
-}
 char	*get_macro(t_data *data, char *cmd, char *begin)
 {
 	char	*macro;

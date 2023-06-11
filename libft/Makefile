@@ -6,7 +6,7 @@
 #    By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/07 12:35:11 by bvaujour          #+#    #+#              #
-#    Updated: 2023/06/09 09:19:37 by bvaujour         ###   ########.fr        #
+#    Updated: 2023/06/11 01:42:06 by bvaujour         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,19 +25,19 @@ FLAG = -Wall -Werror -Wextra -g3
 all : $(NAME)
 
 %.o: %.c
-	gcc $(FLAG) -c $< -o $@
+	@gcc $(FLAG) -c $< -o $@
 
 $(NAME) : $(OBJ) libft.h
-	ar -rcs $(NAME) $(OBJ)
+	@ar -rcs $(NAME) $(OBJ)
 
 bonus: $(OBJ_BONUS) $(OBJ)
-	ar -rcs $(NAME) $(OBJ_BONUS) $(OBJ)
+	@ar -rcs $(NAME) $(OBJ_BONUS) $(OBJ)
 
 clean:
-	rm -rf $(OBJ) $(OBJ_BONUS) ./a.out
+	@rm -rf $(OBJ) $(OBJ_BONUS) ./a.out
 
 fclean: clean
-	rm -rf $(NAME)
+	@rm -rf $(NAME)
 
 re: fclean all
 

@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/11 01:14:14 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/11 03:24:23 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	go(char *cmd, t_data *data)
 	path = get_exec(s_cmd[0], data);
 	if (execve(path, s_cmd, data->env) <= -1)
 	{
+		errno = 3;
 		perror(s_cmd[0]);
 		ft_free_tab(data->cmd);
 		ft_free_tab(s_cmd);
@@ -96,14 +97,13 @@ void	init(t_data *data, char **env)
 {
 	data->env = ft_tabdup(env);
 	data->ex = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
+	data->wrong_char = "!$%%&*()";
 	edit_paths(data);
-	data->pipe = 0;
 }
 
 void	init_loop(t_data *data)
 {
 		data->dollar = 0;
-		data->child = 0;
 		data->pipe = 0;
 		data->base_fd[0] = dup(0);
 		data->base_fd[1] = dup(1);
@@ -155,28 +155,30 @@ int	main(int ac, char **av, char **env)
 			free(input);
 			continue;	
 		}
-		input = ft_strtrim(input, " \t", 1);
-		edit_dollar(&data, input);
-		while (data.dollar)
-		{
-			input = ez_money(&data, input);
-			data.dollar--;
-		}
-		ft_printf("%s\n", input);
-		edit_pipe(&data, input);
 		
+		input = ft_strtrim(input, " \t", 1);
+		
+		edit_dollar(&data, input);
+		
+		while (data.dollar--)
+			input = ez_money(&data, input);
+		
+		edit_pipe(&data, input);							//ne pas bouger l'ordre des fonctions, sinon bug =)
 		
 		ret = manage_nonchild(&data, input);
 		if (ret == 1)
 			continue;
+		
+		
 		data.cmd = ft_split(input, '|');
 		free(input);
 		free(data.prompt);
-		execution(&data);
+		execution(&data);									//bien laisser les free avant de creer les child sinon on duplique les heaps et bug
 		while (wait(NULL) > 0)
 			;
 		//if (data.child)
-		print(&data);
+		if (!isatty(0))
+			print(&data);
 		ft_free_tab(data.cmd);
 		dup2(data.base_fd[0], 0);
 		close (data.base_fd[0]);

@@ -6,7 +6,7 @@
 #    By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/06 16:33:49 by vanitas           #+#    #+#              #
-#    Updated: 2023/06/10 17:59:22 by bvaujour         ###   ########.fr        #
+#    Updated: 2023/06/11 01:44:50 by bvaujour         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ $(NAME): $(LIBFT_LIB) $(OBJ) minishell.h Makefile
 	$(CC) $(OBJ) $(LIBFT_LIB) -o $(NAME) -lreadline
 
 boot: $(NAME)
+	clear
 	./$(NAME)
 
 valgrind: $(NAME)
@@ -45,7 +46,7 @@ valgrind: $(NAME)
 	
 	
 .c.o:
-	$(CC) $(FLAG) -c $< -o $@
+	@$(CC) $(FLAG) -c $< -o $@
 
 $(LIBFT_LIB):
 	@make -C $(LIBFT_PATH)

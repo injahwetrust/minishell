@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/06/10 23:06:26 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/11 03:23:48 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,18 +69,21 @@
 
 typedef struct s_data
 {
+	char cwd[PATH_MAX];
 	char	**paths;
 	char	**env;
     char    **new_env;
 	char	*cur_dir;
 	char	*prompt;
-	char	*ex;
-	int	base_fd[2];
 	char	**cmd;
-	char cwd[PATH_MAX];
+	
+	int	base_fd[2];
 	int	p_fd[2];
+	
+	char	*ex;
+	char	*wrong_char;
+	
 	int	pipe;
-	int	child;
 	int	dollar;
 }	t_data;
 
@@ -89,7 +92,7 @@ void	end_process(t_data *data);
 void	ft_free_tab(char **tab);
 void	close_n_dup(t_data *data);
 void    add_in_env(t_data *data, char *str);
-char	*parse_export(char *input);
+char	*parse_export(t_data *data, char *input);
 char	*parse_unset(char *input);
 void	cd_manage(t_data *data, char *cmd);
 int		manage_nonchild(t_data *data, char *input);
@@ -97,6 +100,7 @@ void	edit_pipe(t_data *data, char *input);
 void	edit_prompt(t_data *data, char *cwd);
 void	edit_paths(t_data *data);
 char	*ez_money(t_data *data, char *cmd);
+int		in_ex(t_data *data, char c);
 
 void	signals(int sig);
 void	handler_1(int sig);
