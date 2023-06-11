@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 11:28:18 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/11 14:28:36 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/11 15:27:01 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,6 @@ static int del_in(char *src, char *to_del, int begin)
     }
     return (-1);
 }
-
-static void manage_heap(char *src, char *to_del, int option)
-{
-    if (src && option == 1)
-        free(src);
-    if (to_del && option == 2)
-        free(to_del);
-    if (option == 3)
-    {
-        if (src)
-            free(src);
-        if (to_del)
-            free(to_del);
-    }
-}
  
 static int x_str(char *src, char *to_del)
 {
@@ -67,7 +52,7 @@ static int x_str(char *src, char *to_del)
     return (x);
 }
 
-char    *ft_strremoveall(char *src, char *to_del, int option)
+char    *ft_strremoveall(char *src, char *to_del, int opt)
 {
     int i;
     int j;
@@ -77,7 +62,7 @@ char    *ft_strremoveall(char *src, char *to_del, int option)
     i = 0;
     j = 0;
     if (!to_del || !*to_del || !src || !*src || del_in(src, to_del, i) == -1)
-        return (manage_heap(src, to_del, option), src);
+        return (src);
     new = malloc(sizeof(char) * (ft_strlen(src) - (ft_strlen(to_del) * x_str(src, to_del)) + 1));
     if (!new)
         return (NULL);
@@ -90,7 +75,8 @@ char    *ft_strremoveall(char *src, char *to_del, int option)
     while (src[i])
         new[j++] = src[i++];
     new[j] = '\0';
-    manage_heap(src, to_del, option);
+    if (opt == 1)
+        free(src);
     return (new);
 }
 
