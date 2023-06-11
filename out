@@ -1,0 +1,16 @@
+command.c
+command.o
+in
+libft
+main.c
+main.o
+Makefile
+minishell
+minishell.h
+out
+README.md
+signals.c
+signals.o
+sortie_erreur.txt
+utils.c
+utils.o

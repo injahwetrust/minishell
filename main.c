@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/11 03:24:23 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/11 15:05:38 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,27 @@ void	exec(char *cmd, t_data *data)
 	}
 }
 
+/*int	redir_in(char *cmd)
+{
+	int	i;
+	char	*file;
+	
+	i = 0;
+	while (cmd[i] && cmd[i] != '<')
+		i++;
+	if (!cmd[i])
+		return (dup(0));
+	i++;
+	while (cmd[i] == ' ' || cmd[i] == '\t')
+		i++;
+	
+		
+}*/
+
 void	execution(t_data *data)
 {
 	int	i;
+	//int	redir_fd[2];
 	
 	i = -1;
 	while (data->cmd[++i])
@@ -75,21 +93,6 @@ void	execution(t_data *data)
 			exit(ft_dprintf(2, "\xE2\x9A\xA0\xEF\xB8\x8F Pipe error\n")); // faire une fonction pour exit proprement
 		data->cmd[i] = ft_strtrim(data->cmd[i], " \t", 1);
 		exec(data->cmd[i], data);
-	}
-}
-
-void	print(t_data *data)
-{
-	int	ret;
-	char	buff[50];
-	
-	(void)data;
-	ret = 1;
-	while (ret)
-	{
-		ret = read(0, buff, sizeof(buff));
-		buff[ret] = '\0';
-		ft_printf("%s", buff);
 	}
 }
 

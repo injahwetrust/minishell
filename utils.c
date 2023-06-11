@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:11:04 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/11 03:12:46 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/11 10:13:55 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,18 @@ char	*parse_export(t_data *data, char *input)
 	if (!new)
 		return (NULL);	// faire une fonction pour exit proprement
 	new = ft_strtrim(new, " \t", 1);
+	if (!*new)
+	{
+		ft_dprintf(2, "Minishell: export: wrong identifier: ");
+		return (NULL);
+	}
 	if (!new)
 		return (NULL);	// faire une fonction pour exit proprement
 	if (new[0] == '=')
 		return (NULL);
 	while (new[i] && new[i] != '=')
 	{
-		if (wrong_ident(data, new[i]) || (i == 0 && new[i] >= '0' && new[i] <= '9'))
+		if (wrong_ident(data, new[i]) || (i == 0 && (new[i] >= '0' && new[i] <= '9')))
 		{
 			i = 0;
 			ft_dprintf(2, "Minishell: export: wrong identifier: ");
@@ -117,6 +122,22 @@ char	*parse_export(t_data *data, char *input)
 	free(input);
 	return (new);
 }
+
+void	print(t_data *data)
+{
+	int	ret;
+	char	buff[50];
+	
+	(void)data;
+	ret = 1;
+	while (ret)
+	{
+		ret = read(0, buff, sizeof(buff));
+		buff[ret] = '\0';
+		ft_printf("%s", buff);
+	}
+}
+
 
 void	edit_prompt(t_data *data, char *cwd)
 {

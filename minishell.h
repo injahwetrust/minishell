@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/06/11 03:23:48 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/11 09:40:18 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef struct s_data
 	int	dollar;
 }	t_data;
 
+void	print(t_data *data);
 void	recoded(t_data *data, char *cmd);
 void	end_process(t_data *data);
 void	ft_free_tab(char **tab);
