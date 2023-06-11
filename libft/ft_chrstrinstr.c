@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 13:44:28 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/11 15:47:30 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/12 00:23:26 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,30 +21,30 @@ int ft_chrstrinstr(char *src, char *to_chr, int n)
     int j;
 
     i = 0;
-    if (n > ft_countoccur(src, to_chr) || n <= 0|| !src || !to_chr)
+    if (n > ft_countoccur(src, to_chr) || n <= 0 || !src || !to_chr)
         return (-1);
-    while (n)
+    while (n && src[i])
     {
         j = 0;
-        while (src[i] == to_chr[j])
+        while (src[i] == to_chr[j] && src[i] && to_chr[j])
         {
-            i++;
-            j++;
-            if (!to_chr[j])
-               n--;
+                i++;
+                j++;
         }
-        if (!src[i])
-            break;
+        if (to_chr[j] == '\0')
+            n--;
+        if (!n || !src[i])
+            break ;
         i++;
     }
-    return (i - ft_strlen(to_chr) - 1);
+    return (i - ft_strlen(to_chr));
 }
 
 /*int main()
 {
-    char    *src = "apr je aprenapr apres";
-    char    *to_chr = "apr";
+	    char    *src = "<in <out<in";
+        char    *to_del = "<in";
     
-    int removed = ft_chrstrinstr(src, to_chr, 2);
-    printf("removed = %d\n", removed);
+        int removed = ft_chrstrinstr(src, to_del, 1);
+        printf("chr = %d\n", removed);
 }*/

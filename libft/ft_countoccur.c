@@ -6,13 +6,13 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 13:33:32 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/11 14:13:48 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/11 22:24:06 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*return the x time you found occurence of to_count in src*/
 #include "libft.h"
 
-/*return the x time you found occurence of to_count in src*/
 
 static int chr_in(char *src, char *to_count, int begin)
 {

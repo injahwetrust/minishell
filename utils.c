@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:11:04 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/11 10:13:55 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/12 01:49:54 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	close_n_dup(t_data *data)
 {
 	close(data->base_fd[0]);
 	close(data->base_fd[1]);
+	
 	close(data->p_fd[0]);
 	dup2(data->p_fd[1], 1);
 	close(data->p_fd[1]);

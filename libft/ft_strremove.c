@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:10:38 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/11 15:48:32 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/11 23:32:34 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,9 @@ char    *ft_strremove(char *src, char *to_del, int n, int opt)
 {
     int i;
     int j;
-    int go_to;
     char    *new;
     
-    if (!to_del || !*to_del || !src || !*src || n < 0 || n > ft_countn(src, to_del))
+    if (!to_del || !*to_del || !src || !*src || n < 0 || n > ft_countoccur(src, to_del))
         return (src);
     new = malloc(sizeof(char) * (ft_strlen(src) - ft_strlen(to_del) + 1));
     if (!new)
@@ -38,13 +37,3 @@ char    *ft_strremove(char *src, char *to_del, int n, int opt)
         free(src);
     return(new);
 }
-
-/*int main()
-{
-    char    *src = "apr je aprenapr apres";
-    char    *to_del = "apr";
-    
-    char    *removed = ft_strremove(src, to_del, 1, 0);
-    printf("removed = %s", removed);
-    free(removed);
-}*/

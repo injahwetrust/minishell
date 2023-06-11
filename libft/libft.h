@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 14:54:59 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/11 15:48:48 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/11 17:29:58 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int		ft_countoccur(char *src, char *to_count);
 int		ft_chrstrinstr(char *src, char *to_chr, int occur);
 char	*ft_strremoveall(char *src, char *to_del, int opt);
 char    *ft_strremove(char *src, char *to_del, int occur, int opt);
+char	*ft_strndup(char *src, int n, int opt);
 typedef struct s_list
 {
 	void			*content;
