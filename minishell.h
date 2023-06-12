@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/06/11 09:40:18 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/12 11:17:02 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ void	edit_prompt(t_data *data, char *cwd);
 void	edit_paths(t_data *data);
 char	*ez_money(t_data *data, char *cmd);
 int		in_ex(t_data *data, char c);
+char	*redir_in(t_data *data, char *cmd, int *redir_fd);
+char	*redir_out(t_data *data, char *cmd, int *redir_fd);
 
 void	signals(int sig);
 void	handler_1(int sig);
