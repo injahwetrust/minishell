@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:12:41 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/12 01:53:17 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/12 17:42:14 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,9 +137,9 @@ static void echo(t_data *data, char *cmd)
 	while (cmd[i] == ' ' || cmd[i] == '\t')
 		i++;
 	//write(data->p_fd[1], cmd + i, ft_strlen(cmd + i));
-	ft_printf("%s", cmd + i);
+	printf("%s", cmd + i);
 	if (nl == 1)
-		ft_printf("\n");
+		printf("\n");
 	end_process(data);
 }
 

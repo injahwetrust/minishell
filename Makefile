@@ -6,7 +6,7 @@
 #    By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/06 16:33:49 by vanitas           #+#    #+#              #
-#    Updated: 2023/06/12 13:05:39 by bvaujour         ###   ########.fr        #
+#    Updated: 2023/06/12 17:00:15 by bvaujour         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ OBJ			=	$(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(LIBFT_LIB) $(OBJ) minishell.h Makefile
+	clear
 	$(CC) $(OBJ) $(LIBFT_LIB) -o $(NAME) -lreadline
 
 boot: $(NAME)
@@ -44,6 +45,7 @@ boot: $(NAME)
 	./$(NAME)
 
 valgrind: $(NAME)
+	clear
 	$(VFLAGS) ./$(NAME)
 	
 	

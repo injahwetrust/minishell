@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/12 13:08:49 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/12 17:59:04 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	main(int ac, char **av, char **env)
 	int	ret;
 	(void)ac;
 	(void)av;
+	int status;
 	ft_printf(BO_GREEN HEADER RESET);
 	
 	init(&data, env);
@@ -79,9 +80,8 @@ int	main(int ac, char **av, char **env)
 		free(input);
 		free(data.prompt);
 		execution(&data);									//bien laisser les free avant de creer les child sinon on duplique les heaps et bug
-		while (wait(NULL) > 0)
+		while (wait(&status) > 0)
 			;
-		//if (data.child)
 		if (!isatty(0))
 			print(&data);
 		ft_free_tab(data.cmd);
@@ -90,7 +90,5 @@ int	main(int ac, char **av, char **env)
 		dup2(data.base_fd[1], 1);
 		close (data.base_fd[1]);
 	}
-	//ft_free_tab(data.paths);
-	//ft_free_tab(data.env);
 	return (0);
 }

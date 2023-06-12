@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/06/12 13:09:04 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/12 17:00:49 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@
 # define BGO_MAGENTA "\x1B[1m\x1B[45m"
 # define BGO_CYAN    "\x1B[1m\x1B[46m"
 # define BGO_WHITE   "\x1B[1m\x1B[47m"
-# define HEADER		 "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t    __  ____       _      __         ____\n\t\t\t\t\t\t\
+# define HEADER		 "\n\n\t\t\t\t\t\t    __  ____       _      __         ____\n\t\t\t\t\t\t\
    /  |/  (_)___  (_)____/ /_  ___  / / /\n\t\t\t\t\t\t\
   / /|_/ / / __ \\/ / ___/ __ \\/ _ \\/ / / \n\t\t\t\t\t\t\
  / /  / / / / / / (__  ) / / /  __/ / /  \n\t\t\t\t\t\t\
-/_/  /_/_/_/ /_/_/____/_/ /_/\\___/_/_/   \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+/_/  /_/_/_/ /_/_/____/_/ /_/\\___/_/_/   \n"
 
 typedef struct s_data
 {
