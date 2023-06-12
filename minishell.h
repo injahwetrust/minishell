@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/06/12 11:17:02 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/12 13:09:04 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,15 @@ char	*ez_money(t_data *data, char *cmd);
 int		in_ex(t_data *data, char c);
 char	*redir_in(t_data *data, char *cmd, int *redir_fd);
 char	*redir_out(t_data *data, char *cmd, int *redir_fd);
-
+void	execution(t_data *data);
+char	*get_exec(char *cmd, t_data *data);
+int		still_in(char *cmd);
+int		still_out(char *cmd);
 void	signals(int sig);
 void	handler_1(int sig);
 void	handler_2(int sig);
 void	handler_back_slash(int sig);
+void	edit_dollar(t_data *data, char *input);
 
 void	free_all(t_data *data, char *input);
 

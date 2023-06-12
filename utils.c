@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:11:04 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/12 01:49:54 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/12 13:08:46 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,4 +182,46 @@ void	free_all(t_data *data, char *input)
 	ft_free_tab(data->env);
 	ft_printf("Exiting Minishell\n");
 	signals(3);
+}
+
+int	still_in(char *cmd)
+{
+	int	i;
+	
+	i = 0;
+	while (cmd[i])
+	{
+		if (cmd[i] == '<')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	still_out(char *cmd)
+{
+	int	i;
+
+	i = 0;
+	while (cmd[i])
+	{
+		if (cmd[i] == '>')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+void	edit_dollar(t_data *data, char *input)
+{
+	int	i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] == '$')
+			data->dollar++;
+		i++;
+	}
+	
 }
