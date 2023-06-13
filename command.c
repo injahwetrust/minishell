@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:12:41 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/13 09:47:43 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/13 21:07:43 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	remove_from_env(t_data *data, char *str)
 	{
 		if (!strncmp(str, data->env[i], ft_strlen(str)))
 		{
-			ft_dprintf(2, "removed\n");
 			free (data->env[i]);
 			i++;
 		}
@@ -81,7 +80,6 @@ int	replace_in_env(t_data *data, char *str)
 	
 	i = 0;
 	j = 0;
-	ft_printf("%s\n", str);
 	while (str[i] != '=')
 		i++;
 	while (data->env[j])
@@ -267,6 +265,20 @@ int	manage_nonchild(t_data *data, char *input)
 	return (ret);
 }
 
+char	*get_env(t_data *data, char *macro)
+{
+	int	i;
+
+	i = 0;
+	while (data->env[i])
+	{
+		if (ft_strncmp(data->env[i], macro, ft_strlen(macro)) == 0)
+			return (data->env[i] + ft_strlen(macro) + 1);
+		i++;
+	}
+	return (NULL);
+}
+
 char	*get_macro(t_data *data, char *cmd, char *begin)
 {
 	char	*macro;
@@ -283,8 +295,8 @@ char	*get_macro(t_data *data, char *cmd, char *begin)
 	while (++j < i)
 		macro[j] = cmd[j];
 	macro[j] = '\0';
-	if (getenv(macro) != NULL)
-		begin = ft_strjoin(begin, getenv(macro), 1);
+	if (get_env(data, macro) != NULL)
+		begin = ft_strjoin(begin, get_env(data, macro), 1);
 	i = 0;
 	while (in_ex(data, cmd[i]))
 		i++;
@@ -292,7 +304,16 @@ char	*get_macro(t_data *data, char *cmd, char *begin)
 	free(macro);
 	return (begin);
 }
-
+char	*last_return(t_data *data, char *begin)
+{
+	char	*itoa_ret;
+	
+	itoa_ret = ft_itoa(data->last_ret);
+	printf("itoa = %s\n", itoa_ret );
+	if (itoa_ret == NULL)
+		exit(0); // faire une fonction pour exit proprement
+	return (ft_strjoin(begin, itoa_ret, 3));
+}
 char	*ez_money(t_data *data, char *cmd)
 {
 	int		i;
@@ -310,7 +331,11 @@ char	*ez_money(t_data *data, char *cmd)
 	while (++j < i)
 		begin[j] = cmd[j];
 	begin[j] = '\0';
-	replaced = get_macro(data, cmd + i + 1, begin);
+	i++;
+	if (cmd[i] == '?' && (cmd[i + 1] == ' ' || cmd[i + 1] == '\t' || cmd[i + 1] == '\0'))
+		replaced = last_return(data, begin);
+	else
+		replaced = get_macro(data, cmd + i, begin);
 	free(cmd);
 	return (replaced);
 }

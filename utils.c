@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:11:04 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/13 12:10:57 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/13 21:15:13 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ char	*parse_export(t_data *data, char *input)
 		return (NULL);
 	while (new[i] && new[i] != '=')
 	{
-		if (wrong_ident(data, new[i]) || (i == 0 && (new[i] >= '0' && new[i] <= '9')))
+		if (!in_ex(data, new[i]) || (i == 0 && (new[i] >= '0' && new[i] <= '9')))
 		{
 			i = 0;
 			ft_dprintf(2, "Minishell: export: wrong identifier: ");
@@ -102,9 +102,8 @@ char	*parse_export(t_data *data, char *input)
 				i++;
 			write(2, new, i);
 			ft_dprintf(2, "\n");
-		}
-		if (!in_ex(data, new[i]))
 			return (NULL);
+		}
 		i++;
 	}
 	if (!new[i])

@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/06/13 11:11:58 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/13 20:50:09 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ typedef struct s_data
 	int	append;
 	char	*ex;
 	char	*wrong_char;
+	
+	int	last_ret;
 	
 	int	pipe;
 	int	dollar;
