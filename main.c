@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/13 16:02:02 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/13 16:15:45 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,23 +32,6 @@ void	init_loop(t_data *data)
 		data->base_fd[1] = dup(1);
 		getcwd(data->cwd, sizeof(data->cwd));
 		edit_prompt(data, data->cwd);
-}
-
-void get_terminal_size(int *rows, int *cols) {
-    struct winsize ws;
-    ioctl(0, TIOCGWINSZ, &ws);
-    *rows = ws.ws_row;
-    *cols = ws.ws_col;
-}
-
-// Fonction pour effectuer un retour à la ligne en fonction de la fin de la fenêtre shell
-void handle_newline(int *current_row, int rows) {
-    if (*current_row >= rows - 1) {
-        printf("\n"); // Effectuer un retour à la ligne
-        *current_row = 0;
-    } else {
-        (*current_row)++;
-    }
 }
 
 void	header(void)
@@ -129,7 +112,7 @@ int	main(int ac, char **av, char **env)
 			continue;
 		
 		
-		data.cmd = ft_split(input, '|');WIFEXITED(
+		data.cmd = ft_split(input, '|');
 		free(input);
 		free(data.prompt);
 		execution(&data);									//bien laisser les free avant de creer les child sinon on duplique les heaps et bug
