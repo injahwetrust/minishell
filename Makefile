@@ -6,7 +6,7 @@
 #    By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/06 16:33:49 by vanitas           #+#    #+#              #
-#    Updated: 2023/06/12 17:00:15 by bvaujour         ###   ########.fr        #
+#    Updated: 2023/06/13 11:01:54 by bvaujour         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ $(NAME): $(LIBFT_LIB) $(OBJ) minishell.h Makefile
 
 boot: $(NAME)
 	clear
-	./$(NAME)
+	@./$(NAME)
 
 valgrind: $(NAME)
 	clear

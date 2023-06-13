@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 13:03:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/13 10:09:20 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/13 15:59:05 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	go(char *cmd, t_data *data)
 		ft_free_tab(data->cmd);
 		ft_free_tab(s_cmd);
 		ft_free_tab(data->paths);
-		exit(0);
+		exit(127);
 	}
 }
 
