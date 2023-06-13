@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:12:41 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/12 17:42:14 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/13 09:47:43 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ static void echo(t_data *data, char *cmd)
 {
 	int	i;
 	int	nl;
-
+	
 	i = 3;
 	nl = 1;
 	while (cmd[++i] && cmd[i] != ' ' && cmd[i] != '\t')

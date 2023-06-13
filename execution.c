@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 13:03:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/12 17:51:23 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/13 10:09:20 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	exec(char *cmd, t_data *data, int *redir_fd)
 void	execution(t_data *data)
 {
 	int	i;
+	//int	j;
 	int	redir_fd[2];
 	
 	i = -1;
@@ -108,7 +109,22 @@ void	execution(t_data *data)
 			close(redir_fd[0]);
 			continue;
 		}
+		if (ft_strcmp(data->cmd[i], "JOHNCARPENTER&DONALDDUCK") == 0)
+		{
+			close(data->p_fd[0]);
+			close(data->p_fd[1]);
+			close(redir_fd[0]);
+			close(redir_fd[1]);
+			return ;
+		}
 		data->cmd[i] = ft_strtrim(data->cmd[i], " \t", 1);
 		exec(data->cmd[i], data, redir_fd);
+		/*if (data->cmd[i + 1] && strncmp("echo", ft_strtrim(data->cmd[i + 1], " \t", 1), 4) == 0)
+		{
+			j = 0;
+			while (j < 70000000)
+				j++;
+		}*/
+		//trouver une maniere moins shlag de gerer le sigpipe de cat <infile | echo lol ou echo lol | cat <infile
 	}
 }

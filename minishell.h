@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/06/12 17:00:49 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/13 10:06:21 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ typedef struct s_data
 	int	base_fd[2];
 	int	p_fd[2];
 	
+	int	heredoc;
+	int	append;
 	char	*ex;
 	char	*wrong_char;
 	

@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/12 17:59:04 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/13 10:13:37 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ void	init(t_data *data, char **env)
 void	init_loop(t_data *data)
 {
 		data->dollar = 0;
+		data->heredoc = 0;
+		data->append = 0;
+		unlink("heredoc");
 		data->pipe = 0;
 		data->base_fd[0] = dup(0);
 		data->base_fd[1] = dup(1);
