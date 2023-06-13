@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/13 16:15:45 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/13 16:27:44 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,8 @@ int	main(int ac, char **av, char **env)
 		execution(&data);									//bien laisser les free avant de creer les child sinon on duplique les heaps et bug
 		while (wait(&status) > 0)
 			;
-		printf("status = %d\n", status / 255);
+		printf("status1 = %d\n", status / 255);
+		printf("status2 = %d\n", WEXITSTATUS(status));
 		if (!isatty(0))
 			print(&data);
 		ft_free_tab(data.cmd);
