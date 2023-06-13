@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:12:41 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/13 21:07:43 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/14 01:08:06 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ static void echo(t_data *data, char *cmd)
 	i++;
 	while (cmd[i] == ' ' || cmd[i] == '\t')
 		i++;
-	//write(data->p_fd[1], cmd + i, ft_strlen(cmd + i));
+	//write(data->fd.p_fd[1], cmd + i, ft_strlen(cmd + i));
 	printf("%s", cmd + i);
 	if (nl == 1)
 		printf("\n");
@@ -154,14 +154,14 @@ void	print_env(t_data *data)
 	end_process(data);
 }
 
-void	edit_pipe(t_data *data, char *input)
+void	edit_pipe(t_data *data)
 {
 	int	i;
 
 	i = 0;
-	while (input[i])
+	while (data->input[i])
 	{
-		if (input[i] == '|')
+		if (data->input[i] == '|')
 			data->pipe++;
 		i++;
 	}
@@ -174,8 +174,8 @@ void	cd_manage(t_data *data, char *cmd)
 	if (cmd[2] == '\0')
 	{
 		chdir("/");
-		close (data->base_fd[0]);
-		close (data->base_fd[1]);
+		close (data->fd.base_fd[0]);
+		close (data->fd.base_fd[1]);
 		return ;
 	}
 	path = ft_strdup(cmd + 2);
@@ -186,8 +186,8 @@ void	cd_manage(t_data *data, char *cmd)
 		exit(ft_dprintf(2, "Malloc error\n")); // faire une fonction pour exit proprement
 	ft_dprintf(2, "path = %s\n", path);
 	chdir(path);
-	close (data->base_fd[0]);
-	close (data->base_fd[1]);
+	close (data->fd.base_fd[0]);
+	close (data->fd.base_fd[1]);
 }
 
 void	recoded(t_data *data, char *cmd)
@@ -207,60 +207,60 @@ void	recoded(t_data *data, char *cmd)
 
 }
 
-int	manage_nonchild(t_data *data, char *input)
+int	manage_nonchild(t_data *data)
 {
 	int	ret;
 
 	ret = 0;
-	if (ft_strncmp("cd", input, 2) == 0 && data->pipe == 0)
+	if (ft_strncmp("cd", data->input, 2) == 0 && data->pipe == 0)
 	{
-		cd_manage(data, input);
+		cd_manage(data, data->input);
 		free(data->prompt);
-		free(input);
-		close (data->base_fd[0]);
-		close (data->base_fd[1]);
+		free(data->input);
+		close (data->fd.base_fd[0]);
+		close (data->fd.base_fd[1]);
 		ret = 1;
 	}
-	else if (ft_strncmp("unset", input, 5) == 0 && data->pipe == 0)
+	else if (ft_strncmp("unset", data->input, 5) == 0 && data->pipe == 0)
 	{
-		input = parse_unset(input);
-		remove_from_env(data, input);
+		data->input = parse_unset(data->input);
+		remove_from_env(data, data->input);
 		free(data->prompt);
-		free(input);
-		close (data->base_fd[0]);
-		close (data->base_fd[1]);
+		free(data->input);
+		close (data->fd.base_fd[0]);
+		close (data->fd.base_fd[1]);
 		ret = 1;
 	}
-	else if (!ft_strcmp(input, "exit"))
+	else if (!ft_strcmp(data->input, "exit"))
 	{
 		rl_clear_history();
 		free(data->prompt);
-		free(input);
+		free(data->input);
 		ft_free_tab(data->paths);
-		close (data->base_fd[0]);
-		close (data->base_fd[1]);
+		close (data->fd.base_fd[0]);
+		close (data->fd.base_fd[1]);
 		ft_free_tab(data->env);
 		ft_printf("Exiting Minishell\n");
 		signals(3);
 	}
-	else if (ft_strncmp("export", input, 6) == 0 && data->pipe == 0)
+	else if (ft_strncmp("export", data->input, 6) == 0 && data->pipe == 0)
     {
-		input = parse_export(data, input);
-		if (input == NULL)
+		data->input = parse_export(data, data->input);
+		if (data->input == NULL)
 		{
 			ret = 1;
-			free(input);
+			free(data->input);
 			free(data->prompt);
-			close (data->base_fd[0]);
-			close (data->base_fd[1]);
+			close (data->fd.base_fd[0]);
+			close (data->fd.base_fd[1]);
 			return (ret);
 		}
-        add_in_env(data, input);
+        add_in_env(data, data->input);
 		ret = 1;
 		free(data->prompt);
-		close (data->base_fd[0]);
-		close (data->base_fd[1]);
-		free(input);
+		close (data->fd.base_fd[0]);
+		close (data->fd.base_fd[1]);
+		free(data->input);
 	}
 	return (ret);
 }
@@ -309,12 +309,11 @@ char	*last_return(t_data *data, char *begin)
 	char	*itoa_ret;
 	
 	itoa_ret = ft_itoa(data->last_ret);
-	printf("itoa = %s\n", itoa_ret );
 	if (itoa_ret == NULL)
 		exit(0); // faire une fonction pour exit proprement
 	return (ft_strjoin(begin, itoa_ret, 3));
 }
-char	*ez_money(t_data *data, char *cmd)
+char	*ez_money(t_data *data)
 {
 	int		i;
 	int		j;
@@ -323,19 +322,19 @@ char	*ez_money(t_data *data, char *cmd)
 	
 	i = 0;
 	j = -1;
-	while (cmd[i] != '$' && cmd[i])
+	while (data->input[i] != '$' && data->input[i])
 		i++;
 	begin = malloc(sizeof(char) * i + 1);
 	if (begin == NULL)
 		exit(0); // faire une fonction pour exit proprement
 	while (++j < i)
-		begin[j] = cmd[j];
+		begin[j] = data->input[j];
 	begin[j] = '\0';
 	i++;
-	if (cmd[i] == '?' && (cmd[i + 1] == ' ' || cmd[i + 1] == '\t' || cmd[i + 1] == '\0'))
+	if (data->input[i] == '?' && (data->input[i + 1] == ' ' || data->input[i + 1] == '\t' || data->input[i + 1] == '\0'))
 		replaced = last_return(data, begin);
 	else
-		replaced = get_macro(data, cmd + i, begin);
-	free(cmd);
+		replaced = get_macro(data, data->input + i, begin);
+	free(data->input);
 	return (replaced);
 }

@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/06/13 20:50:09 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/14 01:02:59 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,12 @@
 # define HEADER4		" / /  / / / / / / (__  ) / / /  __/ / /\n"
 # define HEADER5		"/_/  /_/_/_/ /_/_/____/_/ /_/\\___/_/_/\n"
 
+typedef struct s_fd
+{
+	int	base_fd[2];
+	int	p_fd[2];
+	int	redir_fd[2];
+}	t_fd;
 typedef struct s_data
 {
 	char cwd[PATH_MAX];
@@ -77,8 +83,7 @@ typedef struct s_data
 	char	*prompt;
 	char	**cmd;
 	
-	int	base_fd[2];
-	int	p_fd[2];
+	t_fd	fd;
 	
 	int	heredoc;
 	int	append;
@@ -86,6 +91,7 @@ typedef struct s_data
 	char	*wrong_char;
 	
 	int	last_ret;
+	char	*input;
 	
 	int	pipe;
 	int	dollar;
@@ -100,14 +106,14 @@ void    add_in_env(t_data *data, char *str);
 char	*parse_export(t_data *data, char *input);
 char	*parse_unset(char *input);
 void	cd_manage(t_data *data, char *cmd);
-int		manage_nonchild(t_data *data, char *input);
-void	edit_pipe(t_data *data, char *input);
+int		manage_nonchild(t_data *data);
+void	edit_pipe(t_data *data);
 void	edit_prompt(t_data *data, char *cwd);
 void	edit_paths(t_data *data);
-char	*ez_money(t_data *data, char *cmd);
+char	*ez_money(t_data *data);
 int		in_ex(t_data *data, char c);
-char	*redir_in(t_data *data, char *cmd, int *redir_fd);
-char	*redir_out(t_data *data, char *cmd, int *redir_fd);
+char	*redir_in(t_data *data, char *cmd);
+char	*redir_out(t_data *data, char *cmd);
 void	execution(t_data *data);
 char	*get_exec(char *cmd, t_data *data);
 int		still_in(char *cmd);
@@ -116,8 +122,8 @@ void	signals(int sig);
 void	handler_1(int sig);
 void	handler_2(int sig);
 void	handler_back_slash(int sig);
-void	edit_dollar(t_data *data, char *input);
+void	edit_dollar(t_data *data);
 
-void	free_all(t_data *data, char *input);
+void	free_all(t_data *data);
 
 #endif

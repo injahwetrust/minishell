@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:11:04 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/13 21:15:13 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/14 01:05:30 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ void	ft_free_tab(char **tab)
 
 void	close_n_dup(t_data *data)
 {
-	close(data->base_fd[0]);
-	close(data->base_fd[1]);
+	close(data->fd.base_fd[0]);
+	close(data->fd.base_fd[1]);
 	
-	close(data->p_fd[0]);
-	dup2(data->p_fd[1], 1);
-	close(data->p_fd[1]);
+	close(data->fd.p_fd[0]);
+	dup2(data->fd.p_fd[1], 1);
+	close(data->fd.p_fd[1]);
 }
 
 char	*parse_unset(char *input)
@@ -170,14 +170,14 @@ void	edit_paths(t_data *data)
     while (data->paths[++i])
 		data->paths[i] = ft_strjoin(data->paths[i], "/", 1);
 }
-void	free_all(t_data *data, char *input)
+void	free_all(t_data *data)
 {
 	rl_clear_history();
 	free(data->prompt);
-	free(input);
+	free(data->input);
 	ft_free_tab(data->paths);
-	close (data->base_fd[0]);
-	close (data->base_fd[1]);
+	close (data->fd.base_fd[0]);
+	close (data->fd.base_fd[1]);
 	ft_free_tab(data->env);
 	ft_printf("Exiting Minishell\n");
 	signals(3);
@@ -211,14 +211,14 @@ int	still_out(char *cmd)
 	return (0);
 }
 
-void	edit_dollar(t_data *data, char *input)
+void	edit_dollar(t_data *data)
 {
 	int	i;
 
 	i = 0;
-	while (input[i])
+	while (data->input[i])
 	{
-		if (input[i] == '$')
+		if (data->input[i] == '$')
 			data->dollar++;
 		i++;
 	}

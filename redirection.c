@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 11:09:46 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/13 10:09:03 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/14 01:03:34 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ char	*get_in(char *cmd, int begin)
 	return (file);
 }
 
-void	heredoc(char *path, int *redir_fd)
+void	heredoc(t_data *data, char *path)
 {
 	char	*ret;
-	redir_fd[0] = open("heredoc", O_CREAT | O_TRUNC | O_RDWR, 0644);
+	data->fd.redir_fd[0] = open("heredoc", O_CREAT | O_TRUNC | O_RDWR, 0644);
 	while (1)
 	{
 		ret = get_next_line(0);
@@ -64,17 +64,17 @@ void	heredoc(char *path, int *redir_fd)
 			&& ft_strlen(path) == strlen(ret) - 1)
 		{
 			get_next_line(-99);
-			close (redir_fd[0]);
-			redir_fd[0] = open("heredoc", O_CREAT | O_APPEND | O_RDWR, 0644);
+			close (data->fd.redir_fd[0]);
+			data->fd.redir_fd[0] = open("heredoc", O_CREAT | O_APPEND | O_RDWR, 0644);
 			free(ret);
 			return ;
 		}
-			write(redir_fd[0], ret, ft_strlen(ret));
+			write(data->fd.redir_fd[0], ret, ft_strlen(ret));
 			free(ret);
 		}
 }
 
-char	*redir_in(t_data *data, char *cmd, int *redir_fd)
+char	*redir_in(t_data *data, char *cmd)
 {
 	int	i;
 	char	*untrim;
@@ -104,15 +104,15 @@ char	*redir_in(t_data *data, char *cmd, int *redir_fd)
 	ft_dprintf(2, "untrim = %s\n", untrim);
 	path = get_path(untrim, data->heredoc);
 	ft_dprintf(2, "path = %s\n", path);
-	close(redir_fd[0]);
+	close(data->fd.redir_fd[0]);
 	if (data->heredoc)
-		heredoc(path, redir_fd);
+		heredoc(data, path);
 	else
-		redir_fd[0] = open(path, O_RDONLY, 0644);
+		data->fd.redir_fd[0] = open(path, O_RDONLY, 0644);
 	new = ft_strremove(cmd, untrim, 1, 1);
 	ft_dprintf(2, "new= %s\n", new);
 	free(untrim);
-	if (redir_fd[0] == -1)
+	if (data->fd.redir_fd[0] == -1)
 	{
 		perror(path);
 		free(path);
@@ -144,7 +144,7 @@ char	*get_out(char *cmd, int begin)
 	return (file);
 }
 
-char	*redir_out(t_data *data, char *cmd, int *redir_fd)
+char	*redir_out(t_data *data, char *cmd)
 {
 	int	i;
 	char	*untrim;
@@ -167,14 +167,14 @@ char	*redir_out(t_data *data, char *cmd, int *redir_fd)
 	ft_dprintf(2, "untrim = %s\n", untrim);
 	path = get_path(untrim, data->append);
 	ft_dprintf(2, "path = %s\n", path);
-	close(redir_fd[1]);
+	close(data->fd.redir_fd[1]);
 	if (data->append)
-		redir_fd[1] = open(path, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		data->fd.redir_fd[1] = open(path, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else
-		redir_fd[1] = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		data->fd.redir_fd[1] = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	new = ft_strremove(cmd, untrim, 1, 1);
 	free(untrim);
-	if (redir_fd[1] == -1)
+	if (data->fd.redir_fd[1] == -1)
 	{
 		perror(path);
 		free(path);
