@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 13:03:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/14 01:04:02 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/14 02:15:03 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ void	go(char *cmd, t_data *data)
 	{
 		errno = 3;
 		perror(s_cmd[0]);
-		ft_free_tab(data->cmd);
-		ft_free_tab(s_cmd);
-		ft_free_tab(data->paths);
+		ft_free_tab(data->cmd, -1);
+		ft_free_tab(s_cmd, -1);
+		ft_free_tab(data->paths, -1);
 		exit(127);
 	}
 }
@@ -78,15 +78,21 @@ void	execution(t_data *data)
 	i = -1;
 	while (data->cmd[++i])
 	{
+		data->to_ignore = i;
 		data->fd.redir_fd[0] = dup(0);
 		data->fd.redir_fd[1] = dup(1);
 		if (pipe(data->fd.p_fd) == -1)
 			exit(ft_dprintf(2, "\xE2\x9A\xA0\xEF\xB8\x8F Pipe error\n")); // faire une fonction pour exit proprement
+		data->step = 1;
 		while (still_in(data->cmd[i]))
 		{
 			data->cmd[i] = redir_in(data, data->cmd[i]);
 			if (!data->cmd[i] || !*data->cmd[i])
+			{
+				if (data->fd.redir_fd[0] != -1)
+					close (data->fd.redir_fd[0]);
 				break;
+			}
 		}
 		if (!data->cmd[i] || !*data->cmd[i] || data->fd.redir_fd[0] == -1)
 		{

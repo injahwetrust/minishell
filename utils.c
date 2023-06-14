@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:11:04 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/14 01:05:30 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/14 02:32:35 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,15 +170,30 @@ void	edit_paths(t_data *data)
     while (data->paths[++i])
 		data->paths[i] = ft_strjoin(data->paths[i], "/", 1);
 }
+
 void	free_all(t_data *data)
 {
+	
 	rl_clear_history();
-	free(data->prompt);
-	free(data->input);
-	ft_free_tab(data->paths);
+	if (data->step == 0)
+	{
+		free(data->prompt);
+		free(data->input);
+		ft_free_tab(data->paths);
+		ft_free_tab(data->env);
+	}
+	if (data->step == 1)
+	{
+		ft_free_tab(data->paths);
+		ft_free_tab(data->env);
+		ft_free_tab(data->cmd);
+		close(data->fd.p_fd[0]);
+		close(data->fd.p_fd[1]);
+		close(data->fd.redir_fd[0]);
+		close(data->fd.redir_fd[1]);
+	}
 	close (data->fd.base_fd[0]);
 	close (data->fd.base_fd[1]);
-	ft_free_tab(data->env);
 	ft_printf("Exiting Minishell\n");
 	signals(3);
 }

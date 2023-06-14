@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/06/14 01:02:59 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/14 02:29:13 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ typedef struct s_fd
 	int	base_fd[2];
 	int	p_fd[2];
 	int	redir_fd[2];
+	int	heredoc;
+	int	append;
 }	t_fd;
 typedef struct s_data
 {
@@ -85,8 +87,6 @@ typedef struct s_data
 	
 	t_fd	fd;
 	
-	int	heredoc;
-	int	append;
 	char	*ex;
 	char	*wrong_char;
 	
@@ -95,6 +95,9 @@ typedef struct s_data
 	
 	int	pipe;
 	int	dollar;
+	
+	int	step;
+	
 }	t_data;
 
 void	print(t_data *data);

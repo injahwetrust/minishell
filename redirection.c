@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 11:09:46 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/14 01:03:34 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/14 02:34:35 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,37 +86,35 @@ char	*redir_in(t_data *data, char *cmd)
 	while (cmd[i] && cmd[i] != '<')
 		i++;
 	if (cmd[i + 1] == '<')
-	{
-		data->heredoc = 1;
-		untrim = get_in(cmd + i, data->heredoc);
-	}
+		data->fd.heredoc = 1;
 	else
-	{
-		data->heredoc = 0;
-		untrim = get_in(cmd + i, data->heredoc);
-	}
+		data->fd.heredoc = 0;
+	untrim = get_in(cmd + i, data->fd.heredoc);
+	if (untrim == NULL)
+		free_all(data);
 	if ((ft_strcmp(untrim, "JOHNCARPENTER&DONALDDUCK") == 0))
 	{
 		free (cmd);
 		free(untrim);
 		return (ft_strdup("JOHNCARPENTER&DONALDDUCK"));
 	}
-	ft_dprintf(2, "untrim = %s\n", untrim);
-	path = get_path(untrim, data->heredoc);
-	ft_dprintf(2, "path = %s\n", path);
+	path = get_path(untrim, data->fd.heredoc);
+	if (path == NULL)
+		free_all(data);
 	close(data->fd.redir_fd[0]);
-	if (data->heredoc)
+	if (data->fd.heredoc)
 		heredoc(data, path);
 	else
 		data->fd.redir_fd[0] = open(path, O_RDONLY, 0644);
-	new = ft_strremove(cmd, untrim, 1, 1);
-	ft_dprintf(2, "new= %s\n", new);
+	new = ft_strremove(cmd, untrim, 1, 0);
+	if (new)
+		free_all(data);
 	free(untrim);
+	free(cmd);
 	if (data->fd.redir_fd[0] == -1)
 	{
 		perror(path);
 		free(path);
-		free(new);
 		return (NULL);
 	}
 	free(path);
@@ -156,23 +154,26 @@ char	*redir_out(t_data *data, char *cmd)
 	while (cmd[i] && cmd[i] != '>')
 		i++;
 	if (cmd[i + 1] == '>')
-		data->append = 1;
-	untrim = get_out(cmd + i, data->append);
+		data->fd.append = 1;
+	untrim = get_out(cmd + i, data->fd.append);
+	if (untrim == NULL)
+		free_all(data);
 	if ((ft_strcmp(untrim, "JOHNCARPENTER&DONALDDUCK") == 0))
 	{
 		free (cmd);
 		free(untrim);
 		return (ft_strdup("JOHNCARPENTER&DONALDDUCK"));
 	}
-	ft_dprintf(2, "untrim = %s\n", untrim);
-	path = get_path(untrim, data->append);
-	ft_dprintf(2, "path = %s\n", path);
+	path = get_path(untrim, data->fd.append);
 	close(data->fd.redir_fd[1]);
-	if (data->append)
+	if (data->fd.append)
 		data->fd.redir_fd[1] = open(path, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else
 		data->fd.redir_fd[1] = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	new = ft_strremove(cmd, untrim, 1, 1);
+	new = ft_strremove(cmd, untrim, 1, 0);
+	if (!new)
+		free_all(data);
+	free(cmd);
 	free(untrim);
 	if (data->fd.redir_fd[1] == -1)
 	{
