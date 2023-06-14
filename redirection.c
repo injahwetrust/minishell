@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 11:09:46 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/14 02:34:35 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/14 11:03:51 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ char	*get_in(char *cmd, int begin)
 	i = 1 + begin;
 	while (cmd[i] && (cmd[i] == ' ' || cmd[i] == '\t'))
 		i++;
-	while (cmd[i] && cmd[i] != ' ' && cmd[i] != '\t' && cmd[i] != '<' && cmd[i] != '>')
-		i++;
 	if (cmd[i] == '<')
 	{
 		ft_dprintf(2, "syntax error near unexpected symbol « %c »\n", cmd[i]);
 		return (ft_strdup("JOHNCARPENTER&DONALDDUCK"));
 	}
+	while (cmd[i] && cmd[i] != ' ' && cmd[i] != '\t' && cmd[i] != '<' && cmd[i] != '>')
+		i++;
 	file = ft_strndup(cmd, i, 0);
 	if (!file)
 		exit(0); // faire une fonction pour exit proprement
@@ -107,7 +107,7 @@ char	*redir_in(t_data *data, char *cmd)
 	else
 		data->fd.redir_fd[0] = open(path, O_RDONLY, 0644);
 	new = ft_strremove(cmd, untrim, 1, 0);
-	if (new)
+	if (!new)
 		free_all(data);
 	free(untrim);
 	free(cmd);
@@ -115,6 +115,7 @@ char	*redir_in(t_data *data, char *cmd)
 	{
 		perror(path);
 		free(path);
+		free(new);
 		return (NULL);
 	}
 	free(path);
@@ -129,13 +130,13 @@ char	*get_out(char *cmd, int begin)
 	i = 1 + begin;
 	while (cmd[i] && (cmd[i] == ' ' || cmd[i] == '\t'))
 		i++;
-	while (cmd[i] && cmd[i] != ' ' && cmd[i] != '\t' && cmd[i] != '>' && cmd[i] != '<')
-		i++;
 	if (cmd[i] == '>')
 	{
 		ft_dprintf(2, "syntax error near unexpected symbol « %c »\n", cmd[i]);
 		return (ft_strdup("JOHNCARPENTER&DONALDDUCK"));
 	}
+	while (cmd[i] && cmd[i] != ' ' && cmd[i] != '\t' && cmd[i] != '>' && cmd[i] != '<')
+		i++;
 	file = ft_strndup(cmd, i, 0);
 	if (!file)
 		exit(0); // faire une fonction pour exit proprement
