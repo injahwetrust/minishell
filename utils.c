@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:11:04 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/15 19:42:18 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/16 00:06:50 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,16 @@ void	end(t_data *data, char *ret)
 {
 	(void)data;
 	ft_printf("exit\n");
-	if (strcmp(ret, "9223372036854775808") == 0 || ft_strlen(ret) > 19)
+	if (ft_str1_ishigher(ret, "9223372036854775807") == 1)
+	{
+		ft_dprintf(2, "Minishell: exit: %s: numeric argument required\n", ret);
 		exit(2);
+	}
+	if (ft_str1_ishigher(ret, "-9223372036854775809") <= 0)
+	{
+		ft_dprintf(2, "Minishell: exit: %s: numeric argument required\n", ret);
+		exit(2);
+	}
 	else
 		exit(ft_atoll(ret));
 }

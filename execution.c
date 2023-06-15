@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 13:03:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/15 18:28:31 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/15 22:08:50 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	exec(char *cmd, t_data *data)
 	}
 	else
 	{
+		data->last_pid = pid;
 		close(data->fd.redir_fd[0]);
 		dup2(data->fd.redir_fd[1], 1);
 		close(data->fd.redir_fd[1]);

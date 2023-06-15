@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 14:54:59 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/15 14:23:59 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/15 23:40:52 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int		ft_isdigit(int c);
 int		ft_isalnum(int c);
 int		ft_isascii(int c);
 int		ft_isprint(int c);
+int		ft_str1_ishigher(char *str1, char *str2);
 long long	ft_atoll(const char *nptr);
 int		ft_strcmp(const char *s1, const char *s2);
 size_t	ft_strlen(const char *s);

@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/15 15:55:56 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/16 00:57:49 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,13 @@ int	main(int ac, char **av, char **env)
 		signals(1);
 		data.input = readline(data.prompt);
 		add_history(data.input);
+		data.input = ft_strtrim(data.input, " \t", 1);
 		if (data.input == NULL)
 			free_all(&data);
-		else if (!ft_strcmp(data.input, ""))
+		edit_dollar(&data);
+		while (data.dollar--)
+			data.input = ez_money(&data);
+		if (!ft_strcmp(data.input, ""))
 		{
 			close (data.fd.base_fd[0]);
 			close (data.fd.base_fd[1]);
@@ -95,12 +99,7 @@ int	main(int ac, char **av, char **env)
 			free(data.input);
 			continue;	
 		}
-		data.input = ft_strtrim(data.input, " \t", 1);
 		
-		edit_dollar(&data);
-		
-		while (data.dollar--)
-			data.input = ez_money(&data);
 		
 		edit_pipe(&data);							//ne pas bouger l'ordre des fonctions, sinon bug =)
 		
@@ -108,12 +107,14 @@ int	main(int ac, char **av, char **env)
 		free(data.input);
 		free(data.prompt);
 		
-		ret = manage_nonchild(&data);
+		if (data.pipe == 0)
+			ret = manage_nonchild(&data);
 		if (ret == 1)
 			continue;
 		//printf("hello\n");
-		execution(&data);									//bien laisser les free avant de creer les child sinon on duplique les heaps et bug
-		while (wait(&status) > 0)
+		execution(&data);	
+		waitpid(data.last_pid, &status, 0);								//bien laisser les free avant de creer les child sinon on duplique les heaps et bug
+		while (wait(NULL) > 0)
 			;
 		data.last_ret = WEXITSTATUS(status);
 		if (!isatty(0))

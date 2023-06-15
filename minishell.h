@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/06/15 19:27:24 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/15 22:23:35 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,13 @@ typedef struct s_data
 	int	pipe;
 	int	dollar;
 	
+	int	last_pid;
 	short	step;
 	
 }	t_data;
 
 void	end(t_data *data, char *ret);
+char	*get_env(t_data *data, char *macro);
 void	print(t_data *data);
 void	recoded(t_data *data, char *cmd);
 void	end_process(t_data *data, char *ret);
@@ -128,6 +130,7 @@ void	handler_1(int sig);
 void	handler_2(int sig);
 void	handler_back_slash(int sig);
 void	edit_dollar(t_data *data);
+char	*manage_exit(t_data *data, char *cmd);
 
 void	free_all(t_data *data);
 

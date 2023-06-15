@@ -6,7 +6,7 @@
 #    By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/06 16:33:49 by vanitas           #+#    #+#              #
-#    Updated: 2023/06/13 11:01:54 by bvaujour         ###   ########.fr        #
+#    Updated: 2023/06/15 20:51:44 by bvaujour         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ CC			=	cc
 
 FLAG		=	-Wall -Wextra -Werror -g3
 
-VFLAGS		=	valgrind --trace-children=yes --leak-check=full --show-leak-kinds=all --show-reachable=no --track-fds=yes
+VFLAGS		=	valgrind --trace-children=yes --leak-check=full --show-leak-kinds=all --show-reachable=no --track-origins=yes --track-fds=yes
 
 LIBFT_PATH	=	./libft/
 

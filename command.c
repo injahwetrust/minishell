@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:12:41 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/15 20:08:51 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/16 01:04:56 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,20 @@ void	print_env(t_data *data)
 	end_process(data, "0");
 }
 
+void	print_declare(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (data->env[i])
+	{
+		ft_printf("export ");
+		ft_printf("%s\n", data->env[i]);
+		i++;
+	}
+	end_process(data, "0");
+}
+
 void	edit_pipe(t_data *data)
 {
 	int	i;
@@ -208,7 +222,9 @@ void	cd_manage(t_data *data, char *cmd)
 
 	if (cmd[2] == '\0')
 	{
-		chdir("/");
+		if (get_env(data, "HOME") == NULL)
+			ft_dprintf(2, "Minishell: cd: « HOME » not set\n");
+		chdir(get_env(data, "HOME"));
 		close (data->fd.base_fd[0]);
 		close (data->fd.base_fd[1]);
 		return ;
@@ -228,7 +244,6 @@ void	cd_manage(t_data *data, char *cmd)
 
 void	recoded(t_data *data, char *cmd)
 {
-
 	if (ft_strcmp("pwd", cmd) == 0)
 	{
 		ft_printf("%s\n", data->cwd);
@@ -236,10 +251,14 @@ void	recoded(t_data *data, char *cmd)
 	}
 	else if (ft_strcmp("env", cmd) == 0)
 		print_env(data);
-	else if (!ft_strcmp("exit", cmd) || !ft_strncmp("exit ", cmd, 5) || !ft_strcmp("export", cmd) || !ft_strncmp("export ", cmd, 7) || !ft_strcmp("cd", cmd) || !ft_strncmp("cd ", cmd, 2) || !ft_strcmp("unset", cmd) || !ft_strncmp("unset ", cmd, 6))
+	else if (!ft_strcmp("exit", cmd) || !ft_strncmp("export ", cmd, 7) || !ft_strcmp("cd", cmd) || !ft_strncmp("cd ", cmd, 2) || !ft_strcmp("unset", cmd) || !ft_strncmp("unset ", cmd, 6))
 		end_process(data, "0");
+	else if (!ft_strncmp("exit ", cmd, 5))
+		end_process(data, manage_exit(data, cmd));
 	else if (ft_strncmp("echo", cmd, 4) == 0)
 		echo(data, cmd);
+	else if (!ft_strcmp("export", cmd))
+		print_declare(data);
 
 }
 
@@ -248,11 +267,13 @@ int	check_numeric(char *part)
 	int	i;
 
 	i = 0;
+	if (part[0] == '+' || part[0] == '-')
+		i++;
 	while (part[i])
 	{
 		if (part[i] < '0' || part[i] > '9')
 		{
-			ft_dprintf(2, "exit: %s: numeric value required\n", part);
+			ft_dprintf(2, "Minishell: exit: %s: numeric value required\n", part);
 			return (1);
 		}
 		i++;
@@ -260,18 +281,18 @@ int	check_numeric(char *part)
 	return (0);
 }
 
-char	*manage_exit(t_data *data)
+char	*manage_exit(t_data *data, char *cmd)
 {
 	int	i;
 	char	*ret;
 	char	**exits;
 
 	i = 0;
-	exits = ft_split(data->cmd[0], ' ');
+	exits = ft_split(cmd, ' ');
 	if (check_numeric(exits[1]))
 	{
 		ft_free_tab(exits);
-		return ("2");
+		return (ft_strdup("2"));
 	}
 	while (exits[i])
 		i++;
@@ -294,12 +315,12 @@ int	manage_nonchild(t_data *data)
 	char	*exit_code;
 
 	ret = 0;
-	if (ft_strncmp("cd", data->cmd[0], 2) == 0 && data->pipe == 0)
+	if (ft_strncmp("cd", data->cmd[0], 2) == 0 )
 	{
 		cd_manage(data, data->cmd[0]);
 		ret = 1;
 	}
-	else if (ft_strncmp("unset ", data->cmd[0], 6) == 0 && data->pipe == 0)
+	else if (ft_strncmp("unset ", data->cmd[0], 6) == 0)
 	{
 		data->cmd[0] = parse_unset(data->cmd[0]);
 		remove_from_env(data, data->cmd[0]);
@@ -310,7 +331,7 @@ int	manage_nonchild(t_data *data)
 	}
 	else if (ft_strncmp(data->cmd[0], "exit ", 5) == 0)
 	{
-		exit_code = manage_exit(data);
+		exit_code = manage_exit(data, data->cmd[0]);
 		close (data->fd.base_fd[0]);
 		close (data->fd.base_fd[1]);
 		ft_free_tab(data->cmd);
@@ -338,7 +359,7 @@ int	manage_nonchild(t_data *data)
 		signals(3);
 	}
 	
-	else if (ft_strncmp("export ", data->cmd[0], 7) == 0 && data->pipe == 0)
+	else if (ft_strncmp("export ", data->cmd[0], 7) == 0)
     {
 		printf("hello\n");
 		data->cmd[0] = parse_export(data, data->cmd[0]);
@@ -361,11 +382,15 @@ int	manage_nonchild(t_data *data)
 char	*get_env(t_data *data, char *macro)
 {
 	int	i;
+	int	j;
 
 	i = 0;
 	while (data->env[i])
 	{
-		if (ft_strncmp(data->env[i], macro, ft_strlen(macro)) == 0)
+		j = 0;
+		while (data->env[i][j] != '=')
+			j++;
+		if (ft_strncmp(data->env[i], macro, j) == 0)
 			return (data->env[i] + ft_strlen(macro) + 1);
 		i++;
 	}
@@ -388,8 +413,19 @@ char	*get_macro(t_data *data, char *cmd, char *begin)
 	while (++j < i)
 		macro[j] = cmd[j];
 	macro[j] = '\0';
+	//printf("cmd = |%s|\nbegin = |%s|\nmacro = |%s|\n", cmd, begin, macro);
 	if (get_env(data, macro) != NULL)
-		begin = ft_strjoin(begin, get_env(data, macro), 1);
+		begin = ft_strjoin(begin, get_env(data, macro), 0);
+	else
+	{
+		i = 0;
+		while (macro[i])
+			i++;
+		begin = ft_strjoin(begin, macro + i, 0);
+		printf("cmd = |%s|\nbegin = |%s|\nmacro = |%s|\n", cmd, begin, macro);
+		free(macro);
+		return (begin);
+	}
 	i = 0;
 	while (in_ex(data, cmd[i]))
 		i++;
@@ -428,6 +464,8 @@ char	*ez_money(t_data *data)
 		replaced = last_return(data, begin);
 	else
 		replaced = get_macro(data, data->input + i, begin);
+	free(begin);
 	free(data->input);
+	printf("repalced = |%s|\n", replaced);
 	return (replaced);
 }
