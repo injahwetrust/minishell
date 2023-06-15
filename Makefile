@@ -6,7 +6,7 @@
 #    By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/06 16:33:49 by vanitas           #+#    #+#              #
-#    Updated: 2023/06/15 20:51:44 by bvaujour         ###   ########.fr        #
+#    Updated: 2023/06/16 01:08:49 by bvaujour         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,10 @@ valgrind: $(NAME)
 	clear
 	$(VFLAGS) ./$(NAME)
 	
+push	: fclean
+	git add *
+	git commit -m 'auto'
+	git push
 	
 .c.o:
 	@$(CC) $(FLAG) -c $< -o $@
