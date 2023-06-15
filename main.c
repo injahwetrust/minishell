@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/14 10:48:34 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/15 15:55:56 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int	main(int ac, char **av, char **env)
 	{
 		ret = 0;
 		init_loop(&data);
+		//printf("hello\n");
 		signals(1);
 		data.input = readline(data.prompt);
 		add_history(data.input);
@@ -94,7 +95,6 @@ int	main(int ac, char **av, char **env)
 			free(data.input);
 			continue;	
 		}
-		
 		data.input = ft_strtrim(data.input, " \t", 1);
 		
 		edit_dollar(&data);
@@ -104,12 +104,14 @@ int	main(int ac, char **av, char **env)
 		
 		edit_pipe(&data);							//ne pas bouger l'ordre des fonctions, sinon bug =)
 		
-		ret = manage_nonchild(&data);
-		if (ret == 1)
-			continue;
 		data.cmd = ft_split(data.input, '|');
 		free(data.input);
 		free(data.prompt);
+		
+		ret = manage_nonchild(&data);
+		if (ret == 1)
+			continue;
+		//printf("hello\n");
 		execution(&data);									//bien laisser les free avant de creer les child sinon on duplique les heaps et bug
 		while (wait(&status) > 0)
 			;

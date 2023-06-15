@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:12:41 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/14 01:08:06 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/15 20:08:51 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,29 +116,64 @@ void    add_in_env(t_data *data, char *str)
     data->env = data->new_env;
 }
 
+int	get_nl(char *cmd)
+{
+	int	i;
+
+	i = 0;
+	if (cmd[i] != 'n')
+		return (0);
+	while (cmd[i] && cmd[i] != ' ' && cmd[i] != '\t')
+	{
+		if (cmd[i] != 'n')
+			return (0);
+		i++;
+	}
+	return (i + 1);
+}
+
+void	print_echo(char *cmd)
+{
+	int	space;
+	int	i;
+
+	i = 0;
+	while (cmd[i])
+	{
+		space = 0;
+		while (cmd[i] == ' ' || cmd[i] == '\t')
+		{
+			space = 1;
+			i++;
+		}
+		if (space == 1)
+			write(1, " ", 1);
+		write(1, &cmd[i], 1);
+		i++;
+	}
+}
+
 static void echo(t_data *data, char *cmd)
 {
 	int	i;
 	int	nl;
 	
-	i = 3;
-	nl = 1;
-	while (cmd[++i] && cmd[i] != ' ' && cmd[i] != '\t')
-		if (cmd[i] == '-' && cmd[i + 1] == 'n' && (cmd[i + 2] == ' ' || cmd[i + 2] == '\t'))
-			nl = 0;
-	if (nl == 0)
-		while (cmd[i] != 'n')
-			i++;
-	else
-		i = 3;
-	i++;
+	i = 0;
+	while (i < 50000000)
+		i++;
+	i = 4;
+	nl = 0;
+	while (cmd[i] && (cmd[i] == ' ' || cmd[i] == '\t'))
+		i++;
+	if (cmd[i] == '-')
+			nl = get_nl(cmd + i + 1);
+	i += nl;
 	while (cmd[i] == ' ' || cmd[i] == '\t')
 		i++;
-	//write(data->fd.p_fd[1], cmd + i, ft_strlen(cmd + i));
-	printf("%s", cmd + i);
-	if (nl == 1)
+	print_echo(cmd + i);
+	if (!nl)
 		printf("\n");
-	end_process(data);
+	end_process(data, "0");
 }
 
 void	print_env(t_data *data)
@@ -151,7 +186,7 @@ void	print_env(t_data *data)
 		ft_printf("%s\n", data->env[i]);
 		i++;
 	}
-	end_process(data);
+	end_process(data, "0");
 }
 
 void	edit_pipe(t_data *data)
@@ -188,6 +223,7 @@ void	cd_manage(t_data *data, char *cmd)
 	chdir(path);
 	close (data->fd.base_fd[0]);
 	close (data->fd.base_fd[1]);
+	ft_free_tab(data->cmd);
 }
 
 void	recoded(t_data *data, char *cmd)
@@ -196,71 +232,128 @@ void	recoded(t_data *data, char *cmd)
 	if (ft_strcmp("pwd", cmd) == 0)
 	{
 		ft_printf("%s\n", data->cwd);
-		end_process(data);
+		end_process(data, "0");
 	}
 	else if (ft_strcmp("env", cmd) == 0)
 		print_env(data);
-	else if (ft_strcmp("exit", cmd) == 0 || ft_strncmp("export", cmd, 6) == 0 || ft_strncmp("cd", cmd, 2) == 0)
-		end_process(data);
+	else if (!ft_strcmp("exit", cmd) || !ft_strncmp("exit ", cmd, 5) || !ft_strcmp("export", cmd) || !ft_strncmp("export ", cmd, 7) || !ft_strcmp("cd", cmd) || !ft_strncmp("cd ", cmd, 2) || !ft_strcmp("unset", cmd) || !ft_strncmp("unset ", cmd, 6))
+		end_process(data, "0");
 	else if (ft_strncmp("echo", cmd, 4) == 0)
 		echo(data, cmd);
 
 }
 
+int	check_numeric(char *part)
+{
+	int	i;
+
+	i = 0;
+	while (part[i])
+	{
+		if (part[i] < '0' || part[i] > '9')
+		{
+			ft_dprintf(2, "exit: %s: numeric value required\n", part);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+char	*manage_exit(t_data *data)
+{
+	int	i;
+	char	*ret;
+	char	**exits;
+
+	i = 0;
+	exits = ft_split(data->cmd[0], ' ');
+	if (check_numeric(exits[1]))
+	{
+		ft_free_tab(exits);
+		return ("2");
+	}
+	while (exits[i])
+		i++;
+	if (i > 2)
+	{
+		ft_dprintf(2, "exit: too many arguments\n");
+		ft_free_tab(exits);
+		data->last_ret = 1;
+		return (ft_strdup(""));
+	}
+	if (i == 2)
+		ret = ft_strdup(exits[1]);
+	ft_free_tab(exits);
+	return(ret);
+}
+
 int	manage_nonchild(t_data *data)
 {
 	int	ret;
+	char	*exit_code;
 
 	ret = 0;
-	if (ft_strncmp("cd", data->input, 2) == 0 && data->pipe == 0)
+	if (ft_strncmp("cd", data->cmd[0], 2) == 0 && data->pipe == 0)
 	{
-		cd_manage(data, data->input);
-		free(data->prompt);
-		free(data->input);
-		close (data->fd.base_fd[0]);
-		close (data->fd.base_fd[1]);
+		cd_manage(data, data->cmd[0]);
 		ret = 1;
 	}
-	else if (ft_strncmp("unset", data->input, 5) == 0 && data->pipe == 0)
+	else if (ft_strncmp("unset ", data->cmd[0], 6) == 0 && data->pipe == 0)
 	{
-		data->input = parse_unset(data->input);
-		remove_from_env(data, data->input);
-		free(data->prompt);
-		free(data->input);
+		data->cmd[0] = parse_unset(data->cmd[0]);
+		remove_from_env(data, data->cmd[0]);
 		close (data->fd.base_fd[0]);
 		close (data->fd.base_fd[1]);
+		ft_free_tab(data->cmd);
 		ret = 1;
 	}
-	else if (!ft_strcmp(data->input, "exit"))
+	else if (ft_strncmp(data->cmd[0], "exit ", 5) == 0)
+	{
+		exit_code = manage_exit(data);
+		close (data->fd.base_fd[0]);
+		close (data->fd.base_fd[1]);
+		ft_free_tab(data->cmd);
+		if (ft_strcmp(exit_code, ""))
+		{
+			printf("exit code = %s\n", exit_code);
+			rl_clear_history();
+			ft_free_tab(data->paths);
+			ft_free_tab(data->env);
+			end(data, exit_code);
+		}
+		free(exit_code);
+		ret = 1;
+	}
+
+	else if (ft_strcmp(data->cmd[0], "exit") == 0)
 	{
 		rl_clear_history();
-		free(data->prompt);
-		free(data->input);
 		ft_free_tab(data->paths);
 		close (data->fd.base_fd[0]);
 		close (data->fd.base_fd[1]);
 		ft_free_tab(data->env);
-		ft_printf("Exiting Minishell\n");
+		ft_free_tab(data->cmd);
+		ft_printf("exit basique\n");
 		signals(3);
 	}
-	else if (ft_strncmp("export", data->input, 6) == 0 && data->pipe == 0)
+	
+	else if (ft_strncmp("export ", data->cmd[0], 7) == 0 && data->pipe == 0)
     {
-		data->input = parse_export(data, data->input);
-		if (data->input == NULL)
+		printf("hello\n");
+		data->cmd[0] = parse_export(data, data->cmd[0]);
+		if (data->cmd[0] == NULL)
 		{
 			ret = 1;
-			free(data->input);
-			free(data->prompt);
 			close (data->fd.base_fd[0]);
 			close (data->fd.base_fd[1]);
+			ft_free_tab(data->cmd);
 			return (ret);
 		}
-        add_in_env(data, data->input);
 		ret = 1;
-		free(data->prompt);
 		close (data->fd.base_fd[0]);
 		close (data->fd.base_fd[1]);
-		free(data->input);
+		ft_free_tab(data->cmd);
 	}
 	return (ret);
 }

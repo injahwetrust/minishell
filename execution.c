@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 13:03:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/14 10:49:12 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/15 18:28:31 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,16 @@ void	go(char *cmd, t_data *data)
 {
 	char	**s_cmd;
 	char	*path;
-
+	DIR	*dir;
+	
 	s_cmd = ft_split(cmd, ' ');
+	dir = opendir(s_cmd[0]);
+	if (dir != NULL)
+	{
+		closedir(dir);
+		ft_dprintf(2, "bash: %s: Is a directory\n", s_cmd[0]);
+		end_process(data, "126");
+	}
 	path = get_exec(s_cmd[0], data);
 	if (execve(path, s_cmd, data->env) <= -1)
 	{
@@ -73,7 +81,6 @@ void	exec(char *cmd, t_data *data)
 void	execution(t_data *data)
 {
 	int	i;
-	//int	j;
 	
 	i = -1;
 	while (data->cmd[++i])
@@ -123,12 +130,5 @@ void	execution(t_data *data)
 		}
 		data->cmd[i] = ft_strtrim(data->cmd[i], " \t", 1);
 		exec(data->cmd[i], data);
-		/*if (data->cmd[i + 1] && strncmp("echo", ft_strtrim(data->cmd[i + 1], " \t", 1), 4) == 0)
-		{
-			j = 0;
-			while (j < 70000000)
-				j++;
-		}*/
-		//trouver une maniere moins shlag de gerer le sigpipe de cat <infile | echo lol ou echo lol | cat <infile
 	}
 }

@@ -6,17 +6,28 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:11:04 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/14 02:32:35 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/15 19:42:18 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	end_process(t_data *data)
+void	end(t_data *data, char *ret)
 {
+	(void)data;
+	ft_printf("exit\n");
+	if (strcmp(ret, "9223372036854775808") == 0 || ft_strlen(ret) > 19)
+		exit(2);
+	else
+		exit(ft_atoll(ret));
+}
+
+void	end_process(t_data *data, char *ret)
+{
+
 	ft_free_tab(data->cmd);
 	ft_free_tab(data->paths);
-	exit(0);
+	exit(ft_atoll(ret));
 }
 
 void	ft_free_tab(char **tab)
@@ -156,7 +167,7 @@ void	edit_prompt(t_data *data, char *cwd)
 		j++;
 	}
 	data->prompt = ft_strjoin(BG_GREEN BO_BLACK"Minishell~", getenv("USER"), 0);
-	data->prompt = ft_strjoin(data->prompt, RESET BO_GREEN"🐸", 1);
+	data->prompt = ft_strjoin(data->prompt, RESET BO_GREEN"\1🐸\2", 1);
 	data->prompt = ft_strjoin(data->prompt, cwd, 1);
 	data->prompt = ft_strjoin(data->prompt,RESET"$ ", 1);
 }
@@ -167,6 +178,8 @@ void	edit_paths(t_data *data)
     
     i = -1;
     data->paths = ft_split(getenv("PATH"), ':');
+	if (!data->paths)
+		return ;
     while (data->paths[++i])
 		data->paths[i] = ft_strjoin(data->paths[i], "/", 1);
 }

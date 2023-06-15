@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/06/14 02:29:13 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/15 19:27:24 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@
 # include "libft/libft.h"
 # include <limits.h>
 # include <signal.h>
+#include <dirent.h>
 
-# define RESET			"\x1B[0m"
+# define RESET			"\1\x1B[0m\2"
 # define BLACK			"\x1B[30m"
 # define RED			"\x1B[31m"
 # define GREEN			"\x1B[32m"
@@ -35,9 +36,9 @@
 # define CYAN			"\x1B[36m"
 # define WHITE			"\x1B[37m"
 
-# define BO_BLACK		"\x1B[1m\x1B[30m"
-# define BO_RED			"\x1B[1m\x1B[31m"
-# define BO_GREEN		"\x1B[1m\x1B[32m"
+# define BO_BLACK		"\1\x1B[1m\x1B[30m\2"
+# define BO_RED			"\1\x1B[1m\x1B[31m\2"
+# define BO_GREEN		"\1\x1B[1m\x1B[32m\2"
 # define BO_YELLOW		"\x1B[1m\x1B[33m"
 # define BO_BLUE		"\x1B[1m\x1B[34m"
 # define BO_MAGENTA		"\x1B[1m\x1B[35m"
@@ -46,7 +47,7 @@
 
 # define BG_BLACK		"\x1B[40m"
 # define BG_RED			"\x1B[41m"
-# define BG_GREEN		"\x1B[42m"
+# define BG_GREEN		"\1\x1B[42m\2"
 # define BG_YELLOW		"\x1B[43m"
 # define BG_BLUE		"\x1B[44m"
 # define BG_MAGENTA		"\x1B[45m"
@@ -90,19 +91,20 @@ typedef struct s_data
 	char	*ex;
 	char	*wrong_char;
 	
-	int	last_ret;
+	short	last_ret;
 	char	*input;
 	
 	int	pipe;
 	int	dollar;
 	
-	int	step;
+	short	step;
 	
 }	t_data;
 
+void	end(t_data *data, char *ret);
 void	print(t_data *data);
 void	recoded(t_data *data, char *cmd);
-void	end_process(t_data *data);
+void	end_process(t_data *data, char *ret);
 void	ft_free_tab(char **tab);
 void	close_n_dup(t_data *data);
 void    add_in_env(t_data *data, char *str);
