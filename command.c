@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:12:41 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/16 01:04:56 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/16 01:29:46 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -421,7 +421,7 @@ char	*get_macro(t_data *data, char *cmd, char *begin)
 		i = 0;
 		while (macro[i])
 			i++;
-		begin = ft_strjoin(begin, macro + i, 0);
+		begin = ft_strjoin(begin, cmd + i, 0);
 		printf("cmd = |%s|\nbegin = |%s|\nmacro = |%s|\n", cmd, begin, macro);
 		free(macro);
 		return (begin);
@@ -451,6 +451,7 @@ char	*ez_money(t_data *data)
 	
 	i = 0;
 	j = -1;
+	printf("data->input = %s\n", data->input);
 	while (data->input[i] != '$' && data->input[i])
 		i++;
 	begin = malloc(sizeof(char) * i + 1);

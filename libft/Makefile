@@ -6,7 +6,7 @@
 #    By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/07 12:35:11 by bvaujour          #+#    #+#              #
-#    Updated: 2023/06/15 23:41:08 by bvaujour         ###   ########.fr        #
+#    Updated: 2023/06/16 01:17:28 by bvaujour         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ all : $(NAME)
 %.o: %.c
 	cc $(FLAG) -c $< -o $@
 
-$(NAME) : $(OBJ) libft.h
+$(NAME) : $(OBJ) libft.h bonus
 	ar -rcs $(NAME) $(OBJ)
 
 bonus: $(OBJ_BONUS) $(OBJ)
