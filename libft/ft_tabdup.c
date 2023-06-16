@@ -6,13 +6,13 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 09:13:23 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/09 09:19:23 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/16 14:45:34 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char    **ft_tabdup(char **tab)
+char    **ft_tabdup(char **tab, int more)
 {
     int     i;
     char    **new;
@@ -20,7 +20,7 @@ char    **ft_tabdup(char **tab)
     i = 0;
     while (tab[i])
         i++;
-    new = malloc(sizeof(char *) * (i + 1));
+    new = malloc(sizeof(char *) * (i + 1 + more));
     if (!new)
         return(NULL);
     i = 0;

@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:11:04 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/16 12:07:59 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/16 15:09:03 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,28 @@ int		wrong_ident(t_data *data, char c)
 	return (0);
 }
 
+void	add_in_ghost(t_data *data, char *exp)
+{
+	int	i;
+	char	**new;
+	i = 0;
+	while (data->ghost[i])
+	{
+		if (ft_strcmp(exp, data->ghost[i]) == 0)
+			return ;
+		i++;
+	}
+	new = ft_tabdup(data->ghost, 1);
+	i = 0;
+	while (data->ghost[i])
+	{
+		new[i] = ft_strdup(data->ghost[i]);
+		i++;
+	}
+	new[i] = exp;
+	new[i + 1] = 0;
+}
+
 char	*parse_export(t_data *data, char *input)
 {
 	int	i;
@@ -102,11 +124,6 @@ char	*parse_export(t_data *data, char *input)
 	if (!new)
 		return (NULL);	// faire une fonction pour exit proprement
 	new = ft_strtrim(new, " \t", 1);
-	if (!*new)
-	{
-		ft_dprintf(2, "Minishell: export: wrong identifier: ");
-		return (NULL);
-	}
 	if (!new)
 		return (NULL);	// faire une fonction pour exit proprement
 	if (new[0] == '=')
@@ -126,7 +143,7 @@ char	*parse_export(t_data *data, char *input)
 		i++;
 	}
 	if (!new[i])
-		return (NULL);
+	 	add_in_ghost(data, new);
 	i = 0;
 	while (new[i])
 	{

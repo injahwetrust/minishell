@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 14:54:59 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/15 23:40:52 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/16 14:45:54 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 long	ft_atol(const char *nptr);
-char	**ft_tabdup(char **tab);
+char	**ft_tabdup(char **tab, int more);
 int		ft_countoccur(char *src, char *to_count);
 int		ft_chrstrinstr(char *src, char *to_chr, int occur);
 char	*ft_strremoveall(char *src, char *to_del, int opt);

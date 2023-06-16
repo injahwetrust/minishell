@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/16 13:14:19 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/16 14:48:49 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 
 void	init(t_data *data, char **env)
 {
-	data->env = ft_tabdup(env);
+	data->env = ft_tabdup(env, 0);
+	data->ghost = malloc(sizeof(char *));
+	data->ghost[0] = 0;
 	data->ex = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
 	data->wrong_char = "&\\;()<>";
 	edit_paths(data);

@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/06/16 12:38:17 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/16 14:39:36 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,13 @@ typedef struct s_fd
 	int	heredoc;
 	int	append;
 }	t_fd;
+
 typedef struct s_data
 {
 	char cwd[PATH_MAX];
 	char	**paths;
 	char	**env;
+	char	**ghost;
     char    **new_env;
 	char	*cur_dir;
 	char	*prompt;

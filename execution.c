@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 13:03:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/15 22:08:50 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/16 14:34:14 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	go(char *cmd, t_data *data)
 	if (dir != NULL)
 	{
 		closedir(dir);
-		ft_dprintf(2, "bash: %s: Is a directory\n", s_cmd[0]);
+		ft_dprintf(2, "Minishell: %s: Is a directory\n", s_cmd[0]);
 		end_process(data, "126");
 	}
 	path = get_exec(s_cmd[0], data);
