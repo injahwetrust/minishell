@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/06/15 22:23:35 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/16 12:38:17 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,42 +26,43 @@
 # include <signal.h>
 #include <dirent.h>
 
-# define RESET			"\1\x1B[0m\2"
-# define BLACK			"\x1B[30m"
-# define RED			"\x1B[31m"
-# define GREEN			"\x1B[32m"
-# define YELLOW			"\x1B[33m"
-# define BLUE			"\x1B[34m"
-# define MAGENTA		"\x1B[35m"
-# define CYAN			"\x1B[36m"
-# define WHITE			"\x1B[37m"
+# define RESET			"\1\1\x1B[0m\2"
+# define BLACK			"\1\x1B[30m\2"
+# define RED			"\1\x1B[31m\2"
+# define GREEN			"\1\x1B[32m\2"
+# define YELLOW			"\1\x1B[33m\2"
+# define BLUE			"\1\x1B[34m\2"
+# define MAGENTA		"\1\x1B[35m\2"
+# define CYAN			"\1\x1B[36m\2"
+# define WHITE			"\1\x1B[37m\2"
 
 # define BO_BLACK		"\1\x1B[1m\x1B[30m\2"
 # define BO_RED			"\1\x1B[1m\x1B[31m\2"
 # define BO_GREEN		"\1\x1B[1m\x1B[32m\2"
-# define BO_YELLOW		"\x1B[1m\x1B[33m"
-# define BO_BLUE		"\x1B[1m\x1B[34m"
-# define BO_MAGENTA		"\x1B[1m\x1B[35m"
-# define BO_CYAN		"\x1B[1m\x1B[36m"
-# define BO_WHITE		"\x1B[1m\x1B[37m"
+# define BO_YELLOW		"\1\x1B[1m\x1B[33m\2"
+# define BO_BLUE		"\1\x1B[1m\x1B[34m\2"
+# define BO_MAGENTA		"\1\x1B[1m\x1B[35m\2"
+# define BO_CYAN		"\1\x1B[1m\x1B[36m\2"
+# define BO_WHITE		"\1\x1B[1m\x1B[37m\2"
 
-# define BG_BLACK		"\x1B[40m"
-# define BG_RED			"\x1B[41m"
+# define BG_BLACK		"\1\x1B[40m\2"
+# define BG_RED			"\1\x1B[41m\2"
 # define BG_GREEN		"\1\x1B[42m\2"
-# define BG_YELLOW		"\x1B[43m"
-# define BG_BLUE		"\x1B[44m"
-# define BG_MAGENTA		"\x1B[45m"
-# define BG_CYAN		"\x1B[46m"
-# define BG_WHITE		"\x1B[47m"
+# define BG_YELLOW		"\1\x1B[43m\2"
+# define BG_BLUE		"\1\x1B[44m\2"
+# define BG_BLUE		"\1\x1B[44m\2"
+# define BG_MAGENTA		"\1\x1B[45m\2"
+# define BG_CYAN		"\1\x1B[46m\2"
+# define BG_WHITE		"\1\x1B[47m\2"
 
-# define BGO_BLACK		"\x1B[1m\x1B[40m"
-# define BGO_RED		"\x1B[1m\x1B[41m"
-# define BGO_GREEN		"\x1B[1m\x1B[42m"
-# define BGO_YELLOW		"\x1B[1m\x1B[43m"
-# define BGO_BLUE		"\x1B[1m\x1B[44m"
-# define BGO_MAGENTA	"\x1B[1m\x1B[45m"
-# define BGO_CYAN		"\x1B[1m\x1B[46m"
-# define BGO_WHITE		"\x1B[1m\x1B[47m"
+# define BGO_BLACK		"\1\x1B[1m\x1B[40m\2"
+# define BGO_RED		"\1\x1B[1m\x1B[41m\2"
+# define BGO_GREEN		"\1\x1B[1m\x1B[42m\2"
+# define BGO_YELLOW		"\1\x1B[1m\x1B[43m\2"
+# define BGO_BLUE		"\1\x1B[1m\x1B[44m\2"
+# define BGO_MAGENTA	"\1\x1B[1m\x1B[45m\2"
+# define BGO_CYAN		"\1\x1B[1m\x1B[46m\2"
+# define BGO_WHITE		"\1\x1B[1m\x1B[47m\2"
 # define HEADER1	 	"    __  ____       _      __         ____\n"
 # define HEADER2		"   /  |/  (_)___  (_)____/ /_  ___  / / /\n"
 # define HEADER3		"  / /|_/ / / __ \\/ / ___/ __ \\/ _ \\/ / /\n"

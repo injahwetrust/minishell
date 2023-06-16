@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 11:09:46 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/14 11:03:51 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/16 12:40:09 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*get_in(char *cmd, int begin)
 	i = 1 + begin;
 	while (cmd[i] && (cmd[i] == ' ' || cmd[i] == '\t'))
 		i++;
-	if (cmd[i] == '<')
+	if (cmd[i] == '>' || cmd[i] == '<')
 	{
 		ft_dprintf(2, "syntax error near unexpected symbol « %c »\n", cmd[i]);
 		return (ft_strdup("JOHNCARPENTER&DONALDDUCK"));
@@ -59,6 +59,7 @@ void	heredoc(t_data *data, char *path)
 	data->fd.redir_fd[0] = open("heredoc", O_CREAT | O_TRUNC | O_RDWR, 0644);
 	while (1)
 	{
+		ft_printf(BO_GREEN"(%s)input:"RESET, path);
 		ret = get_next_line(0);
 		if (ft_strncmp(ret, path, ft_strlen(path)) == 0
 			&& ft_strlen(path) == strlen(ret) - 1)
@@ -130,9 +131,9 @@ char	*get_out(char *cmd, int begin)
 	i = 1 + begin;
 	while (cmd[i] && (cmd[i] == ' ' || cmd[i] == '\t'))
 		i++;
-	if (cmd[i] == '>')
+	if (cmd[i] == '>' || cmd[i] == '<')
 	{
-		ft_dprintf(2, "syntax error near unexpected symbol « %c »\n", cmd[i]);
+		ft_dprintf(2, "syntax error near unexpected token « %c »\n", cmd[i]);
 		return (ft_strdup("JOHNCARPENTER&DONALDDUCK"));
 	}
 	while (cmd[i] && cmd[i] != ' ' && cmd[i] != '\t' && cmd[i] != '>' && cmd[i] != '<')
