@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/16 00:57:49 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/16 02:33:49 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	init(t_data *data, char **env)
 {
 	data->env = ft_tabdup(env);
 	data->ex = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
-	data->wrong_char = "!$%%&*()";
+	data->wrong_char = "!$&*;()";
 	edit_paths(data);
 }
 
@@ -66,6 +66,30 @@ void	header(void)
 	
 }
 
+
+int	stx_error(t_data *data, char *input)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (input[i])
+	{
+		j = 0;
+		while (data->wrong_char[j])
+		{
+			if(input[i] == data->wrong_char[j])
+			{
+				ft_dprintf(2, "synthax error near unexpected token '%c'\n", input[i]);
+				return (1);
+			}
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
+
 int	main(int ac, char **av, char **env) 
 {
 	t_data	data;
@@ -83,6 +107,7 @@ int	main(int ac, char **av, char **env)
 		init_loop(&data);
 		//printf("hello\n");
 		signals(1);
+		printf("tty = %d\n", ttyslot());
 		data.input = readline(data.prompt);
 		add_history(data.input);
 		data.input = ft_strtrim(data.input, " \t", 1);
@@ -91,7 +116,7 @@ int	main(int ac, char **av, char **env)
 		edit_dollar(&data);
 		while (data.dollar--)
 			data.input = ez_money(&data);
-		if (!ft_strcmp(data.input, ""))
+		if (!ft_strcmp(data.input, "") || stx_error(&data, data.input))
 		{
 			close (data.fd.base_fd[0]);
 			close (data.fd.base_fd[1]);
