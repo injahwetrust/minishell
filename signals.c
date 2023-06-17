@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 14:18:16 by vanitas           #+#    #+#             */
-/*   Updated: 2023/06/17 16:17:07 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/17 17:10:42 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@ void	signals(t_data *data, int sig)
 		signal(SIGQUIT, SIG_IGN);
 	}
 	if (sig == 2 && data->fd.heredoc == 0)
+	{
+		signal(SIGINT, handler_2);
+		signal(SIGQUIT, handler_back_slash);
+	}
+	if (sig == 4 && data->fd.heredoc == 1)
 	{
 		signal(SIGINT, handler_2);
 		signal(SIGQUIT, handler_back_slash);

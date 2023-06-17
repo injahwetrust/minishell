@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 11:09:46 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/17 16:05:32 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/17 17:10:56 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	heredoc(t_data *data, char *path)
 	if (pipe(p_fd) == -1)
 		exit(ft_dprintf(2, "\xE2\x9A\xA0\xEF\xB8\x8F Pipe error\n")); // faire une fonction pour exit proprement
 	pid = fork();
+	signals(data, 4);
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
