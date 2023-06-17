@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:11:04 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/16 15:09:03 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/17 13:12:00 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,11 +159,14 @@ char	*parse_export(t_data *data, char *input)
 	return (new);
 }
 
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 void	print(t_data *data)
 {
-	int	ret;
+	/*int	ret;
 	char	buff[50];
-	
+
 	(void)data;
 	ret = 1;
 	while (ret)
@@ -171,7 +174,30 @@ void	print(t_data *data)
 		ret = read(0, buff, sizeof(buff));
 		buff[ret] = '\0';
 		ft_printf("%s", buff);
+	}*/
+	
+	char	*str;
+	char	*str2;
+	struct stat stat_info;
+
+	(void)data;
+	str = get_next_line(0);
+	stat_info.st_mode = 0;
+	while (str != NULL)
+	{
+		str2 = ft_strndup(str, ft_strlen(str) - 1, 0);
+		stat(str2, &stat_info);
+		if (S_ISDIR(stat_info.st_mode))
+			printf (BO_BLUE"%s"RESET, str);
+		else if (S_ISREG(stat_info.st_mode) && (stat_info.st_mode & S_IXUSR))
+			printf (BO_GREEN"%s"RESET, str);
+		else
+			printf ("%s", str);
+		free(str2);
+		free (str);
+		str = get_next_line(0);
 	}
+	get_next_line(-99);
 }
 
 

@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:12:41 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/16 13:55:19 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/17 12:27:47 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -440,7 +440,7 @@ char	*last_return(t_data *data, char *begin)
 	itoa_ret = ft_itoa(data->last_ret);
 	if (itoa_ret == NULL)
 		exit(0); // faire une fonction pour exit proprement
-	return (ft_strjoin(begin, itoa_ret, 3));
+	return (ft_strjoin(begin, itoa_ret, 2));
 }
 char	*ez_money(t_data *data)
 {
@@ -450,15 +450,18 @@ char	*ez_money(t_data *data)
 	char	*replaced;
 	
 	i = 0;
-	j = -1;
+	j = 0;
 	printf("data->input = %s\n", data->input);
 	while (data->input[i] != '$' && data->input[i])
 		i++;
 	begin = malloc(sizeof(char) * i + 1);
 	if (begin == NULL)
 		exit(0); // faire une fonction pour exit proprement
-	while (++j < i)
+	while (j < i)
+	{
 		begin[j] = data->input[j];
+		j++;
+	}
 	begin[j] = '\0';
 	i++;
 	if (data->input[i] == '?' && (data->input[i + 1] == ' ' || data->input[i + 1] == '\t' || data->input[i + 1] == '\0'))

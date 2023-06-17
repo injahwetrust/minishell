@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 14:18:16 by vanitas           #+#    #+#             */
-/*   Updated: 2023/06/15 18:00:14 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/17 13:33:18 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void	signals(int sig)
 	}
 	if (sig == 3)
 		exit (0);
-	if (sig > 3)
-		exit (sig);
+	if (sig == 4)
+		exit (0);
 }
 
 void	handler_1(int sig)

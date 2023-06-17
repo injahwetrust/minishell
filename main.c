@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/16 14:48:49 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/17 14:45:39 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 void	init(t_data *data, char **env)
 {
 	data->env = ft_tabdup(env, 0);
+	data->last_ret = 0;
 	data->ghost = malloc(sizeof(char *));
 	data->ghost[0] = 0;
 	data->ex = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
@@ -97,10 +98,11 @@ int	chained_char(char *str, char c)
 
 	i = 0;
 	j = 0;
-	while (str[i])
+	while (str[i] && str[i] != ' ' && str[i] != '\t')
 	{
 		if (str[i] == c)
 			j++;
+		
 		i++;
 	}
 	return (j);

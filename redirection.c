@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 11:09:46 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/16 12:40:09 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/17 14:43:20 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,24 +55,47 @@ char	*get_in(char *cmd, int begin)
 
 void	heredoc(t_data *data, char *path)
 {
+	int	pid;
 	char	*ret;
-	data->fd.redir_fd[0] = open("heredoc", O_CREAT | O_TRUNC | O_RDWR, 0644);
-	while (1)
+	int	p_fd[2];
+	
+	if (pipe(p_fd) == -1)
+		exit(ft_dprintf(2, "\xE2\x9A\xA0\xEF\xB8\x8F Pipe error\n")); // faire une fonction pour exit proprement
+	pid = fork();
+	if (pid == 0)
 	{
-		ft_printf(BO_GREEN"(%s)input:"RESET, path);
-		ret = get_next_line(0);
-		if (ft_strncmp(ret, path, ft_strlen(path)) == 0
-			&& ft_strlen(path) == strlen(ret) - 1)
+		close(data->fd.redir_fd[0]);
+		close(data->fd.redir_fd[1]);
+		close(data->fd.p_fd[0]);
+		close(data->fd.p_fd[1]);
+		close(data->fd.base_fd[1]);
+		dup2(data->fd.base_fd[0], 0);
+		close(data->fd.base_fd[0]);
+		close(p_fd[0]);
+		dup2(p_fd[1], 1);
+		close(p_fd[1]);
+		while (1)
 		{
-			get_next_line(-99);
-			close (data->fd.redir_fd[0]);
-			data->fd.redir_fd[0] = open("heredoc", O_CREAT | O_APPEND | O_RDWR, 0644);
-			free(ret);
-			return ;
+			ft_dprintf(2, BO_GREEN"(%s)input:"RESET, path);
+			ret = get_next_line(0);
+			if (ft_strncmp(ret, path, ft_strlen(path)) == 0
+				&& ft_strlen(path) == strlen(ret) - 1)
+			{
+				get_next_line(-99);
+				free(ret);
+				exit(0);
+			}
+				write(1, ret, ft_strlen(ret));
+				free(ret);
 		}
-			write(data->fd.redir_fd[0], ret, ft_strlen(ret));
-			free(ret);
-		}
+	}
+	else
+	{
+		waitpid(pid, NULL, 0);
+		close(p_fd[1]);
+		dup2(p_fd[0], 0);
+		close(p_fd[0]);
+	}
 }
 
 char	*redir_in(t_data *data, char *cmd)
