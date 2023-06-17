@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/06/16 14:39:36 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/17 15:18:50 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void	execution(t_data *data);
 char	*get_exec(char *cmd, t_data *data);
 int		still_in(char *cmd);
 int		still_out(char *cmd);
-void	signals(int sig);
+void	signals(t_data *data, int sig);
 void	handler_1(int sig);
 void	handler_2(int sig);
 void	handler_back_slash(int sig);

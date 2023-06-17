@@ -6,27 +6,25 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 14:18:16 by vanitas           #+#    #+#             */
-/*   Updated: 2023/06/17 13:33:18 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/17 15:22:11 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	signals(int sig)
+void	signals(t_data *data, int sig)
 {
-	if (sig == 1)
+	if (sig == 1 && data->fd.heredoc == 0)
 	{
 		signal(SIGINT, handler_1);
 		signal(SIGQUIT, SIG_IGN);
 	}
-	if (sig == 2)
+	if (sig == 2 && data->fd.heredoc == 0)
 	{
 		signal(SIGINT, handler_2);
 		signal(SIGQUIT, handler_back_slash);
 	}
 	if (sig == 3)
-		exit (0);
-	if (sig == 4)
 		exit (0);
 }
 

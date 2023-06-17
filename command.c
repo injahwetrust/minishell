@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:12:41 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/17 12:27:47 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/17 15:20:30 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -356,7 +356,7 @@ int	manage_nonchild(t_data *data)
 		ft_free_tab(data->env);
 		ft_free_tab(data->cmd);
 		ft_printf("exit basique\n");
-		signals(3);
+		signals(data, 3);
 	}
 	
 	else if (ft_strncmp("export ", data->cmd[0], 7) == 0)

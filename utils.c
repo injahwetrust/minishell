@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:11:04 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/17 13:12:00 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/17 15:20:51 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,7 +259,7 @@ void	free_all(t_data *data)
 	close (data->fd.base_fd[0]);
 	close (data->fd.base_fd[1]);
 	ft_printf("Exiting Minishell\n");
-	signals(3);
+	signals(data, 3);
 }
 
 int	still_in(char *cmd)

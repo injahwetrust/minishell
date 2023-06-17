@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 13:03:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/17 14:42:30 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/17 15:21:22 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	exec(char *cmd, t_data *data)
 	pid_t	pid;
 	
 	pid = fork();
-	signals(2);
+	signals(data, 2);
 	if (pid == 0)
 	{
 		close(data->fd.redir_fd[1]);
