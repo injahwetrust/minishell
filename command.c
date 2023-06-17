@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:12:41 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/17 15:20:30 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/17 16:22:25 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,7 @@ static void echo(t_data *data, char *cmd)
 	int	i;
 	int	nl;
 	
+	printf("mon echo\n");
 	// = 0;
 	//while (i < 50000000)
 		//i++;

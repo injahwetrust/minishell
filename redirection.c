@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 11:09:46 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/17 15:26:15 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/17 16:05:32 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ void	heredoc(t_data *data, char *path)
 	pid = fork();
 	if (pid == 0)
 	{
-		signal(SIGINT, NULL);
+		signal(SIGINT, SIG_DFL);
+		signal(SIGINT, exit);
 		close(data->fd.redir_fd[0]);
 		close(data->fd.redir_fd[1]);
 		close(data->fd.p_fd[0]);

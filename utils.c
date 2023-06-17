@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:11:04 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/17 15:20:51 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/17 16:32:12 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,23 +159,8 @@ char	*parse_export(t_data *data, char *input)
 	return (new);
 }
 
-#include <stdio.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 void	print(t_data *data)
 {
-	/*int	ret;
-	char	buff[50];
-
-	(void)data;
-	ret = 1;
-	while (ret)
-	{
-		ret = read(0, buff, sizeof(buff));
-		buff[ret] = '\0';
-		ft_printf("%s", buff);
-	}*/
-	
 	char	*str;
 	char	*str2;
 	struct stat stat_info;
@@ -189,7 +174,7 @@ void	print(t_data *data)
 		stat(str2, &stat_info);
 		if (S_ISDIR(stat_info.st_mode))
 			printf (BO_BLUE"%s"RESET, str);
-		else if (S_ISREG(stat_info.st_mode) && (stat_info.st_mode & S_IXUSR))
+		else if (S_ISREG(stat_info.st_mode) && stat_info.st_mode & S_IXUSR)
 			printf (BO_GREEN"%s"RESET, str);
 		else
 			printf ("%s", str);
@@ -259,7 +244,7 @@ void	free_all(t_data *data)
 	close (data->fd.base_fd[0]);
 	close (data->fd.base_fd[1]);
 	ft_printf("Exiting Minishell\n");
-	signals(data, 3);
+	//signals(data, 3);
 }
 
 int	still_in(char *cmd)

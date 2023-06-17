@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/17 15:26:40 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/17 16:16:36 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,18 +93,11 @@ int	who_is_first(char *str, char *wrong)
 int	chained_char(char *str, char c)
 {
 	int	i;
-	int	j;
 
 	i = 0;
-	j = 0;
-	while (str[i] && str[i] != ' ' && str[i] != '\t')
-	{
-		if (str[i] == c)
-			j++;
-		
+	while (str[i] && str[i] == c)
 		i++;
-	}
-	return (j);
+	return (i);
 }
 
 
@@ -213,7 +206,7 @@ int	stx_error(t_data *data, char *input)
 		ft_dprintf(2, " »\n");
 		return (1);
 	}
-	k = dual(input + i, data->wrong_char, input[i]);
+	//k = dual(input + i, data->wrong_char, input[i]);
 	if (input[i] == '<')
 		j = bracketin_err(input + i, j, k);
 	else if (input[i] == '>')
@@ -237,8 +230,8 @@ int	main(int ac, char **av, char **env)
 		ret = 0;
 		init_loop(&data);
 		//printf("hello\n");
-		signals(&data, 1);
 		//printf("tty = %d\n", ttyslot());
+		signals(&data, 1);
 		data.input = readline(data.prompt);
 		add_history(data.input);
 		data.input = ft_strtrim(data.input, " \t", 1);
