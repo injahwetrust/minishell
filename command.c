@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:12:41 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/17 16:22:25 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/17 20:49:27 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ void    add_in_env(t_data *data, char *str)
 	data->new_env[i] = ft_strdup(str);
     data->new_env[i + 1] = 0;
 	free(data->env);
+	//free(str);
     data->env = data->new_env;
 }
 
@@ -199,6 +200,13 @@ void	print_declare(t_data *data)
 	{
 		ft_printf("export ");
 		ft_printf("%s\n", data->env[i]);
+		i++;
+	}
+	i = 0;
+	while (data->ghost[i])
+	{
+		ft_printf("export ");
+		ft_printf("%s\n", data->ghost[i]);
 		i++;
 	}
 	end_process(data, "0");
@@ -356,13 +364,14 @@ int	manage_nonchild(t_data *data)
 		close (data->fd.base_fd[1]);
 		ft_free_tab(data->env);
 		ft_free_tab(data->cmd);
+		ft_free_tab(data->ghost);
 		ft_printf("exit basique\n");
 		signals(data, 3);
 	}
 	
 	else if (ft_strncmp("export ", data->cmd[0], 7) == 0)
     {
-		printf("hello\n");
+		printf("executing export\n");
 		data->cmd[0] = parse_export(data, data->cmd[0]);
 		if (data->cmd[0] == NULL)
 		{
@@ -372,6 +381,7 @@ int	manage_nonchild(t_data *data)
 			ft_free_tab(data->cmd);
 			return (ret);
 		}
+		add_in_env(data, data->cmd[0]);
 		ret = 1;
 		close (data->fd.base_fd[0]);
 		close (data->fd.base_fd[1]);

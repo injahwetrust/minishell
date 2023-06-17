@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/17 16:16:36 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/17 20:49:23 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void	init(t_data *data, char **env)
 {
-	data->env = ft_tabdup(env, 0);
+	data->env = ft_tabdup(env, NULL, 0);
 	data->last_ret = 0;
 	data->ghost = malloc(sizeof(char *));
 	data->ghost[0] = 0;
@@ -36,6 +36,7 @@ void	init_loop(t_data *data)
 		data->fd.base_fd[1] = dup(1);
 		getcwd(data->cwd, sizeof(data->cwd));
 		edit_prompt(data, data->cwd);
+		data->fd.tmp = open("/tmp/minishell", O_CREAT | O_TRUNC | O_RDONLY, 0644);
 }
 
 void	header(void)
@@ -229,7 +230,6 @@ int	main(int ac, char **av, char **env)
 	{
 		ret = 0;
 		init_loop(&data);
-		//printf("hello\n");
 		//printf("tty = %d\n", ttyslot());
 		signals(&data, 1);
 		data.input = readline(data.prompt);
@@ -252,7 +252,6 @@ int	main(int ac, char **av, char **env)
 		
 		
 		edit_pipe(&data);							//ne pas bouger l'ordre des fonctions, sinon bug =)
-		
 		data.cmd = ft_split(data.input, '|');
 		free(data.input);
 		free(data.prompt);
@@ -275,6 +274,7 @@ int	main(int ac, char **av, char **env)
 		close (data.fd.base_fd[0]);
 		dup2(data.fd.base_fd[1], 1);
 		close (data.fd.base_fd[1]);
+		close (data.fd.tmp);
 	}
 	return (0);
 }

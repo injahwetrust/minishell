@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/06/17 15:18:50 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/17 20:34:25 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct s_fd
 	int	redir_fd[2];
 	int	heredoc;
 	int	append;
+	int	tmp;
 }	t_fd;
 
 typedef struct s_data

@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:11:04 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/17 16:32:12 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/17 20:37:40 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	end_process(t_data *data, char *ret)
 
 	ft_free_tab(data->cmd);
 	ft_free_tab(data->paths);
+	ft_free_tab(data->env);
+	ft_free_tab(data->ghost);
 	exit(ft_atoll(ret));
 }
 
@@ -50,9 +52,13 @@ void	ft_free_tab(char **tab)
 
 void	close_n_dup(t_data *data)
 {
+	close(data->fd.redir_fd[1]);
+	dup2(data->fd.redir_fd[0], 0);
+	close(data->fd.redir_fd[0]);
+	close(data->fd.tmp);
 	close(data->fd.base_fd[0]);
 	close(data->fd.base_fd[1]);
-	
+
 	close(data->fd.p_fd[0]);
 	dup2(data->fd.p_fd[1], 1);
 	close(data->fd.p_fd[1]);
@@ -90,10 +96,11 @@ int		wrong_ident(t_data *data, char c)
 	return (0);
 }
 
-void	add_in_ghost(t_data *data, char *exp)
+/*void	add_in_ghost(t_data *data, char *exp)
 {
 	int	i;
 	char	**new;
+
 	i = 0;
 	while (data->ghost[i])
 	{
@@ -101,16 +108,22 @@ void	add_in_ghost(t_data *data, char *exp)
 			return ;
 		i++;
 	}
-	new = ft_tabdup(data->ghost, 1);
+	new = malloc(sizeof(char *) * (i + 2));
+	if (!new)
+		free_all(data);
 	i = 0;
 	while (data->ghost[i])
 	{
 		new[i] = ft_strdup(data->ghost[i]);
 		i++;
 	}
-	new[i] = exp;
+	new[i] = ft_strdup(exp);
 	new[i + 1] = 0;
-}
+	free(exp);
+	ft_free_tab(data->ghost);
+	data->ghost = new;
+	printf("ghost\n");
+}*/
 
 char	*parse_export(t_data *data, char *input)
 {
@@ -143,7 +156,16 @@ char	*parse_export(t_data *data, char *input)
 		i++;
 	}
 	if (!new[i])
-	 	add_in_ghost(data, new);
+	{
+		//char **next;
+	 	//add_in_ghost(data, new);
+		data->ghost = ft_tabdup(data->ghost, new, 1);
+		free(input);
+		free(new);
+		// ft_free_tab(data->ghost);
+		// data->ghost = next;
+		return (NULL);
+	}
 	i = 0;
 	while (new[i])
 	{
@@ -230,12 +252,14 @@ void	free_all(t_data *data)
 		free(data->input);
 		ft_free_tab(data->paths);
 		ft_free_tab(data->env);
+		ft_free_tab(data->ghost);
 	}
 	if (data->step == 1)
 	{
 		ft_free_tab(data->paths);
 		ft_free_tab(data->env);
 		ft_free_tab(data->cmd);
+		ft_free_tab(data->ghost);
 		close(data->fd.p_fd[0]);
 		close(data->fd.p_fd[1]);
 		close(data->fd.redir_fd[0]);
@@ -244,7 +268,7 @@ void	free_all(t_data *data)
 	close (data->fd.base_fd[0]);
 	close (data->fd.base_fd[1]);
 	ft_printf("Exiting Minishell\n");
-	//signals(data, 3);
+	signals(data, 3);
 }
 
 int	still_in(char *cmd)

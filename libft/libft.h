@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 14:54:59 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/16 14:45:54 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/17 19:22:12 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include "ft_printf.h"
 # include "get_next_line.h"
 
+void	ft_free_tab(char **tab);
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
 int		ft_isalnum(int c);
@@ -58,7 +59,7 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 long	ft_atol(const char *nptr);
-char	**ft_tabdup(char **tab, int more);
+char	**ft_tabdup(char **tab, char *more, int opt);
 int		ft_countoccur(char *src, char *to_count);
 int		ft_chrstrinstr(char *src, char *to_chr, int occur);
 char	*ft_strremoveall(char *src, char *to_del, int opt);

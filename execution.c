@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 13:03:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/17 15:21:22 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/17 21:22:35 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,15 @@ void	exec(char *cmd, t_data *data)
 		close(data->fd.redir_fd[1]);
 		dup2(data->fd.redir_fd[0], 0);
 		close(data->fd.redir_fd[0]);
-		close_n_dup(data);
+		close(data->fd.tmp);
+		close(data->fd.base_fd[0]);
+		close(data->fd.base_fd[1]);
+	
+		close(data->fd.p_fd[0]);
+		dup2(data->fd.p_fd[1], 1);
+		close(data->fd.p_fd[1]);
+		
+		//close_n_dup(data);
 		recoded(data, cmd);
 		go(cmd, data);
 	}
@@ -73,6 +81,7 @@ void	exec(char *cmd, t_data *data)
 		close(data->fd.redir_fd[0]);
 		dup2(data->fd.redir_fd[1], 1);
 		close(data->fd.redir_fd[1]);
+		
 		close(data->fd.p_fd[1]);
 		dup2(data->fd.p_fd[0], 0);
 		close(data->fd.p_fd[0]);
@@ -84,12 +93,17 @@ void	execution(t_data *data)
 	int	i;
 	
 	i = -1;
+	data->fd.redir_fd[0] = dup(data->fd.base_fd[0]);
 	while (data->cmd[++i])
 	{
-		data->fd.redir_fd[0] = dup(0);
-		data->fd.redir_fd[1] = dup(1);
+		data->cmd[i] = ft_strtrim(data->cmd[i], " \t", 1);
+		//data->fd.redir_fd[0] = dup(data->fd.base_fd[0]);
+		data->fd.redir_fd[1] = dup(data->fd.base_fd[1]);
+		printf(" i = %d\n", i);
 		if (pipe(data->fd.p_fd) == -1)
 			exit(ft_dprintf(2, "\xE2\x9A\xA0\xEF\xB8\x8F Pipe error\n")); // faire une fonction pour exit proprement
+		//data->fd.redir_fd[0] = dup(0);
+		//data->fd.redir_fd[1] = dup(1);
 		data->step = 1;
 		while (still_in(data->cmd[i]))
 		{
@@ -131,5 +145,9 @@ void	execution(t_data *data)
 		}
 		data->cmd[i] = ft_strtrim(data->cmd[i], " \t", 1);
 		exec(data->cmd[i], data);
+		data->fd.redir_fd[0] = dup(data->fd.tmp);
+		close(data->fd.redir_fd[0]);
+		close(data->fd.redir_fd[1]);
+		//data->fd.redir_fd[0] = dup(0);
 	}
 }
