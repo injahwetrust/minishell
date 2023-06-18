@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:12:41 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/17 22:38:52 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/18 10:48:07 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,6 +225,14 @@ void	edit_pipe(t_data *data)
 	}
 }
 
+void	end_nonchild(t_data *data)
+{
+	close (data->fd.base_fd[0]);
+	close (data->fd.base_fd[1]);
+	close(data->fd.tmp);
+	ft_free_tab(data->cmd);
+}
+
 void	cd_manage(t_data *data, char *cmd)
 {
 	char *path;
@@ -234,8 +242,6 @@ void	cd_manage(t_data *data, char *cmd)
 		if (get_env(data, "HOME") == NULL)
 			ft_dprintf(2, "Minishell: cd: « HOME » not set\n");
 		chdir(get_env(data, "HOME"));
-		close (data->fd.base_fd[0]);
-		close (data->fd.base_fd[1]);
 		return ;
 	}
 	path = ft_strdup(cmd + 2);
@@ -246,9 +252,6 @@ void	cd_manage(t_data *data, char *cmd)
 		exit(ft_dprintf(2, "Malloc error\n")); // faire une fonction pour exit proprement
 	ft_dprintf(2, "path = %s\n", path);
 	chdir(path);
-	close (data->fd.base_fd[0]);
-	close (data->fd.base_fd[1]);
-	ft_free_tab(data->cmd);
 }
 
 void	recoded(t_data *data, char *cmd)
@@ -327,23 +330,20 @@ int	manage_nonchild(t_data *data)
 	if (ft_strncmp("cd", data->cmd[0], 2) == 0 )
 	{
 		cd_manage(data, data->cmd[0]);
+		end_nonchild(data);
 		ret = 1;
 	}
 	else if (ft_strncmp("unset ", data->cmd[0], 6) == 0)
 	{
 		data->cmd[0] = parse_unset(data->cmd[0]);
 		remove_from_env(data, data->cmd[0]);
-		close (data->fd.base_fd[0]);
-		close (data->fd.base_fd[1]);
-		ft_free_tab(data->cmd);
+		end_nonchild(data);
 		ret = 1;
 	}
 	else if (ft_strncmp(data->cmd[0], "exit ", 5) == 0)
 	{
 		exit_code = manage_exit(data, data->cmd[0]);
-		close (data->fd.base_fd[0]);
-		close (data->fd.base_fd[1]);
-		ft_free_tab(data->cmd);
+		end_nonchild(data);
 		if (ft_strcmp(exit_code, ""))
 		{
 			printf("exit code = %s\n", exit_code);
@@ -360,10 +360,8 @@ int	manage_nonchild(t_data *data)
 	{
 		rl_clear_history();
 		ft_free_tab(data->paths);
-		close (data->fd.base_fd[0]);
-		close (data->fd.base_fd[1]);
+		end_nonchild(data);
 		ft_free_tab(data->env);
-		ft_free_tab(data->cmd);
 		ft_free_tab(data->ghost);
 		ft_printf("exit basique\n");
 		signals(data, 3);
@@ -376,16 +374,12 @@ int	manage_nonchild(t_data *data)
 		if (data->cmd[0] == NULL)
 		{
 			ret = 1;
-			close (data->fd.base_fd[0]);
-			close (data->fd.base_fd[1]);
-			ft_free_tab(data->cmd);
+			end_nonchild(data);
 			return (ret);
 		}
 		add_in_env(data, data->cmd[0]);
 		ret = 1;
-		close (data->fd.base_fd[0]);
-		close (data->fd.base_fd[1]);
-		ft_free_tab(data->cmd);
+		end_nonchild(data);
 	}
 	return (ret);
 }

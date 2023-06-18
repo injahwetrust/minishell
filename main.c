@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/18 10:35:08 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/18 10:38:12 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,7 +247,7 @@ int	main(int ac, char **av, char **env)
 			close(data.fd.tmp);
 			free(data.prompt);
 			free(data.input);
-			continue;	
+			continue;
 		}
 		data.input = ft_strtrim(data.input, " \t", 1);
 		
