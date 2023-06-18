@@ -6,7 +6,7 @@
 #    By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/06 16:33:49 by vanitas           #+#    #+#              #
-#    Updated: 2023/06/18 14:33:15 by bvaujour         ###   ########.fr        #
+#    Updated: 2023/06/19 01:08:19 by bvaujour         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRC		=	main.c					\
 			redirection.c			\
 			execution.c				\
 			parse.c					\
+			wildcards.c				\
 			
 OBJ			=	$(SRC:.c=.o)
 

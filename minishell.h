@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/06/18 14:15:46 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/19 01:09:04 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include "libft/libft.h"
 # include <limits.h>
 # include <signal.h>
-#include <dirent.h>
+# include <dirent.h>
 
 //couleurs normales texte
 # define RESET			"\1\1\x1B[0m\2"
@@ -135,6 +135,7 @@ typedef struct s_data
 	
 }	t_data;
 
+char	*wildcards(t_data *data, char *cmd);
 void	end(t_data *data, char *ret);
 char	*get_env(t_data *data, char *macro);
 void	print(t_data *data);
