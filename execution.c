@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 13:03:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/18 10:29:57 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:36:22 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void	exec(char *cmd, t_data *data)
 {
 	pid_t	pid;
 	
+	if (pipe(data->fd.p_fd) == -1)
+			exit(ft_dprintf(2, "\xE2\x9A\xA0\xEF\xB8\x8F Pipe error\n")); // faire une fonction pour exit proprement
 	pid = fork();
 	signals(data, 2);
 	if (pid == 0)
@@ -89,13 +91,7 @@ void	execution(t_data *data)
 	while (data->cmd[++i])
 	{
 		data->cmd[i] = ft_strtrim(data->cmd[i], " \t", 1);
-		//data->fd.redir_fd[0] = dup(data->fd.base_fd[0]);
 		data->fd.redir_fd[1] = dup(data->fd.base_fd[1]);
-		//printf(" i = %d\n", i);
-		if (pipe(data->fd.p_fd) == -1)
-			exit(ft_dprintf(2, "\xE2\x9A\xA0\xEF\xB8\x8F Pipe error\n")); // faire une fonction pour exit proprement
-		//data->fd.redir_fd[0] = dup(0);
-		//data->fd.redir_fd[1] = dup(1);
 		data->step = 1;
 		while (still_in(data->cmd[i]))
 		{
@@ -109,8 +105,6 @@ void	execution(t_data *data)
 		}
 		if (!data->cmd[i] || !*data->cmd[i] || data->fd.redir_fd[0] == -1)
 		{
-			close(data->fd.p_fd[0]);
-			close(data->fd.p_fd[1]);
 			close(data->fd.redir_fd[1]);
 			continue;
 		}
@@ -122,15 +116,11 @@ void	execution(t_data *data)
 		}
 		if (!data->cmd[i] || !*data->cmd[i] || data->fd.redir_fd[1] == -1)
 		{
-			close(data->fd.p_fd[1]);
-			close(data->fd.p_fd[0]);
 			close(data->fd.redir_fd[0]);
 			continue;
 		}
 		if (ft_strcmp(data->cmd[i], "JOHNCARPENTER&DONALDDUCK") == 0)
 		{
-			close(data->fd.p_fd[0]);
-			close(data->fd.p_fd[1]);
 			close(data->fd.redir_fd[0]);
 			close(data->fd.redir_fd[1]);
 			return ;

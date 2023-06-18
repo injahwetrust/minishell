@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/18 14:17:16 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:39:01 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,11 @@ void	header(void)
 	int	marge;
 	
 	marge = ft_strlen(HEADER1) / 2;
-	i = -1;
+	//i = -1;
 	ioctl(1, TIOCGWINSZ, &win);
+	//while(++i < win.ws_row - 5)
+	//	write(1, "\n", 1);
+	i = -1;
 	while (++i < win.ws_col / 2 - marge)
 		write(1, " ", 1);
 	ft_printf(C_GREEN HEADER1);
@@ -70,6 +73,7 @@ void	header(void)
 	while (++i < win.ws_col / 2 - marge)
 		write(1, " ", 1);
 	ft_printf(HEADER5 RESET);
+	write(1, "\n\n", 2);
 	
 }
 
@@ -274,7 +278,9 @@ int	main(int ac, char **av, char **env)
 		data.last_ret = WEXITSTATUS(status);
 		if (!isatty(0))
 			print(&data);
+		//dprintf(2, "%d\n", getpid());
 		ft_free_tab(data.cmd);
+		//ft_dprintf(2, "retablissement des fd\n");
 		dup2(data.fd.base_fd[0], 0);
 		close(data.fd.base_fd[0]);
 		dup2(data.fd.base_fd[1], 1);

@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:12:41 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/18 13:27:47 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:08:17 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,9 @@ static void echo(t_data *data, char *cmd)
 {
 	int	i;
 	int	nl;
-	
+	//int	fd;
+
+	//fd = dup(data->fd.redir_fd[1]);
 	//printf("mon echo\n");
 	// = 0;
 	//while (i < 50000000)
@@ -172,9 +174,10 @@ static void echo(t_data *data, char *cmd)
 	i += nl;
 	while (cmd[i] == ' ' || cmd[i] == '\t')
 		i++;
-	print_echo(cmd + i);
+	print_echo(cmd + i);;
 	if (!nl)
-		printf("\n");
+		write(1, "\n", 1);
+	//close (fd);
 	end_process(data, "0");
 }
 

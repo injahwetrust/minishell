@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 11:09:46 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/17 23:13:07 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:00:26 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ char	*redir_in(t_data *data, char *cmd)
 		heredoc(data, path);
 	else
 	{
-		dprintf(2, "entrée redirigée vers %s\n", path);
+		dprintf(2, "entrée redirigée depuis %s\n", path);
 		data->fd.redir_fd[0] = open(path, O_RDONLY, 0644);
 	}
 	new = ft_strremove(cmd, untrim, 1, 0);
