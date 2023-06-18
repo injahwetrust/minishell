@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 11:09:46 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/17 17:41:22 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/17 23:13:07 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,10 @@ char	*redir_in(t_data *data, char *cmd)
 	if (data->fd.heredoc)
 		heredoc(data, path);
 	else
+	{
+		dprintf(2, "entrée redirigée vers %s\n", path);
 		data->fd.redir_fd[0] = open(path, O_RDONLY, 0644);
+	}
 	new = ft_strremove(cmd, untrim, 1, 0);
 	if (!new)
 		free_all(data);
@@ -199,7 +202,10 @@ char	*redir_out(t_data *data, char *cmd)
 	if (data->fd.append)
 		data->fd.redir_fd[1] = open(path, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else
+	{
 		data->fd.redir_fd[1] = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		ft_dprintf(2, "sortie redirigée vers %s\n", path);
+	}
 	new = ft_strremove(cmd, untrim, 1, 0);
 	if (!new)
 		free_all(data);

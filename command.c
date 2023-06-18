@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:12:41 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/17 20:49:27 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/17 22:38:52 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ static void echo(t_data *data, char *cmd)
 	int	i;
 	int	nl;
 	
-	printf("mon echo\n");
+	//printf("mon echo\n");
 	// = 0;
 	//while (i < 50000000)
 		//i++;
@@ -462,7 +462,7 @@ char	*ez_money(t_data *data)
 	
 	i = 0;
 	j = 0;
-	printf("data->input = %s\n", data->input);
+	//printf("data->input = %s\n", data->input);
 	while (data->input[i] != '$' && data->input[i])
 		i++;
 	begin = malloc(sizeof(char) * i + 1);
@@ -481,6 +481,6 @@ char	*ez_money(t_data *data)
 		replaced = get_macro(data, data->input + i, begin);
 	free(begin);
 	free(data->input);
-	printf("repalced = |%s|\n", replaced);
+	//printf("repalced = |%s|\n", replaced);
 	return (replaced);
 }

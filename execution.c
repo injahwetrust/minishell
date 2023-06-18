@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 13:03:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/17 21:22:35 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/18 10:29:57 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	go(char *cmd, t_data *data)
 		ft_free_tab(data->cmd);
 		ft_free_tab(s_cmd);
 		ft_free_tab(data->paths);
+		ft_free_tab(data->env);
+		ft_free_tab(data->ghost);
 		exit(127);
 	}
 }
@@ -60,18 +62,7 @@ void	exec(char *cmd, t_data *data)
 	signals(data, 2);
 	if (pid == 0)
 	{
-		close(data->fd.redir_fd[1]);
-		dup2(data->fd.redir_fd[0], 0);
-		close(data->fd.redir_fd[0]);
-		close(data->fd.tmp);
-		close(data->fd.base_fd[0]);
-		close(data->fd.base_fd[1]);
-	
-		close(data->fd.p_fd[0]);
-		dup2(data->fd.p_fd[1], 1);
-		close(data->fd.p_fd[1]);
-		
-		//close_n_dup(data);
+		close_n_dup(data);
 		recoded(data, cmd);
 		go(cmd, data);
 	}
@@ -85,6 +76,7 @@ void	exec(char *cmd, t_data *data)
 		close(data->fd.p_fd[1]);
 		dup2(data->fd.p_fd[0], 0);
 		close(data->fd.p_fd[0]);
+		//sleep(1);
 	}
 }
 
@@ -99,7 +91,7 @@ void	execution(t_data *data)
 		data->cmd[i] = ft_strtrim(data->cmd[i], " \t", 1);
 		//data->fd.redir_fd[0] = dup(data->fd.base_fd[0]);
 		data->fd.redir_fd[1] = dup(data->fd.base_fd[1]);
-		printf(" i = %d\n", i);
+		//printf(" i = %d\n", i);
 		if (pipe(data->fd.p_fd) == -1)
 			exit(ft_dprintf(2, "\xE2\x9A\xA0\xEF\xB8\x8F Pipe error\n")); // faire une fonction pour exit proprement
 		//data->fd.redir_fd[0] = dup(0);

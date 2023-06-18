@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/17 20:49:23 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/18 10:35:08 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ int	bracketout_err(char *str, int nb, int dual)
 		ft_dprintf(2, "synthax error near unexpected token « %c »\n", str[dual]);
 		return (1);
 	}
-	if (!str[1] || !str[2])
+	if (!str[1] || (!str[2] && str[1] == '>'))
 	{
 		ft_dprintf(2, "synthax error near unexpected token « newline »\n");
 		return (1);
@@ -234,7 +234,6 @@ int	main(int ac, char **av, char **env)
 		signals(&data, 1);
 		data.input = readline(data.prompt);
 		add_history(data.input);
-		data.input = ft_strtrim(data.input, " \t", 1);
 		if (data.input == NULL)
 			free_all(&data);
 		edit_dollar(&data);
@@ -242,13 +241,15 @@ int	main(int ac, char **av, char **env)
 			data.input = ez_money(&data);
 		if (!ft_strcmp(data.input, "") || stx_error(&data, data.input))
 		{
-			printf("hello\n");
+			//printf("hello\n");
 			close (data.fd.base_fd[0]);
 			close (data.fd.base_fd[1]);
+			close(data.fd.tmp);
 			free(data.prompt);
 			free(data.input);
 			continue;	
 		}
+		data.input = ft_strtrim(data.input, " \t", 1);
 		
 		
 		edit_pipe(&data);							//ne pas bouger l'ordre des fonctions, sinon bug =)
@@ -271,10 +272,10 @@ int	main(int ac, char **av, char **env)
 			print(&data);
 		ft_free_tab(data.cmd);
 		dup2(data.fd.base_fd[0], 0);
-		close (data.fd.base_fd[0]);
+		close(data.fd.base_fd[0]);
 		dup2(data.fd.base_fd[1], 1);
-		close (data.fd.base_fd[1]);
-		close (data.fd.tmp);
+		close(data.fd.base_fd[1]);
+		close(data.fd.tmp);
 	}
 	return (0);
 }
