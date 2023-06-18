@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 23:30:16 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/19 01:13:08 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/19 01:26:10 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,12 @@ char	*wildcards(t_data *data, char *cmd)
 			entry = readdir(dir);
 			while (entry != NULL)
 			{
-				int	j = 0;
+				int	j = ft_strlen(entry->d_name);
 				if (entry->d_name[0] != '.')
 				{
-					while (entry->d_name[j] && entry->d_name[j] != spl[i][1])
-						j++;
-					if (!entry->d_name[j])
+					while (j > 0 && entry->d_name[j] != spl[i][1])
+						j--;
+					if (j == 0)
 					{
 						entry = readdir(dir);
 						continue ;
