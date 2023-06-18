@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:10:38 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/18 12:33:35 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/18 13:26:01 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ char    *ft_strremove(char *src, char *to_del, int n, int opt)
     return(new);
 }
 
-int main()
-{
-    char    *str = "je suis '$USER'";
-    char    *rem = "'"
-}
+// int main()
+// {
+//     char    *str = "je suis '$USER'";
+//     char    *rem = "'"
+// }
