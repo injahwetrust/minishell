@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:11:04 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/18 13:36:30 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/18 14:21:12 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,10 +224,10 @@ void	edit_prompt(t_data *data, char *cwd)
 		cwd++;
 		j++;
 	}
-	data->prompt = ft_strjoin(BG_GREEN BO_BLACK"Minishell~", getenv("USER"), 0);
-	data->prompt = ft_strjoin(data->prompt, RESET BO_GREEN"\1🐸\2", 1);
+	data->prompt = ft_strjoin(BGO_GREEN BO_BLACK"Minishell~", getenv("USER"), 0);
+	data->prompt = ft_strjoin(data->prompt, RESET BO_GREEN"🐸", 1);
 	data->prompt = ft_strjoin(data->prompt, cwd, 1);
-	data->prompt = ft_strjoin(data->prompt,RESET"$ ", 1);
+	data->prompt = ft_strjoin(data->prompt,RESET"\1$ \2", 1);
 }
 
 void	edit_paths(t_data *data)

@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/18 13:43:56 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/18 14:17:16 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,23 +53,23 @@ void	header(void)
 	ioctl(1, TIOCGWINSZ, &win);
 	while (++i < win.ws_col / 2 - marge)
 		write(1, " ", 1);
-	ft_printf(BO_RED HEADER1);
+	ft_printf(C_GREEN HEADER1);
 	i = -1;
 	while (++i < win.ws_col / 2 - marge)
 		write(1, " ", 1);
-	ft_printf(BO_RED HEADER2);
+	ft_printf(HEADER2);
 	i = -1;
 	while (++i < win.ws_col / 2 - marge)
 		write(1, " ", 1);
-	ft_printf(BO_RED HEADER3);
+	ft_printf(HEADER3);
 	i = -1;
 	while (++i < win.ws_col / 2 - marge)
 		write(1, " ", 1);
-	ft_printf(BO_RED HEADER4);
+	ft_printf(HEADER4);
 	i = -1;
 	while (++i < win.ws_col / 2 - marge)
 		write(1, " ", 1);
-	ft_printf(BO_RED HEADER5 RESET);
+	ft_printf(HEADER5 RESET);
 	
 }
 

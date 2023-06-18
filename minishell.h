@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/06/18 13:41:10 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/18 14:15:46 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <signal.h>
 #include <dirent.h>
 
+//couleurs normales texte
 # define RESET			"\1\1\x1B[0m\2"
 # define BLACK			"\1\x1B[30m\2"
 # define RED			"\1\x1B[31m\2"
@@ -36,6 +37,17 @@
 # define CYAN			"\1\x1B[36m\2"
 # define WHITE			"\1\x1B[37m\2"
 
+//couleurs claires texte
+# define C_BLACK		"\1\x1B[90m\2"
+# define C_RED			"\1\x1B[91m\2"
+# define C_GREEN		"\1\x1B[92m\2"
+# define C_YELLOW		"\1\x1B[93m\2"
+# define C_BLUE			"\1\x1B[94m\2"
+# define C_MAGENTA		"\1\x1B[95m\2"
+# define C_CYAN			"\1\x1B[96m\2"
+# define C_WHITE		"\1\x1B[97m\2"
+
+//couleurs grasses texte
 # define BO_BLACK		"\1\x1B[1m\x1B[30m\2"
 # define BO_RED			"\1\x1B[1m\x1B[31m\2"
 # define BO_GREEN		"\1\x1B[1m\x1B[32m\2"
@@ -45,6 +57,7 @@
 # define BO_CYAN		"\1\x1B[1m\x1B[36m\2"
 # define BO_WHITE		"\1\x1B[1m\x1B[37m\2"
 
+//couleurs normales background
 # define BG_BLACK		"\1\x1B[40m\2"
 # define BG_RED			"\1\x1B[41m\2"
 # define BG_GREEN		"\1\x1B[42m\2"
@@ -55,6 +68,17 @@
 # define BG_CYAN		"\1\x1B[46m\2"
 # define BG_WHITE		"\1\x1B[47m\2"
 
+//couleurs claires background
+# define BGC_BLACK		"\1\x1B[1m\x1B[100m\2"
+# define BGC_RED		"\1\x1B[1m\x1B[101m\2"
+# define BGC_GREEN		"\1\x1B[1m\x1B[102m\2"
+# define BGC_YELLOW		"\1\x1B[1m\x1B[103m\2"
+# define BGC_BLUE		"\1\x1B[1m\x1B[104m\2"
+# define BGC_MAGENTA	"\1\x1B[1m\x1B[105m\2"
+# define BGC_CYAN		"\1\x1B[1m\x1B[106m\2"
+# define BGC_WHITE		"\1\x1B[1m\x1B[107m\2"
+
+//couleurs grasses background
 # define BGO_BLACK		"\1\x1B[1m\x1B[40m\2"
 # define BGO_RED		"\1\x1B[1m\x1B[41m\2"
 # define BGO_GREEN		"\1\x1B[1m\x1B[42m\2"
@@ -63,6 +87,7 @@
 # define BGO_MAGENTA	"\1\x1B[1m\x1B[45m\2"
 # define BGO_CYAN		"\1\x1B[1m\x1B[46m\2"
 # define BGO_WHITE		"\1\x1B[1m\x1B[47m\2"
+
 # define HEADER1	 	"    __  ____       _      __         ____\n"
 # define HEADER2		"   /  |/  (_)___  (_)____/ /_  ___  / / /\n"
 # define HEADER3		"  / /|_/ / / __ \\/ / ___/ __ \\/ _ \\/ / /\n"
