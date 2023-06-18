@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:12:41 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/18 10:48:07 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/18 11:24:08 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -344,7 +344,7 @@ int	manage_nonchild(t_data *data)
 	{
 		exit_code = manage_exit(data, data->cmd[0]);
 		end_nonchild(data);
-		if (ft_strcmp(exit_code, ""))
+		if (ft_strcmp(exit_code, "") != 0)
 		{
 			printf("exit code = %s\n", exit_code);
 			rl_clear_history();

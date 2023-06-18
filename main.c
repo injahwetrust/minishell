@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/18 10:38:12 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/18 11:22:35 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,7 +214,7 @@ int	stx_error(t_data *data, char *input)
 		j = bracketout_err(input + i, j, k);
 	return (j);
 }
-
+/*si on ouvre un fd ou rajoute un malloc, il faut le fermer dans "end_process" "free_all" et "end_nonchild*/
 int	main(int ac, char **av, char **env) 
 {
 	t_data	data;
