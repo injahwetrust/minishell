@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/18 11:22:35 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/18 12:48:30 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,6 +222,7 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	int status;
+
 
 	
 	header();

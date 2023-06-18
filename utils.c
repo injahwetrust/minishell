@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:11:04 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/18 10:53:23 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/18 13:11:13 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -303,13 +303,37 @@ int	still_out(char *cmd)
 void	edit_dollar(t_data *data)
 {
 	int	i;
+	int	lit;
+	int	d_lit;
 
 	i = 0;
+	lit = 0;
+	d_lit = 0;
 	while (data->input[i])
 	{
-		if (data->input[i] == '$')
+		if (data->input[i] == '\\' && !d_lit && !lit)
+		{
+			data->input = ft_strremove(data->input, "\\", 1, 1);
+			continue ;
+		}
+		if (data->input[i] == '"' && !lit)
+		{
+			data->input = ft_strremove(data->input, "\"", 1, 1);
+			d_lit++;
+			d_lit %= 2;
+			continue ;
+		}
+		if (data->input[i] == '\'' && !d_lit)
+		{
+			data->input = ft_strremove(data->input, "'", 1, 1);
+			lit++;
+			lit %= 2;
+			continue ;
+		}
+		if (data->input[i] == '$' && lit == 0)
 			data->dollar++;
 		i++;
 	}
+	printf("dollar = %d\n", data->dollar);
 	
 }

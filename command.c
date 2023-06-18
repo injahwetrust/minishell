@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:12:41 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/18 11:24:08 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/18 13:16:22 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -453,12 +453,23 @@ char	*ez_money(t_data *data)
 	int		j;
 	char	*begin;
 	char	*replaced;
+	int	lit;
 	
 	i = 0;
 	j = 0;
+	lit = 0;
 	//printf("data->input = %s\n", data->input);
-	while (data->input[i] != '$' && data->input[i])
+	while (data->input[i])
+	{
+		if (data->input[i] == '\'')
+			lit++;
+		lit %= 2;
+		if (data->input[i] == '$' && lit == 0)
+			break ;
 		i++;
+	}
+	if (!data->input[i])
+		return (data->input);
 	begin = malloc(sizeof(char) * i + 1);
 	if (begin == NULL)
 		exit(0); // faire une fonction pour exit proprement
