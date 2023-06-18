@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/18 12:48:30 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/18 13:43:56 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	init(t_data *data, char **env)
 	data->ghost = malloc(sizeof(char *));
 	data->ghost[0] = 0;
 	data->ex = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
-	data->wrong_char = "&\\;()<>";
+	data->wrong_char = "&;()<>";
 	edit_paths(data);
 }
 
@@ -37,6 +37,9 @@ void	init_loop(t_data *data)
 		getcwd(data->cwd, sizeof(data->cwd));
 		edit_prompt(data, data->cwd);
 		data->fd.tmp = open("/tmp/minishell", O_CREAT | O_TRUNC | O_RDONLY, 0644);
+		data->lit = 0;
+		data->d_lit = 0;
+		data->slash = 0;
 }
 
 void	header(void)

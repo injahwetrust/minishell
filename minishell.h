@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/06/17 20:34:25 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/18 13:41:10 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,10 @@ typedef struct s_data
 	
 	int	last_pid;
 	short	step;
+
+	int	lit;
+	int	d_lit;
+	int	slash;
 	
 }	t_data;
 

@@ -6,7 +6,7 @@
 #    By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/06 16:33:49 by vanitas           #+#    #+#              #
-#    Updated: 2023/06/18 12:44:08 by bvaujour         ###   ########.fr        #
+#    Updated: 2023/06/18 13:37:17 by bvaujour         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRC		=	main.c					\
 			signals.c				\
 			redirection.c			\
 			execution.c				\
+			parse.c					\
 			
 OBJ			=	$(SRC:.c=.o)
 

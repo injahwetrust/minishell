@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:12:41 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/18 13:16:22 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/18 13:27:47 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,7 +267,7 @@ void	recoded(t_data *data, char *cmd)
 		end_process(data, "0");
 	else if (!ft_strncmp("exit ", cmd, 5))
 		end_process(data, manage_exit(data, cmd));
-	else if (ft_strncmp("echo", cmd, 4) == 0)
+	else if (ft_strncmp("echo ", cmd, 5) == 0)
 		echo(data, cmd);
 	else if (!ft_strcmp("export", cmd))
 		print_declare(data);
