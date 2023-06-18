@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/18 15:39:01 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/18 18:44:04 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,6 +244,7 @@ int	main(int ac, char **av, char **env)
 		add_history(data.input);
 		if (data.input == NULL)
 			free_all(&data);
+		data.input = ft_strtrim(data.input, " \t;!", 1);
 		edit_dollar(&data);
 		while (data.dollar--)
 			data.input = ez_money(&data);
@@ -257,7 +258,6 @@ int	main(int ac, char **av, char **env)
 			free(data.input);
 			continue;
 		}
-		data.input = ft_strtrim(data.input, " \t", 1);
 		
 		
 		edit_pipe(&data);							//ne pas bouger l'ordre des fonctions, sinon bug =)

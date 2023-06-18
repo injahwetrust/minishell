@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 15:13:26 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/18 10:33:58 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/18 18:44:46 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,26 @@ static int	in_cs(char c, const char *set)
 	return (0);
 }
 
+static int	forward(char *s1, char const *set)
+{
+	size_t	i;
+
+	i = 0;
+	while (s1[i] && in_cs(s1[i], set))
+		i++;
+	return (i);
+}
+
+static int	back(char *s1, const char *set)
+{
+	size_t	j;
+
+	j = ft_strlen(s1) - 1;
+	while (j > 0 && in_cs(s1[j], set) == 1)
+		j--;
+	return (j);
+}
+
 char	*ft_strtrim(char *s1, char const *set, int option)
 {
 	size_t	i;
@@ -35,15 +55,15 @@ char	*ft_strtrim(char *s1, char const *set, int option)
 
 	if (!s1 || !set)
 		return (s1);
-	i = 0;
-	j = ft_strlen(s1) - 1;
+	i = forward(s1, set);
+	j = back(s1, set);
 	k = 0;
-	while (s1[i] && in_cs(s1[i], set))
-		i++;
-	while (j > 0 && in_cs(s1[j], set) == 1)
-		j--;
-	if ((j == 0 && in_cs(s1[0], set)) || !*s1 )
+	if (!s1[i])
+	{
+		if (option == 1)
+			free(s1);
 		return (ft_strdup(""));
+	}
 	strim = malloc (sizeof(char) * (j - i + 2));
 	if (strim == 0)
 		return (0);

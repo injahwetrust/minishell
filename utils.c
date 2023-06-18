@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:11:04 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/18 14:21:12 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/18 18:14:25 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,18 @@ char	*parse_export(t_data *data, char *input)
 
 void	print(t_data *data)
 {
-	char	*str;
+	(void)data;
+	char	buf[50];
+	int	ret;
+
+	ret = 1;
+	while (ret)
+	{
+		ret = read(0, buf, sizeof(buf));
+		buf[ret] = '\0';
+		write(1, buf, ret);
+	}
+	/*char	*str;
 	char	*str2;
 	struct stat stat_info;
 
@@ -204,7 +215,7 @@ void	print(t_data *data)
 		free (str);
 		str = get_next_line(0);
 	}
-	get_next_line(-99);
+	get_next_line(-99);*/
 }
 
 
