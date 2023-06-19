@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 13:03:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/19 01:10:09 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/19 13:01:10 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ void	execution(t_data *data)
 		exec(data->cmd[i], data);
 		close(data->fd.redir_fd[0]);
 		close(data->fd.redir_fd[1]);
-		data->fd.redir_fd[0] = dup(data->fd.tmp);
+		//data->fd.redir_fd[0] = dup(data->fd.tmp);
 		//data->fd.redir_fd[0] = dup(0);
 	}
 	close(data->fd.redir_fd[0]);

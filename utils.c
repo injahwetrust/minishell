@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:11:04 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/18 18:14:25 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/19 13:06:41 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	close_n_dup(t_data *data)
 	close(data->fd.redir_fd[1]);
 	dup2(data->fd.redir_fd[0], 0);
 	close(data->fd.redir_fd[0]);
-	close(data->fd.tmp);
+	//close(data->fd.tmp);
 	close(data->fd.base_fd[0]);
 	close(data->fd.base_fd[1]);
 
@@ -276,7 +276,7 @@ void	free_all(t_data *data)
 		close(data->fd.redir_fd[0]);
 		close(data->fd.redir_fd[1]);
 	}
-	close(data->fd.tmp);
+	//close(data->fd.tmp);
 	close (data->fd.base_fd[0]);
 	close (data->fd.base_fd[1]);
 	ft_printf("Exiting Minishell\n");

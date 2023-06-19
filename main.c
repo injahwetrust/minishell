@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/18 18:44:04 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/19 13:06:32 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	init_loop(t_data *data)
 		data->fd.base_fd[1] = dup(1);
 		getcwd(data->cwd, sizeof(data->cwd));
 		edit_prompt(data, data->cwd);
-		data->fd.tmp = open("/tmp/minishell", O_CREAT | O_TRUNC | O_RDONLY, 0644);
+		//data->fd.tmp = open("/tmp/minishell", O_CREAT | O_TRUNC | O_RDONLY, 0644);
 		data->lit = 0;
 		data->d_lit = 0;
 		data->slash = 0;
@@ -253,7 +253,7 @@ int	main(int ac, char **av, char **env)
 			//printf("hello\n");
 			close (data.fd.base_fd[0]);
 			close (data.fd.base_fd[1]);
-			close(data.fd.tmp);
+			//close(data.fd.tmp);
 			free(data.prompt);
 			free(data.input);
 			continue;
@@ -285,7 +285,7 @@ int	main(int ac, char **av, char **env)
 		close(data.fd.base_fd[0]);
 		dup2(data.fd.base_fd[1], 1);
 		close(data.fd.base_fd[1]);
-		close(data.fd.tmp);
+		//close(data.fd.tmp);
 	}
 	return (0);
 }
