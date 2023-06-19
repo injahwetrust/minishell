@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/19 14:02:28 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/19 14:51:12 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,16 @@
 
 void	init(t_data *data, char **env)
 {
+	char	*shell;
+	int		a;
+	
 	data->env = ft_tabdup(env, NULL, 0);
+	shell = getenv("SHLVL");
+	a = ft_atoi(shell);
+	a++;
+	shell = ft_strjoin("SHLVL=", ft_itoa(a), 2);
+	replace_in_env(data, shell);
+	free(shell);
 	data->last_ret = 0;
 	data->ghost = malloc(sizeof(char *));
 	data->ghost[0] = 0;
@@ -71,8 +80,11 @@ void	header(void)
 		while (++i < win.ws_col / 2 - marge)
 			write(1, " ", 1);
 		ft_printf(HEADER5 RESET);
-		write(1, "\n\n", 2);
 	}
+	else
+		ft_printf(C_GREEN HEADER1 HEADER2 HEADER3 HEADER4 HEADER5 RESET);
+	write(1, "\n\n", 2);
+	
 	
 }
 
@@ -220,6 +232,7 @@ int	stx_error(t_data *data, char *input)
 		j = bracketout_err(input + i, j, k);
 	return (j);
 }
+
 /*si on ouvre un fd ou rajoute un malloc, il faut le fermer dans "end_process" "free_all" et "end_nonchild*/
 int	main(int ac, char **av, char **env) 
 {
@@ -228,8 +241,6 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	int status;
-
-
 	
 	header();
 	init(&data, env);

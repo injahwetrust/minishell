@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/06/19 01:09:04 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/19 14:46:36 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ typedef struct s_data
 	
 }	t_data;
 
+int		replace_in_env(t_data *data, char *str);
 char	*wildcards(t_data *data, char *cmd);
 void	end(t_data *data, char *ret);
 char	*get_env(t_data *data, char *macro);
