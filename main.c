@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/19 13:52:10 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/19 14:02:28 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,33 +47,32 @@ void	header(void)
 	struct winsize win;
 	int	i;
 	int	marge;
-	
-	marge = ft_strlen(HEADER1) / 2;
-	//i = -1;
-	ioctl(1, TIOCGWINSZ, &win);
-	//while(++i < win.ws_row - 5)
-	//	write(1, "\n", 1);
-	i = -1;
-	while (++i < win.ws_col / 2 - marge)
-		write(1, " ", 1);
-	ft_printf(C_GREEN HEADER1);
-	i = -1;
-	while (++i < win.ws_col / 2 - marge)
-		write(1, " ", 1);
-	ft_printf(HEADER2);
-	i = -1;
-	while (++i < win.ws_col / 2 - marge)
-		write(1, " ", 1);
-	ft_printf(HEADER3);
-	i = -1;
-	while (++i < win.ws_col / 2 - marge)
-		write(1, " ", 1);
-	ft_printf(HEADER4);
-	i = -1;
-	while (++i < win.ws_col / 2 - marge)
-		write(1, " ", 1);
-	ft_printf(HEADER5 RESET);
-	write(1, "\n\n", 2);
+
+	if (!ioctl(1, TIOCGWINSZ, &win))
+	{
+		marge = ft_strlen(HEADER1) / 2;
+		i = -1;
+		while (++i < win.ws_col / 2 - marge)
+			write(1, " ", 1);
+		ft_printf(C_GREEN HEADER1);
+		i = -1;
+		while (++i < win.ws_col / 2 - marge)
+			write(1, " ", 1);
+		ft_printf(HEADER2);
+		i = -1;
+		while (++i < win.ws_col / 2 - marge)
+			write(1, " ", 1);
+		ft_printf(HEADER3);
+		i = -1;
+		while (++i < win.ws_col / 2 - marge)
+			write(1, " ", 1);
+		ft_printf(HEADER4);
+		i = -1;
+		while (++i < win.ws_col / 2 - marge)
+			write(1, " ", 1);
+		ft_printf(HEADER5 RESET);
+		write(1, "\n\n", 2);
+	}
 	
 }
 
@@ -232,7 +231,7 @@ int	main(int ac, char **av, char **env)
 
 
 	
-	//header();
+	header();
 	init(&data, env);
 	while (1) 
 	{
