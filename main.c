@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/19 13:06:32 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/19 13:52:10 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,7 @@ int	main(int ac, char **av, char **env)
 
 
 	
-	header();
+	//header();
 	init(&data, env);
 	while (1) 
 	{
@@ -271,13 +271,13 @@ int	main(int ac, char **av, char **env)
 			continue;
 		//printf("hello\n");
 		execution(&data);
+		if (!isatty(0))
+			print(&data);
 		if (data.last_pid)
 			waitpid(data.last_pid, &status, 0);								//bien laisser les free avant de creer les child sinon on duplique les heaps et bug
 		while (wait(NULL) > 0)
 			;
 		data.last_ret = WEXITSTATUS(status);
-		if (!isatty(0))
-			print(&data);
 		//dprintf(2, "%d\n", getpid());
 		ft_free_tab(data.cmd);
 		//ft_dprintf(2, "retablissement des fd\n");

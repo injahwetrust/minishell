@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 13:03:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/19 13:01:10 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/19 13:46:07 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ void	execution(t_data *data)
 		data->step = 1;
 		while (still_in(data->cmd[i]))
 		{
+			dprintf(2, "execution/still in\n");
 			data->cmd[i] = redir_in(data, data->cmd[i]);
 			if (!data->cmd[i] || !*data->cmd[i])
 			{
@@ -111,6 +112,7 @@ void	execution(t_data *data)
 		}
 		while (still_out(data->cmd[i]))
 		{
+			dprintf(2, "execution/still out\n");
 			data->cmd[i] = redir_out(data, data->cmd[i]);
 			if (!data->cmd[i] || !*data->cmd[i])
 				break;
@@ -128,8 +130,8 @@ void	execution(t_data *data)
 		}
 		data->cmd[i] = ft_strtrim(data->cmd[i], " \t", 1);
 		exec(data->cmd[i], data);
-		close(data->fd.redir_fd[0]);
-		close(data->fd.redir_fd[1]);
+		//close(data->fd.redir_fd[0]);
+		//close(data->fd.redir_fd[1]);
 		//data->fd.redir_fd[0] = dup(data->fd.tmp);
 		//data->fd.redir_fd[0] = dup(0);
 	}
