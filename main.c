@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/19 14:51:12 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/19 17:41:13 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,8 +249,10 @@ int	main(int ac, char **av, char **env)
 		ret = 0;
 		init_loop(&data);
 		//printf("tty = %d\n", ttyslot());
+
 		signals(&data, 1);
 		data.input = readline(data.prompt);
+		// empty case not handle
 		add_history(data.input);
 		if (data.input == NULL)
 			free_all(&data);
@@ -258,6 +260,7 @@ int	main(int ac, char **av, char **env)
 		edit_dollar(&data);
 		while (data.dollar--)
 			data.input = ez_money(&data);
+		manage_lit(&data);
 		if (!ft_strcmp(data.input, "") || stx_error(&data, data.input))
 		{
 			//printf("hello\n");
@@ -281,8 +284,8 @@ int	main(int ac, char **av, char **env)
 			continue;
 		//printf("hello\n");
 		execution(&data);
-		if (!isatty(0))
-			print(&data);
+		// if (!isatty(0))
+		// 	print(&data);
 		if (data.last_pid)
 			waitpid(data.last_pid, &status, 0);								//bien laisser les free avant de creer les child sinon on duplique les heaps et bug
 		while (wait(NULL) > 0)

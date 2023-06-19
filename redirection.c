@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 11:09:46 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/18 15:00:26 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/19 16:07:44 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ void	heredoc(t_data *data, char *path)
 		close(p_fd[1]);
 		dup2(p_fd[0], 0);
 		close(p_fd[0]);
+		data->fd.redir_fd[0] = dup(0);
 	}
 }
 

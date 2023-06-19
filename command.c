@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:12:41 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/19 13:06:19 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/19 17:40:06 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -392,15 +392,20 @@ char	*get_env(t_data *data, char *macro)
 {
 	int	i;
 	int	j;
-
+	char	*var;
 	i = 0;
 	while (data->env[i])
 	{
 		j = 0;
 		while (data->env[i][j] != '=')
 			j++;
-		if (ft_strncmp(data->env[i], macro, j) == 0)
-			return (data->env[i] + ft_strlen(macro) + 1);
+		var = ft_strndup(data->env[i], j, 0);
+		if (ft_strcmp(var, macro) == 0)
+		{
+			free(var);
+			return (data->env[i] + j + 1);
+		}
+		free(var);
 		i++;
 	}
 	return (NULL);
@@ -422,8 +427,8 @@ char	*get_macro(t_data *data, char *cmd, char *begin)
 	while (++j < i)
 		macro[j] = cmd[j];
 	macro[j] = '\0';
-	//printf("cmd = |%s|\nbegin = |%s|\nmacro = |%s|\n", cmd, begin, macro);
-	if (get_env(data, macro) != NULL)
+	printf("cmd = |%s|\nbegin = |%s|\nmacro = |%s|\n", cmd, begin, macro);
+	if (get_env(data, macro) != NULL && (cmd[i] == '\'' || cmd[i] == '"' || cmd[i] == ' ' || cmd[i] == '\\'))
 		begin = ft_strjoin(begin, get_env(data, macro), 0);
 	else
 	{
@@ -462,7 +467,7 @@ char	*ez_money(t_data *data)
 	i = 0;
 	j = 0;
 	lit = 0;
-	//printf("data->input = %s\n", data->input);
+	printf("data->input = %s\n", data->input);
 	while (data->input[i])
 	{
 		if (data->input[i] == '\'')
@@ -490,6 +495,6 @@ char	*ez_money(t_data *data)
 		replaced = get_macro(data, data->input + i, begin);
 	free(begin);
 	free(data->input);
-	//printf("repalced = |%s|\n", replaced);
+	printf("repalced = |%s|\n", replaced);
 	return (replaced);
 }

@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 15:13:26 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/18 18:44:46 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/19 15:54:26 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*ft_strtrim(char *s1, char const *set, int option)
 	size_t	k;
 	char	*strim;
 
-	if (!s1 || !set)
+	if (!s1 || !set || !*s1 || !*set)
 		return (s1);
 	i = forward(s1, set);
 	j = back(s1, set);

@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 13:35:26 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/18 13:52:26 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/19 17:30:27 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,10 @@ static int	handle_dlit(t_data *data, char c)
 	return (0);
 }
 
-void	edit_dollar(t_data *data)
+void	manage_lit(t_data *data)
 {
 	int	i;
+	
 	i = 0;
 	while (data->input[i])
 	{
@@ -63,6 +64,17 @@ void	edit_dollar(t_data *data)
 			continue ;
 		if (handle_dlit(data, data->input[i]))
 			continue ;
+		i++;
+	}
+}
+
+void	edit_dollar(t_data *data)
+{
+	int	i;
+	
+	i = 0;
+	while (data->input[i])
+	{
 		if (data->input[i] == '$' && data->lit == 0)
 			data->dollar++;
 		i++;

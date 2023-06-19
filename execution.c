@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 13:03:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/19 13:46:07 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/19 17:13:17 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,18 @@ void	exec(char *cmd, t_data *data)
 	signals(data, 2);
 	if (pid == 0)
 	{
-		close_n_dup(data);
+		//close_n_dup(data);
+		close(data->fd.redir_fd[1]);
+		if (!isatty(data->fd.redir_fd[0]))
+			dup2(data->fd.redir_fd[0], 0);
+		close(data->fd.redir_fd[0]);
+		//close(data->fd.tmp);
+		close(data->fd.base_fd[0]);
+		close(data->fd.base_fd[1]);
+
+		close(data->fd.p_fd[0]);
+		dup2(data->fd.p_fd[1], 1);
+		close(data->fd.p_fd[1]);
 		recoded(data, cmd);
 		go(cmd, data);
 	}
@@ -87,12 +98,13 @@ void	execution(t_data *data)
 	int	i;
 	
 	i = -1;
-	data->fd.redir_fd[0] = dup(data->fd.base_fd[0]);
+
 	while (data->cmd[++i])
 	{
+		data->fd.redir_fd[0] = dup(data->fd.base_fd[0]);
+		data->fd.redir_fd[1] = dup(data->fd.base_fd[1]);
 		data->cmd[i] = ft_strtrim(data->cmd[i], " \t;!", 1);
 		data->cmd[i] = wildcards(data, data->cmd[i]);
-		data->fd.redir_fd[1] = dup(data->fd.base_fd[1]);
 		data->step = 1;
 		while (still_in(data->cmd[i]))
 		{
@@ -130,10 +142,14 @@ void	execution(t_data *data)
 		}
 		data->cmd[i] = ft_strtrim(data->cmd[i], " \t", 1);
 		exec(data->cmd[i], data);
+		// if (!isatty(0))
+		// 	print(data);
 		//close(data->fd.redir_fd[0]);
 		//close(data->fd.redir_fd[1]);
 		//data->fd.redir_fd[0] = dup(data->fd.tmp);
 		//data->fd.redir_fd[0] = dup(0);
+		if (!isatty(0))
+			print(data);
 	}
 	close(data->fd.redir_fd[0]);
 }
