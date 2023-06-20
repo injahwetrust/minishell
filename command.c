@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:12:41 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/20 15:32:26 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/20 23:13:23 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,17 +154,11 @@ void	print_echo(char *cmd)
 	}
 }
 
-static void echo(t_data *data, char *cmd)
+static void echo(char *cmd)
 {
 	int	i;
 	int	nl;
-	//int	fd;
 
-	//fd = dup(data->fd.redir_fd[1]);
-	//printf("mon echo\n");
-	// = 0;
-	//while (i < 50000000)
-		//i++;
 	i = 4;
 	nl = 0;
 	while (cmd[i] && (cmd[i] == ' ' || cmd[i] == '\t'))
@@ -177,8 +171,6 @@ static void echo(t_data *data, char *cmd)
 	print_echo(cmd + i);;
 	if (!nl)
 		write(1, "\n", 1);
-	//close (fd);
-	end_process(data, "0");
 }
 
 void	print_env(t_data *data)
@@ -191,7 +183,6 @@ void	print_env(t_data *data)
 		ft_printf("%s\n", data->env[i]);
 		i++;
 	}
-	end_process(data, "0");
 }
 
 void	print_declare(t_data *data)
@@ -212,7 +203,6 @@ void	print_declare(t_data *data)
 		ft_printf("%s\n", data->ghost[i]);
 		i++;
 	}
-	end_process(data, "0");
 }
 
 void	edit_pipe(t_data *data)
@@ -232,6 +222,7 @@ void	end_nonchild(t_data *data)
 {
 	close (data->fd.base_fd[0]);
 	close (data->fd.base_fd[1]);
+	free (data->ope);
 	//close(data->fd.tmp);
 	ft_free_tab(data->cmd);
 }
@@ -265,15 +256,24 @@ void	recoded(t_data *data, char *cmd)
 		end_process(data, "0");
 	}
 	else if (ft_strcmp("env", cmd) == 0)
+	{
 		print_env(data);
+		end_process(data, "0");
+	}
 	else if (!ft_strcmp("exit", cmd) || !ft_strncmp("export ", cmd, 7) || !ft_strcmp("cd", cmd) || !ft_strncmp("cd ", cmd, 2) || !ft_strcmp("unset", cmd) || !ft_strncmp("unset ", cmd, 6))
 		end_process(data, "0");
 	else if (!ft_strncmp("exit ", cmd, 5))
 		end_process(data, manage_exit(data, cmd));
 	else if (ft_strncmp("echo ", cmd, 5) == 0)
-		echo(data, cmd);
+	{
+		echo(cmd);
+		end_process(data, "0");
+	}
 	else if (!ft_strcmp("export", cmd))
+	{
+		end_process(data, "0");
 		print_declare(data);
+	}
 
 }
 
@@ -327,22 +327,20 @@ char	*manage_exit(t_data *data, char *cmd)
 
 int	manage_nonchild(t_data *data)
 {
-	int	ret;
 	char	*exit_code;
 
-	ret = 0;
 	if (ft_strncmp("cd", data->cmd[0], 2) == 0 )
 	{
 		cd_manage(data, data->cmd[0]);
 		end_nonchild(data);
-		ret = 1;
+		return (1);
 	}
 	else if (ft_strncmp("unset ", data->cmd[0], 6) == 0)
 	{
 		data->cmd[0] = parse_unset(data->cmd[0]);
 		remove_from_env(data, data->cmd[0]);
 		end_nonchild(data);
-		ret = 1;
+		return (1);
 	}
 	else if (ft_strncmp(data->cmd[0], "exit ", 5) == 0)
 	{
@@ -352,23 +350,21 @@ int	manage_nonchild(t_data *data)
 		{
 			printf("exit code = %s\n", exit_code);
 			rl_clear_history();
-			ft_free_tab(data->paths);
 			ft_free_tab(data->env);
-			ft_free_tab(data->ope);
+			ft_free_tab(data->ghost);
 			end(data, exit_code);
 		}
 		free(exit_code);
-		ret = 1;
+		return (1);
 	}
 
 	else if (ft_strcmp(data->cmd[0], "exit") == 0)
 	{
 		rl_clear_history();
-		ft_free_tab(data->paths);
-		end_nonchild(data);
 		ft_free_tab(data->env);
 		ft_free_tab(data->ghost);
 		ft_printf("exit basique\n");
+		end_nonchild(data);
 		signals(data, 3);
 	}
 	
@@ -378,15 +374,14 @@ int	manage_nonchild(t_data *data)
 		data->cmd[0] = parse_export(data, data->cmd[0]);
 		if (data->cmd[0] == NULL)
 		{
-			ret = 1;
 			end_nonchild(data);
-			return (ret);
+			return (1);
 		}
 		add_in_env(data, data->cmd[0]);
-		ret = 1;
 		end_nonchild(data);
+		return (1);
 	}
-	return (ret);
+	return (0);
 }
 
 char	*get_env(t_data *data, char *macro)
@@ -468,34 +463,34 @@ char	*ez_money(t_data *data)
 	i = 0;
 	j = 0;
 	lit = 0;
-	printf("data->input = %s\n", data->input);
-	while (data->input[i])
+	printf("data->cmd[0] = %s\n", data->cmd[0]);
+	while (data->cmd[0][i])
 	{
-		if (data->input[i] == '\'')
+		if (data->cmd[0][i] == '\'')
 			lit++;
 		lit %= 2;
-		if (data->input[i] == '$' && lit == 0)
+		if (data->cmd[0][i] == '$' && lit == 0)
 			break ;
 		i++;
 	}
-	if (!data->input[i])
-		return (data->input);
+	if (!data->cmd[0][i])
+		return (data->cmd[0]);
 	begin = malloc(sizeof(char) * i + 1);
 	if (begin == NULL)
 		exit(0); // faire une fonction pour exit proprement
 	while (j < i)
 	{
-		begin[j] = data->input[j];
+		begin[j] = data->cmd[0][j];
 		j++;
 	}
 	begin[j] = '\0';
 	i++;
-	if (data->input[i] == '?' && (data->input[i + 1] == ' ' || data->input[i + 1] == '\t' || data->input[i + 1] == '\0'))
+	if (data->cmd[0][i] == '?' && (data->cmd[0][i + 1] == ' ' || data->cmd[0][i + 1] == '\t' || data->cmd[0][i + 1] == '\0'))
 		replaced = last_return(data, begin);
 	else
-		replaced = get_macro(data, data->input + i, begin);
+		replaced = get_macro(data, data->cmd[0] + i, begin);
 	free(begin);
-	free(data->input);
+	free(data->cmd[0]);
 	printf("repalced = |%s|\n", replaced);
 	return (replaced);
 }

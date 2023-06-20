@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/20 19:41:11 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/21 01:05:50 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,12 @@ void	init(t_data *data, char **env)
 	data->env = ft_tabdup(env, NULL, 0);
 	shell = getenv("SHLVL");
 	if (shell)
+	{
 		a = ft_atoi(shell);
-	a++;
-	shell = ft_strjoin("SHLVL=", ft_itoa(a), 2);
-	replace_in_env(data, shell);
+		a++;
+		shell = ft_strjoin("SHLVL=", ft_itoa(a), 2);
+		replace_in_env(data, shell);	
+	}
 	free(shell);
 	data->last_ret = 0;
 	data->ghost = malloc(sizeof(char *));
@@ -49,7 +51,6 @@ void	init_loop(t_data *data)
 		data->lit = 0;
 		data->d_lit = 0;
 		data->slash = 0;
-		edit_paths(data);
 }
 
 void	header(void)
@@ -238,10 +239,10 @@ int	stx_error(t_data *data, char *input)
 int	main(int ac, char **av, char **env) 
 {
 	t_data	data;
-	int	ret;
 	(void)ac;
 	(void)av;
 	int status;
+	int	ret;
 	
 	header();
 	init(&data, env);
@@ -249,21 +250,20 @@ int	main(int ac, char **av, char **env)
 	{
 		ret = 0;
 		init_loop(&data);
-		//printf("tty = %d\n", ttyslot());
 
 		signals(&data, 1);
-		printf("hello\n");
 		data.input = readline(data.prompt);
-		// empty case not handle
 		if (data.input == NULL)
 			free_all(&data);
 		data.input = ft_strtrim(data.input, " \t", 1);
 		if (ft_strcmp(data.input, ""))
 			add_history(data.input);
+		parse_input(&data);
 		edit_dollar(&data);
 		while (data.dollar--)
-			data.input = ez_money(&data);
-		if (!ft_strcmp(data.input, "") || stx_error(&data, data.input))
+			data.cmd[0] = ez_money(&data);
+		//manage_lit(&data);
+		if (!ft_strcmp(data.cmd[0], "")) // stx_error(&data, data.input) changer le stx de place pour check sur chaque argument
 		{
 			close (data.fd.base_fd[0]);
 			close (data.fd.base_fd[1]);
@@ -271,20 +271,16 @@ int	main(int ac, char **av, char **env)
 			free(data.input);
 			continue;
 		}
-		parse_input(&data);
-		manage_lit(&data);
+		
 		
 		
 		edit_pipe(&data);							//ne pas bouger l'ordre des fonctions, sinon bug =)
-		//data.cmd = ft_split(data.input, '|');
 		free(data.input);
 		free(data.prompt);
-		
 		if (data.pipe == 0)
 			ret = manage_nonchild(&data);
 		if (ret == 1)
 			continue;
-		//printf("hello\n");
 		execution(&data);
 		if (!isatty(0))
 			print(&data);
@@ -293,16 +289,12 @@ int	main(int ac, char **av, char **env)
 		while (wait(NULL) > 0)
 			;
 		data.last_ret = WEXITSTATUS(status);
-		//dprintf(2, "%d\n", getpid());
-		//ft_dprintf(2, "retablissement des fd\n");
 		dup2(data.fd.base_fd[0], 0);
 		close(data.fd.base_fd[0]);
 		dup2(data.fd.base_fd[1], 1);
 		close(data.fd.base_fd[1]);
 		ft_free_tab(data.cmd);
 		ft_free_tab(data.ope);
-		//ft_free_tab(data.paths);
-		//close(data.fd.tmp);
 	}
 	return (0);
 }

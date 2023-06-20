@@ -6,13 +6,13 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 13:35:26 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/20 19:23:33 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/21 01:10:54 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int		handle_slash(t_data *data, char c, int *i)
+/*static int		handle_slash(t_data *data, char c, int *i)
 {
 	if (c == '\\' && !data->d_lit && !data->lit)
 	{
@@ -25,13 +25,13 @@ static int		handle_slash(t_data *data, char c, int *i)
 		return (1);
 	}
 	return (0);
-}
+}*/
 
-static int	handle_lit(t_data *data, char c)
+static int	handle_lit(t_data *data, char c, int j)
 {
 	if (c == '"' && !data->lit)
 	{
-		data->input = ft_strremove(data->input, "\"", 1, 1);
+		data->cmd[j] = ft_strremove(data->cmd[j], "\"", 1, 1);
 		data->d_lit++;
 		data->d_lit %= 2;
 		return (1);
@@ -39,11 +39,11 @@ static int	handle_lit(t_data *data, char c)
 	return (0);
 }
 
-static int	handle_dlit(t_data *data, char c)
+static int	handle_dlit(t_data *data, char c, int j)
 {
 	if (c == '\'' && !data->d_lit)
 	{
-		data->input = ft_strremove(data->input, "'", 1, 1);
+		data->cmd[j] = ft_strremove(data->cmd[j], "'", 1, 1);
 		data->lit++;
 		data->lit %= 2;
 		return (1) ;
@@ -54,17 +54,40 @@ static int	handle_dlit(t_data *data, char c)
 void	manage_lit(t_data *data)
 {
 	int	i;
+	int	j;
 	
 	i = 0;
-	while (data->input[i])
+	j = 0;
+	while (data->cmd[j])
 	{
-		if (handle_slash(data, data->input[i], &i))
-			continue ;
-		if (handle_lit(data, data->input[i]))
-			continue ;
-		if (handle_dlit(data, data->input[i]))
-			continue ;
-		i++;
+		i = 0;
+		while (data->cmd[j][i])
+		{
+			// if (handle_slash(data, data->input[i], &i))
+			// 	continue ;
+			if (handle_lit(data, data->cmd[j][i], j))
+				continue ;
+			if (handle_dlit(data, data->cmd[j][i], j))
+				continue ;
+			i++;
+			if (!data->cmd[j][i] && data->d_lit == 1)
+			{
+				while (data->cmd[j][i] != '"')
+					i--;
+				data->cmd[j][i] = ' ';
+				data->d_lit = 0;
+				i = ft_strlen(data->cmd[j]);
+			}
+			if (!data->cmd[j][i] && data->lit == 1)
+			{
+				while (data->cmd[j][i] != '\'')
+					i--;
+				data->cmd[j][i] = ' ';
+				data->lit = 0;
+				i = ft_strlen(data->cmd[j]);
+			}
+		}
+		j++;
 	}
 }
 
@@ -73,9 +96,9 @@ void	edit_dollar(t_data *data)
 	int	i;
 	
 	i = 0;
-	while (data->input[i])
+	while (data->cmd[0][i])
 	{
-		if (data->input[i] == '$' && data->lit == 0)
+		if (data->cmd[0][i] == '$' && data->lit == 0)
 			data->dollar++;
 		i++;
 	}
@@ -176,6 +199,7 @@ void	space(t_data *data)
 		i++;
 	}
 }
+
 void	parse_input(t_data *data)
 {
 	int	i;

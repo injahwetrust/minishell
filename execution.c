@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 13:03:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/20 18:52:09 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/20 21:49:50 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*get_exec(char *cmd, t_data *data)
 	int	i;
 
 	i = -1;
+	if (!data->paths)
+	return (cmd);
 	while (data->paths[++i])
 	{
 		data->paths[i] = ft_strjoin(data->paths[i], cmd, 1);
@@ -32,6 +34,7 @@ void	go(char *cmd, t_data *data)
 	char	*path;
 	DIR	*dir;
 	
+	edit_paths(data);
 	s_cmd = ft_split(cmd, ' ');
 	dir = opendir(s_cmd[0]);
 	if (dir != NULL)
@@ -41,13 +44,16 @@ void	go(char *cmd, t_data *data)
 		end_process(data, "126");
 	}
 	path = get_exec(s_cmd[0], data);
+	dprintf(2, "path = %s\n", path);
 	if (execve(path, s_cmd, data->env) <= -1)
 	{
 		errno = 3;
 		perror(s_cmd[0]);
 		ft_free_tab(data->cmd);
+		ft_free_tab(data->ope);
 		ft_free_tab(s_cmd);
-		ft_free_tab(data->paths);
+		if (data->paths)
+			ft_free_tab(data->paths);
 		ft_free_tab(data->env);
 		ft_free_tab(data->ghost);
 		exit(127);

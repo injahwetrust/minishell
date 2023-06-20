@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:11:04 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/20 20:10:33 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/20 21:46:39 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void	end_process(t_data *data, char *ret)
 {
 
 	ft_free_tab(data->cmd);
-	ft_free_tab(data->paths);
+	// if (data->paths)
+	// 	ft_free_tab(data->paths);
 	ft_free_tab(data->env);
 	ft_free_tab(data->ghost);
 	ft_free_tab(data->ope);
@@ -236,8 +237,7 @@ void	edit_prompt(t_data *data, char *cwd)
 		cwd++;
 		j++;
 	}
-	data->prompt = ft_strjoin(BGO_GREEN BO_BLACK"Minishell~", getenv("USER"), 0);
-	data->prompt = ft_strjoin(data->prompt, RESET BO_GREEN"\1🐸\2", 1);
+	data->prompt = ft_strjoin(BGO_GREEN BO_BLACK"Minishell~", RESET BO_GREEN"\1🐸\2", 0);
 	data->prompt = ft_strjoin(data->prompt, cwd, 1);
 	data->prompt = ft_strjoin(data->prompt,RESET"$ ", 1);
 }
@@ -262,16 +262,18 @@ void	free_all(t_data *data)
 	{
 		free(data->prompt);
 		free(data->input);
-		ft_free_tab(data->paths);
+		// if (data->paths)
+		// 	ft_free_tab(data->paths);
 		ft_free_tab(data->env);
 		ft_free_tab(data->ghost);
 	}
 	if (data->step == 1)
 	{
-		ft_free_tab(data->paths);
+		// if (data->paths)
+		// 	ft_free_tab(data->paths);
 		ft_free_tab(data->env);
-		ft_free_tab(data->cmd);
 		ft_free_tab(data->ghost);
+		ft_free_tab(data->cmd);
 		ft_free_tab(data->ope);
 		close(data->fd.p_fd[0]);
 		close(data->fd.p_fd[1]);
