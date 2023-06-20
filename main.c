@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/19 17:41:13 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/20 19:41:11 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	init(t_data *data, char **env)
 	
 	data->env = ft_tabdup(env, NULL, 0);
 	shell = getenv("SHLVL");
-	a = ft_atoi(shell);
+	if (shell)
+		a = ft_atoi(shell);
 	a++;
 	shell = ft_strjoin("SHLVL=", ft_itoa(a), 2);
 	replace_in_env(data, shell);
@@ -30,7 +31,6 @@ void	init(t_data *data, char **env)
 	data->ghost[0] = 0;
 	data->ex = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
 	data->wrong_char = "&;()<>";
-	edit_paths(data);
 }
 
 void	init_loop(t_data *data)
@@ -49,6 +49,7 @@ void	init_loop(t_data *data)
 		data->lit = 0;
 		data->d_lit = 0;
 		data->slash = 0;
+		edit_paths(data);
 }
 
 void	header(void)
@@ -251,30 +252,31 @@ int	main(int ac, char **av, char **env)
 		//printf("tty = %d\n", ttyslot());
 
 		signals(&data, 1);
+		printf("hello\n");
 		data.input = readline(data.prompt);
 		// empty case not handle
-		add_history(data.input);
 		if (data.input == NULL)
 			free_all(&data);
-		data.input = ft_strtrim(data.input, " \t;!", 1);
+		data.input = ft_strtrim(data.input, " \t", 1);
+		if (ft_strcmp(data.input, ""))
+			add_history(data.input);
 		edit_dollar(&data);
 		while (data.dollar--)
 			data.input = ez_money(&data);
-		manage_lit(&data);
 		if (!ft_strcmp(data.input, "") || stx_error(&data, data.input))
 		{
-			//printf("hello\n");
 			close (data.fd.base_fd[0]);
 			close (data.fd.base_fd[1]);
-			//close(data.fd.tmp);
 			free(data.prompt);
 			free(data.input);
 			continue;
 		}
+		parse_input(&data);
+		manage_lit(&data);
 		
 		
 		edit_pipe(&data);							//ne pas bouger l'ordre des fonctions, sinon bug =)
-		data.cmd = ft_split(data.input, '|');
+		//data.cmd = ft_split(data.input, '|');
 		free(data.input);
 		free(data.prompt);
 		
@@ -284,20 +286,22 @@ int	main(int ac, char **av, char **env)
 			continue;
 		//printf("hello\n");
 		execution(&data);
-		// if (!isatty(0))
-		// 	print(&data);
+		if (!isatty(0))
+			print(&data);
 		if (data.last_pid)
 			waitpid(data.last_pid, &status, 0);								//bien laisser les free avant de creer les child sinon on duplique les heaps et bug
 		while (wait(NULL) > 0)
 			;
 		data.last_ret = WEXITSTATUS(status);
 		//dprintf(2, "%d\n", getpid());
-		ft_free_tab(data.cmd);
 		//ft_dprintf(2, "retablissement des fd\n");
 		dup2(data.fd.base_fd[0], 0);
 		close(data.fd.base_fd[0]);
 		dup2(data.fd.base_fd[1], 1);
 		close(data.fd.base_fd[1]);
+		ft_free_tab(data.cmd);
+		ft_free_tab(data.ope);
+		//ft_free_tab(data.paths);
 		//close(data.fd.tmp);
 	}
 	return (0);

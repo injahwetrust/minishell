@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:12:41 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/19 17:40:06 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/20 15:32:26 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -354,6 +354,7 @@ int	manage_nonchild(t_data *data)
 			rl_clear_history();
 			ft_free_tab(data->paths);
 			ft_free_tab(data->env);
+			ft_free_tab(data->ope);
 			end(data, exit_code);
 		}
 		free(exit_code);
@@ -428,7 +429,7 @@ char	*get_macro(t_data *data, char *cmd, char *begin)
 		macro[j] = cmd[j];
 	macro[j] = '\0';
 	printf("cmd = |%s|\nbegin = |%s|\nmacro = |%s|\n", cmd, begin, macro);
-	if (get_env(data, macro) != NULL && (cmd[i] == '\'' || cmd[i] == '"' || cmd[i] == ' ' || cmd[i] == '\\'))
+	if (get_env(data, macro) != NULL && (cmd[i] == '\'' || cmd[i] == '"' || cmd[i] == ' ' || cmd[i] == '\\' || !cmd[i]))
 		begin = ft_strjoin(begin, get_env(data, macro), 0);
 	else
 	{

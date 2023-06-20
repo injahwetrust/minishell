@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/06/19 17:30:42 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/20 20:12:37 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@
 # define C_WHITE		"\1\x1B[97m\2"
 
 //couleurs grasses texte
-# define BO_BLACK		"\1\x1B[1m\x1B[30m\2"
+# define BO_BLACK		"\1\x1B[1m\x1B[30\2m"
 # define BO_RED			"\1\x1B[1m\x1B[31m\2"
-# define BO_GREEN		"\1\x1B[1m\x1B[32m\2"
+# define BO_GREEN		"\1\x1B[1m\x1B[32\2m"
 # define BO_YELLOW		"\1\x1B[1m\x1B[33m\2"
 # define BO_BLUE		"\1\x1B[1m\x1B[34m\2"
 # define BO_MAGENTA		"\1\x1B[1m\x1B[35m\2"
@@ -132,9 +132,12 @@ typedef struct s_data
 	int	lit;
 	int	d_lit;
 	int	slash;
+
+	char	**ope;
 	
 }	t_data;
 
+void	parse_input(t_data *data);
 void	manage_lit(t_data *data);
 int		replace_in_env(t_data *data, char *str);
 char	*wildcards(t_data *data, char *cmd);

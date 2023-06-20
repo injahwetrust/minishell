@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:10:38 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/18 13:26:01 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/20 14:27:43 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,18 @@
 
 /*Remove the n'th occurence of to_del in src*/
 
+static void option(char *src, char *to_del, int opt)
+{
+    if (opt == 1)
+        free(src);
+    else if (opt == 2)
+        free(to_del);
+    else if (opt == 3)
+    {
+        free(src);
+        free(to_del);
+    }
+}
 char    *ft_strremove(char *src, char *to_del, int n, int opt)
 {
     int i;
@@ -21,7 +33,10 @@ char    *ft_strremove(char *src, char *to_del, int n, int opt)
     char    *new;
     
     if (!to_del || !*to_del || !src || !*src || n < 0 || n > ft_countoccur(src, to_del))
+    {
+        option(src, to_del, opt);
         return (src);
+    }
     new = malloc(sizeof(char) * (ft_strlen(src) - ft_strlen(to_del) + 1));
     if (!new)
         return (NULL);
@@ -33,13 +48,14 @@ char    *ft_strremove(char *src, char *to_del, int n, int opt)
     while (src[++j])
         new[i++] = src[j];
     new[i] = '\0';
-    if (opt == 1)
-        free(src);
+    option(src, to_del, opt);
     return(new);
 }
 
 // int main()
 // {
-//     char    *str = "je suis '$USER'";
-//     char    *rem = "'"
+//     char    *str = ft_strdup("ls | echo lol");
+//     str = ft_strremove(str, "ls |", 1, 1);
+//     str = ft_strremove(str, " echo lol", 1, 1);
+//     free (str);
 // }

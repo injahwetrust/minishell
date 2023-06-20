@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:11:04 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/19 16:45:06 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/20 20:10:33 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	end_process(t_data *data, char *ret)
 	ft_free_tab(data->paths);
 	ft_free_tab(data->env);
 	ft_free_tab(data->ghost);
+	ft_free_tab(data->ope);
 	exit(ft_atoll(ret));
 }
 
@@ -236,9 +237,9 @@ void	edit_prompt(t_data *data, char *cwd)
 		j++;
 	}
 	data->prompt = ft_strjoin(BGO_GREEN BO_BLACK"Minishell~", getenv("USER"), 0);
-	data->prompt = ft_strjoin(data->prompt, RESET BO_GREEN"🐸", 1);
+	data->prompt = ft_strjoin(data->prompt, RESET BO_GREEN"\1🐸\2", 1);
 	data->prompt = ft_strjoin(data->prompt, cwd, 1);
-	data->prompt = ft_strjoin(data->prompt,RESET"\1$ \2", 1);
+	data->prompt = ft_strjoin(data->prompt,RESET"$ ", 1);
 }
 
 void	edit_paths(t_data *data)
@@ -246,7 +247,7 @@ void	edit_paths(t_data *data)
     int     i;
     
     i = -1;
-    data->paths = ft_split(getenv("PATH"), ':');
+    data->paths = ft_split(get_env(data, "PATH"), ':');
 	if (!data->paths)
 		return ;
     while (data->paths[++i])
@@ -271,6 +272,7 @@ void	free_all(t_data *data)
 		ft_free_tab(data->env);
 		ft_free_tab(data->cmd);
 		ft_free_tab(data->ghost);
+		ft_free_tab(data->ope);
 		close(data->fd.p_fd[0]);
 		close(data->fd.p_fd[1]);
 		close(data->fd.redir_fd[0]);

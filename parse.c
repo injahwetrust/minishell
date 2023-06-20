@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 13:35:26 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/19 17:30:27 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/20 19:23:33 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,134 @@ void	edit_dollar(t_data *data)
 			data->dollar++;
 		i++;
 	}
+}
+
+int	part_count(t_data *data)
+{
+	int	i;
+	int	lit;
+	int	d_lit;
+	int	count;
+	
+	i = 0;
+	lit = 0;
+	d_lit = 0;
+	count = 1;
+	while (data->input[i])
+	{
+		if (data->input[i] == '\'')
+			lit++;
+		else if (data->input[i] == '"')
+			d_lit++;
+		else if (data->input[i] == '|' && !lit && !d_lit)
+		{
+			while (data->input[i] == '|')
+				i++;
+			count++;
+			if (!data->input[i])
+				break ;
+		}
+		lit %= 2;
+		d_lit %= 2;
+		i++;
+	}
+	return (count);	
+}
+
+char	*input_part(t_data *data)
+{
+	int	i;
+	int	lit;
+	int	d_lit;
+	char	*part;
+	
+	i = 0;
+	lit = 0;
+	d_lit = 0;
+	while (data->input[i])
+	{
+		if (data->input[i] == '\'')
+			lit++;
+		else if (data->input[i] == '"')
+			d_lit++;
+		else if ((data->input[i] == '|' || data->input[i] == '&') && !lit && !d_lit)
+		{
+			part = ft_strndup(data->input, i, 0);
+			data->input = ft_strremove(data->input, part, 1, 1);
+			return (part);
+		}
+		lit %= 2;
+		d_lit %= 2;
+		i++;
+	}
+	if (data->input[i] == '\0' && !lit && !d_lit)
+	{
+		part = ft_strndup(data->input, i, 0);
+		data->input = ft_strremove(data->input, part, 1, 1);
+		return (part);
+	}
+	printf("HRLLOE\n");
+	return (NULL);
+}
+
+char	*get_op(t_data *data)
+{
+	char	*op;
+	
+	if (data->input[0] == data->input[1])
+	{
+		op = ft_strndup(data->input, 2, 0);
+		data->input = ft_strremove(data->input, ft_strndup(data->input, 2, 0), 1, 3);
+		return (op);
+	}
+	op = ft_strndup(data->input, 1, 0);
+	data->input = ft_strremove(data->input, ft_strndup(data->input, 1, 0), 1, 3);
+	return (op);
+}
+
+void	space(t_data *data)
+{
+	int	i;
+	
+	i = 0;
+	while (data->input[i])
+	{
+		while (data->input[i] == '\t')
+			data->input[i] = ' ';
+		i++;
+	}
+}
+void	parse_input(t_data *data)
+{
+	int	i;
+	
+	space(data);
+	i = part_count(data);
+	printf("count = %d\n", i);
+	data->cmd = malloc(sizeof(char *) * (i + 1));
+	if (!data->cmd)
+		free_all(data);
+	data->cmd[i] = 0;
+	data->ope = malloc(sizeof(char *) * i);
+	if (!data->ope)
+		free_all(data);
+	data->ope[i - 1] = 0;
+	i = 0;
+	while (*data->input)
+	{
+		data->cmd[i] = input_part(data);
+		if (*data->input)
+		{
+		  	data->ope[i] = get_op(data);
+		 	if (!*data->input)
+		 		data->cmd[i + 1] = ft_strdup("\t");
+		}
+		i++;
+	}
+	i = -1;
+	while (data->cmd[++i])
+		ft_printf("cmd[%d] = :%s:\n", i, data->cmd[i]);
+	i = -1;
+	while (data->ope[++i])
+		ft_printf("ope[%d] = :%s:\n", i, data->ope[i]);
 }

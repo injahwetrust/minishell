@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 15:13:26 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/19 15:54:26 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/20 19:19:08 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,11 @@ char	*ft_strtrim(char *s1, char const *set, int option)
 
 /*int	main()
 {
-	char	*str = "123456789";
+	char	*str = "      g   ls ";
 	//char	*str2 = "tripouille";
 	//char	*set = "123";
-	str = str + 2;
-	//printf ("%s\n", ft_strtrim(str, set));
+	//str = str + 2;
+	printf ("%s\n", ft_strtrim(str, " ", 0));
 	//printf ("%ld\n", strlen(str2));
-	printf ("%s\n", str);
+	//printf ("%s\n", str);
 }*/
