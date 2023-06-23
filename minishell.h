@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/06/20 23:03:38 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/23 15:01:15 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,8 @@ typedef struct s_data
 	int	d_lit;
 	int	slash;
 
+	int	simple_behind;
+	int	double_behind;
 	char	**ope;
 	
 }	t_data;

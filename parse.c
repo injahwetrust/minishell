@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 13:35:26 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/23 13:58:32 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/23 15:06:04 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ static int	handle_dlit(t_data *data, char c, int j)
 	
 	if (c == '"' && !data->lit)
 	{
-		//ft_printf("removed %c, lit = %d, d_lit = %d\n", '"', data->lit, data->d_lit);
+		ft_printf("removed %c, lit = %d, d_lit = %d\n", '"', data->lit, data->d_lit);
 		data->cmd[j] = ft_strremove(data->cmd[j], "\"", 1 + left_behind, 1);
-		//printf("new cmd = %s\n", data->cmd[j]);
+		printf("new cmd = %s\n", data->cmd[j]);
 		data->d_lit += 1;
 		data->d_lit %= 2;
 		return (1);
@@ -51,9 +51,9 @@ static int	handle_lit(t_data *data, char c, int j)
 	
 	if (c == '\'' && !data->d_lit)
 	{
-		//ft_printf("removed %c, lit = %d, d_lit = %d\n", '\'', data->lit, data->d_lit);
+		ft_printf("removed %c, lit = %d, d_lit = %d\n", '\'', data->lit, data->d_lit);
 		data->cmd[j] = ft_strremove(data->cmd[j], "'", 1 + left_behind, 1);
-		//printf("new cmd = %s\n", data->cmd[j]);
+		printf("new cmd = %s\n", data->cmd[j]);
 		data->lit += 1;
 		data->lit %= 2;
 		return (1) ;
@@ -77,7 +77,7 @@ void	manage_lit(t_data *data)
 		i = 0;
 		while (data->cmd[j][i])
 		{
-			//printf("step = %c\n", data->cmd[j][i]);
+			printf("step = %c\n", data->cmd[j][i]);
 			if (handle_lit(data, data->cmd[j][i], j))
 				continue ;
 			if (handle_dlit(data, data->cmd[j][i], j))

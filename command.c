@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:12:41 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/23 12:01:19 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/23 15:14:36 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,7 +222,8 @@ void	end_nonchild(t_data *data)
 {
 	close (data->fd.base_fd[0]);
 	close (data->fd.base_fd[1]);
-	free (data->ope);
+	if (data->ope)
+		free (data->ope);
 	//close(data->fd.tmp);
 	ft_free_tab(data->cmd);
 }

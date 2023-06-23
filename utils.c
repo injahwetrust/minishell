@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:11:04 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/21 11:31:46 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/23 15:13:13 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ void	end_process(t_data *data, char *ret)
 	// 	ft_free_tab(data->paths);
 	ft_free_tab(data->env);
 	ft_free_tab(data->ghost);
-	ft_free_tab(data->ope);
+	if (data->ope)
+		ft_free_tab(data->ope);
 	exit(ft_atoll(ret));
 }
 

@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 23:30:16 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/23 14:29:04 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/23 14:54:27 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,43 +40,20 @@ char	*all_dir(void)
 int	ast_size(t_data *data, char *cmd)
 {
 	int	i;
-	char	len;
 
 	i = -1;
-	len = 0;
 	while (cmd[++i])
 	{
 		if (cmd[i] == '"' && !data->lit)
-		{
-			len--;
 			data->d_lit++;
-		}
 		if (cmd[i] == '\'' && !data->d_lit)
-		{
-			len--;
 			data->lit++;
-		}
 		data->lit %= 2;
 		data->d_lit %= 2;
-		len++;
 		if (cmd[i] == ' ' && !data->lit && !data->lit)
 			break ;
 	}
-	return(len);
-}
-
-char	*isolate_ast(char *cmd, char *macro)
-{
-	int	i;
-	
-	i = 0;
-	while (cmd[i])
-	{
-		macro[i] = cmd[i];
-		i++;
-	}
-	return (macro);
-	
+	return(i);
 }
 
 int	match_ast(char *ast, char *name)
@@ -88,8 +65,12 @@ int	match_ast(char *ast, char *name)
 	j = 0;
 	while (ast[i])
 	{
+		if (ast[i] == '"' || ast[i] == '\'')
+			i++;
 		if (ast[i] == '*')
 		{
+			while (ast[i] == '*')
+				i++;
 			if (!ast[i + 1])
 				return (1);
 			while (ast[i])
@@ -98,17 +79,17 @@ int	match_ast(char *ast, char *name)
 				j++;
 			while (ast[i] != '*')
 			{
-				if (ast[i] != name[j])
+				if (ast[i] == '"' || ast[i] == '\'')
+					i--;
+				if (ast[i] == '*')
+					break ;
+				if (ast[i--] != name[j--])
 					return (0);
-				i--;
-				j--;
 			}
 			return (1);
 		}
-		if (ast[i] != name[j])
+		if (ast[i++] != name[j++])
 			return (0);
-		i++;
-		j++;
 	}
 	return (1);
 }
@@ -124,7 +105,7 @@ char	*replace_ast(char *ast)
 	entry = readdir(dir);
 	while (entry != NULL)
 	{
-		if (entry->d_name[0] != '.' && match_ast(ast, entry->d_name))
+		if (match_ast(ast, entry->d_name))
 		{
 			str = ft_strjoin(str, ft_strdup(entry->d_name), 3);
 			str = ft_strjoin(str, " ", 1);
@@ -151,10 +132,9 @@ char	*seg_dir(t_data *data, char *cmd)
 	ast = malloc(sizeof(char) * len + 1);
 	if (!ast)
 		exit(0); //exit proprement
-	ast[len] = '\0';
-	ast = isolate_ast(cmd, ast);
-	ast = replace_ast(ast);
+	ft_strlcpy(ast, cmd, len);
 	printf("ast = %s\n", ast);
+	ast = replace_ast(ast);
 	return(ast);
 }
 
@@ -196,60 +176,12 @@ char	*wildcards(t_data *data, char *cmd)
 					break ;
 				i++;
 			}
-			//printf("cmd = %s\n", cmd + i);
-			//cmd = seg_dir(data, cmd + i + 1);
-			
 		}
 		if (!cmd[i])
 			break ;
 		else
 			new = ft_strjoin(new, ft_strndup(cmd + i, 1, 0), 3);
 		i++;
-		
-		// if (spl[i][0] == '*' && !spl[i][1])
-		// {
-		// 	dir = opendir(".");
-		// 	entry = readdir(dir);
-		// 	while (entry != NULL)
-		// 	{
-		// 		if (entry->d_name[0] != '.')
-		// 		{
-		// 			//printf("%s\n", entry->d_name);
-		// 			new = ft_strjoin(new, ft_strdup(entry->d_name), 3);
-		// 			new = ft_strjoin(new, " ", 1);
-		// 		}
-		// 		entry = readdir(dir);
-    	// 	}
-		// 	closedir(dir);
-		// }
-		// else if (spl[i][0] == '*' && spl[i][1])
-		// {
-		// 	dir = opendir(".");
-		// 	entry = readdir(dir);
-		// 	while (entry != NULL)
-		// 	{
-		// 		int	j = ft_strlen(entry->d_name);
-		// 		if (entry->d_name[0] != '.')
-		// 		{
-		// 			while (j > 0 && entry->d_name[j] != spl[i][1])
-		// 				j--;
-		// 			if (j == 0)
-		// 			{
-		// 				entry = readdir(dir);
-		// 				continue ;
-		// 			}
-		// 			//printf ("entry->d_name + j = |%s|  spl[i] + 1 = |%s|\n", entry->d_name + j, spl[i] + 1);
-		// 			if (strcmp(entry->d_name + j, spl[i] + 1) == 0)
-		// 			{
-		// 				//printf("%s\n", entry->d_name);
-		// 				new = ft_strjoin(new, ft_strdup(entry->d_name), 3);
-		// 				new = ft_strjoin(new, " ", 1);
-		// 			}
-		// 		}
-		// 		entry = readdir(dir);
-		// 	}
-		// 	closedir(dir);
-		// }
 	}
 	
 	free(cmd);
