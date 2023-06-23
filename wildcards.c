@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 23:30:16 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/23 14:54:27 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/23 15:41:01 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,15 +63,17 @@ int	match_ast(char *ast, char *name)
 
 	i = 0;
 	j = 0;
+	printf("ast = %s\n", ast);
 	while (ast[i])
 	{
-		if (ast[i] == '"' || ast[i] == '\'')
+		while (ast[i] == '"' || ast[i] == '\'')
 			i++;
 		if (ast[i] == '*')
 		{
+			printf("reverse check\n");
 			while (ast[i] == '*')
 				i++;
-			if (!ast[i + 1])
+			if (!ast[i])
 				return (1);
 			while (ast[i])
 				i++;
@@ -79,12 +81,15 @@ int	match_ast(char *ast, char *name)
 				j++;
 			while (ast[i] != '*')
 			{
-				if (ast[i] == '"' || ast[i] == '\'')
+				printf("reverse check\n");
+				while (ast[i] == '"' || ast[i] == '\'')
 					i--;
+				if (ast[i] != name[j])
+					return (0);
 				if (ast[i] == '*')
 					break ;
-				if (ast[i--] != name[j--])
-					return (0);
+				i--;
+				j--;
 			}
 			return (1);
 		}
