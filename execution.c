@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 13:03:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/20 21:49:50 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/21 12:59:51 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,19 +102,13 @@ void	exec(char *cmd, t_data *data)
 void	execution(t_data *data)
 {
 	int	i;
-	int	j;
 	i = -1;
 
 	while (data->cmd[++i])
 	{
-		j = 0;
 		data->fd.redir_fd[0] = dup(data->fd.base_fd[0]);
 		data->fd.redir_fd[1] = dup(data->fd.base_fd[1]);
 		data->cmd[i] = ft_strtrim(data->cmd[i], " \t", 1);
-		while (data->cmd[i][j] == ' ')
-			j++;
-		data->cmd[i] = ft_strndup(data->cmd[i], -j, 1);
-		data->cmd[i] = wildcards(data, data->cmd[i]);
 		data->step = 1;
 		while (still_in(data->cmd[i]))
 		{

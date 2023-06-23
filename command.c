@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:12:41 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/20 23:13:23 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/23 12:01:19 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -423,7 +423,7 @@ char	*get_macro(t_data *data, char *cmd, char *begin)
 	while (++j < i)
 		macro[j] = cmd[j];
 	macro[j] = '\0';
-	printf("cmd = |%s|\nbegin = |%s|\nmacro = |%s|\n", cmd, begin, macro);
+	//printf("cmd = |%s|\nbegin = |%s|\nmacro = |%s|\n", cmd, begin, macro);
 	if (get_env(data, macro) != NULL && (cmd[i] == '\'' || cmd[i] == '"' || cmd[i] == ' ' || cmd[i] == '\\' || !cmd[i]))
 		begin = ft_strjoin(begin, get_env(data, macro), 0);
 	else
@@ -432,7 +432,7 @@ char	*get_macro(t_data *data, char *cmd, char *begin)
 		while (macro[i])
 			i++;
 		begin = ft_strjoin(begin, cmd + i, 0);
-		printf("cmd = |%s|\nbegin = |%s|\nmacro = |%s|\n", cmd, begin, macro);
+		//printf("cmd = |%s|\nbegin = |%s|\nmacro = |%s|\n", cmd, begin, macro);
 		free(macro);
 		return (begin);
 	}
@@ -458,39 +458,42 @@ char	*ez_money(t_data *data)
 	int		j;
 	char	*begin;
 	char	*replaced;
-	int	lit;
-	
+
 	i = 0;
 	j = 0;
-	lit = 0;
-	printf("data->cmd[0] = %s\n", data->cmd[0]);
-	while (data->cmd[0][i])
+	data->lit = 0;
+	data->d_lit = 0;
+	printf("data->input = %s\n", data->input);
+	while (data->input[i])
 	{
-		if (data->cmd[0][i] == '\'')
-			lit++;
-		lit %= 2;
-		if (data->cmd[0][i] == '$' && lit == 0)
+		if (data->input[i] == '"' && data->lit == 0)
+			data->d_lit++;
+		data->d_lit %= 2;
+		if (data->input[i] == '\'' && data->d_lit == 0)
+			data->lit++;
+		data->lit %= 2;
+		if (data->input[i] == '$' && data->lit == 0)
 			break ;
 		i++;
 	}
-	if (!data->cmd[0][i])
-		return (data->cmd[0]);
+	if (!data->input[i])
+		return (data->input);
 	begin = malloc(sizeof(char) * i + 1);
 	if (begin == NULL)
 		exit(0); // faire une fonction pour exit proprement
 	while (j < i)
 	{
-		begin[j] = data->cmd[0][j];
+		begin[j] = data->input[j];
 		j++;
 	}
 	begin[j] = '\0';
 	i++;
-	if (data->cmd[0][i] == '?' && (data->cmd[0][i + 1] == ' ' || data->cmd[0][i + 1] == '\t' || data->cmd[0][i + 1] == '\0'))
+	if (data->input[i] == '?' && (data->input[i + 1] == ' ' || data->input[i + 1] == '\t' || data->input[i + 1] == '\0'))
 		replaced = last_return(data, begin);
 	else
-		replaced = get_macro(data, data->cmd[0] + i, begin);
+		replaced = get_macro(data, data->input + i, begin);
 	free(begin);
-	free(data->cmd[0]);
-	printf("repalced = |%s|\n", replaced);
+	free(data->input);
+	//printf("repalced = |%s|\n", replaced);
 	return (replaced);
 }

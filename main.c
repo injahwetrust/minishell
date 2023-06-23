@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/21 01:05:50 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/23 11:09:23 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,6 +243,7 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	int status;
 	int	ret;
+	int	i;
 	
 	header();
 	init(&data, env);
@@ -258,15 +259,21 @@ int	main(int ac, char **av, char **env)
 		data.input = ft_strtrim(data.input, " \t", 1);
 		if (ft_strcmp(data.input, ""))
 			add_history(data.input);
-		parse_input(&data);
 		edit_dollar(&data);
 		while (data.dollar--)
-			data.cmd[0] = ez_money(&data);
-		//manage_lit(&data);
+			data.input = ez_money(&data);
+		parse_input(&data);
+
+		i = -1;
+		while (data.cmd[++i])
+			data.cmd[i] = wildcards(&data, data.cmd[i]);
+		manage_lit(&data);
 		if (!ft_strcmp(data.cmd[0], "")) // stx_error(&data, data.input) changer le stx de place pour check sur chaque argument
 		{
+			printf("continue after empty input\n");
 			close (data.fd.base_fd[0]);
 			close (data.fd.base_fd[1]);
+			ft_free_tab(data.cmd);
 			free(data.prompt);
 			free(data.input);
 			continue;

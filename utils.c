@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:11:04 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/20 21:46:39 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/21 11:31:46 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,21 +260,30 @@ void	free_all(t_data *data)
 	rl_clear_history();
 	if (data->step == 0)
 	{
-		free(data->prompt);
-		free(data->input);
+		if (data->prompt)
+			free(data->prompt);
+		if (data->input)
+			free(data->input);
+			
 		// if (data->paths)
 		// 	ft_free_tab(data->paths);
-		ft_free_tab(data->env);
-		ft_free_tab(data->ghost);
+		if (data->env)
+			ft_free_tab(data->env);
+		if (data->ghost)
+			ft_free_tab(data->ghost);
 	}
 	if (data->step == 1)
 	{
 		// if (data->paths)
 		// 	ft_free_tab(data->paths);
-		ft_free_tab(data->env);
-		ft_free_tab(data->ghost);
-		ft_free_tab(data->cmd);
-		ft_free_tab(data->ope);
+		if (data->env)
+			ft_free_tab(data->env);
+		if (data->ghost)
+			ft_free_tab(data->ghost);
+		if (data->cmd)
+			ft_free_tab(data->cmd);
+		if (data->ope)
+			ft_free_tab(data->ope);
 		close(data->fd.p_fd[0]);
 		close(data->fd.p_fd[1]);
 		close(data->fd.redir_fd[0]);
