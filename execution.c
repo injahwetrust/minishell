@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 13:03:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/21 12:59:51 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/23 13:59:04 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	go(char *cmd, t_data *data)
 		end_process(data, "126");
 	}
 	path = get_exec(s_cmd[0], data);
-	dprintf(2, "path = %s\n", path);
+	//dprintf(2, "path = %s\n", path);
 	if (execve(path, s_cmd, data->env) <= -1)
 	{
 		errno = 3;

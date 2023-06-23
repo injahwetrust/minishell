@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 23:30:16 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/23 13:48:07 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/23 14:29:04 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,23 +79,83 @@ char	*isolate_ast(char *cmd, char *macro)
 	
 }
 
+int	match_ast(char *ast, char *name)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (ast[i])
+	{
+		if (ast[i] == '*')
+		{
+			if (!ast[i + 1])
+				return (1);
+			while (ast[i])
+				i++;
+			while (name[j])
+				j++;
+			while (ast[i] != '*')
+			{
+				if (ast[i] != name[j])
+					return (0);
+				i--;
+				j--;
+			}
+			return (1);
+		}
+		if (ast[i] != name[j])
+			return (0);
+		i++;
+		j++;
+	}
+	return (1);
+}
+
+char	*replace_ast(char *ast)
+{
+	DIR	*dir;
+	struct dirent *entry;
+	char	*str;
+	
+	str = ft_strdup("");
+	dir = opendir(".");
+	entry = readdir(dir);
+	while (entry != NULL)
+	{
+		if (entry->d_name[0] != '.' && match_ast(ast, entry->d_name))
+		{
+			str = ft_strjoin(str, ft_strdup(entry->d_name), 3);
+			str = ft_strjoin(str, " ", 1);
+		}
+		entry = readdir(dir);
+	}
+	closedir(dir);
+	if (ft_strcmp(str, "") == 0)
+	{
+		free (str);
+		return (ast);
+	}
+	free (ast);
+	return (str);
+}
+
 char	*seg_dir(t_data *data, char *cmd)
 {
-	// DIR	*dir;
-	// struct dirent *entry;
-	//int	i;
 	int	len;
-	char	*macro;
+	char	*ast;
 
 	len = ast_size(data, cmd);
 	printf("len = %d\n", len);
-	macro = malloc(sizeof(char) * len + 1);
-	if (!macro)
+	ast = malloc(sizeof(char) * len + 1);
+	if (!ast)
 		exit(0); //exit proprement
-	macro[len] = '\0';
-	macro = isolate_ast(cmd, macro);
-	printf("macro = %s\n", macro);
-	return(macro);
+	ast[len] = '\0';
+	ast = isolate_ast(cmd, ast);
+	ast = replace_ast(ast);
+	printf("ast = %s\n", ast);
+	return(ast);
 }
 
 char	*wildcards(t_data *data, char *cmd)
@@ -132,11 +192,11 @@ char	*wildcards(t_data *data, char *cmd)
 					data->lit++;
 				data->lit %= 2;
 				data->d_lit %= 2;
-				if (!(cmd[i] == ' ' || cmd[i]) &&  !data->lit && !data->d_lit)
+				if ((cmd[i] == ' ' || !cmd[i]) &&  !data->lit && !data->d_lit)
 					break ;
 				i++;
 			}
-			printf("cmd = %s\n", cmd + i);
+			//printf("cmd = %s\n", cmd + i);
 			//cmd = seg_dir(data, cmd + i + 1);
 			
 		}
@@ -191,9 +251,9 @@ char	*wildcards(t_data *data, char *cmd)
 		// 	closedir(dir);
 		// }
 	}
-	printf("new = |%s|\n", new);
 	
 	free(cmd);
+	printf("hello new = |%s|\n", new);
     return (new);
 }
 
