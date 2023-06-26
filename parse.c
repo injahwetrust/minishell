@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 13:35:26 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/23 15:06:04 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/23 16:01:10 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	manage_lit(t_data *data)
 		i = 0;
 		while (data->cmd[j][i])
 		{
-			printf("step = %c\n", data->cmd[j][i]);
+			//printf("step = %c\n", data->cmd[j][i]);
 			if (handle_lit(data, data->cmd[j][i], j))
 				continue ;
 			if (handle_dlit(data, data->cmd[j][i], j))

@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 23:30:16 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/23 15:41:01 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/23 16:00:46 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,32 @@ int	ast_size(t_data *data, char *cmd)
 	return(i);
 }
 
+int	reverse_ast(char *ast, char *name)
+{
+	int	i;
+	int	j;
+	
+	i = 0;
+	while (ast[i] == '*')
+		i++;
+	if (!ast[i])
+		return (1);
+	i = ft_strlen(ast);
+	j = ft_strlen(name);
+	while (ast[i] != '*')
+	{
+		printf("reverse check\n");
+		while (ast[i] == '"' || ast[i] == '\'')
+			i--;
+		if (ast[i] != name[j])
+			return (0);
+		if (ast[i] == '*')
+			break ;
+		i--;
+		j--;
+	}
+	return (1);
+}
 int	match_ast(char *ast, char *name)
 {
 	int	i;
@@ -70,28 +96,10 @@ int	match_ast(char *ast, char *name)
 			i++;
 		if (ast[i] == '*')
 		{
-			printf("reverse check\n");
-			while (ast[i] == '*')
-				i++;
-			if (!ast[i])
+			if (reverse_ast(ast + i, name))
 				return (1);
-			while (ast[i])
-				i++;
-			while (name[j])
-				j++;
-			while (ast[i] != '*')
-			{
-				printf("reverse check\n");
-				while (ast[i] == '"' || ast[i] == '\'')
-					i--;
-				if (ast[i] != name[j])
-					return (0);
-				if (ast[i] == '*')
-					break ;
-				i--;
-				j--;
-			}
-			return (1);
+			else
+				return (0);
 		}
 		if (ast[i++] != name[j++])
 			return (0);
