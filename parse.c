@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 13:35:26 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/23 16:01:10 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/26 14:04:29 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,37 +29,33 @@
 
 static int	handle_dlit(t_data *data, char c, int j)
 {
-	static int	left_behind = 0;
-	
 	if (c == '"' && !data->lit)
 	{
-		ft_printf("removed %c, lit = %d, d_lit = %d\n", '"', data->lit, data->d_lit);
-		data->cmd[j] = ft_strremove(data->cmd[j], "\"", 1 + left_behind, 1);
+		ft_printf("removed %c n %d, lit = %d, d_lit = %d\n", '"', data->lit, data->double_behind, data->d_lit);
+		data->cmd[j] = ft_strremove(data->cmd[j], "\"", 1 + data->double_behind, 1);
 		printf("new cmd = %s\n", data->cmd[j]);
 		data->d_lit += 1;
 		data->d_lit %= 2;
 		return (1);
 	}
 	if (c == '"' && data->lit)
-		left_behind++;
+		data->double_behind++;
 	return (0);
 }
 
 static int	handle_lit(t_data *data, char c, int j)
 {
-	static int	left_behind = 0;
-	
 	if (c == '\'' && !data->d_lit)
 	{
-		ft_printf("removed %c, lit = %d, d_lit = %d\n", '\'', data->lit, data->d_lit);
-		data->cmd[j] = ft_strremove(data->cmd[j], "'", 1 + left_behind, 1);
+		ft_printf("removed %c n %d, lit = %d, d_lit = %d\n", '\'', data->lit, data->simple_behind, data->d_lit);
+		data->cmd[j] = ft_strremove(data->cmd[j], "'", 1 + data->simple_behind, 1);
 		printf("new cmd = %s\n", data->cmd[j]);
 		data->lit += 1;
 		data->lit %= 2;
 		return (1) ;
 	}
 	if (c == '\'' && data->d_lit)
-		left_behind++;
+		data->simple_behind++;
 	return (0);
 }
 
@@ -70,10 +66,12 @@ void	manage_lit(t_data *data)
 	
 	i = 0;
 	j = 0;
-	data->lit = 0;
-	data->d_lit = 0;
 	while (data->cmd[j])
 	{
+		data->lit = 0;
+		data->d_lit = 0;
+		data->simple_behind = 0;
+		data->double_behind = 0;
 		i = 0;
 		while (data->cmd[j][i])
 		{

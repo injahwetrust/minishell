@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:12:41 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/23 15:14:36 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/26 13:47:44 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,9 +210,9 @@ void	edit_pipe(t_data *data)
 	int	i;
 
 	i = 0;
-	while (data->input[i])
+	while (data->ope[i])
 	{
-		if (data->input[i] == '|')
+		if (data->ope[i][0] == '|' && data->ope[i][1] == '\0')
 			data->pipe++;
 		i++;
 	}
@@ -228,17 +228,19 @@ void	end_nonchild(t_data *data)
 	ft_free_tab(data->cmd);
 }
 
+void	cd_home(t_data *data)
+{
+	if (get_env(data, "HOME") == NULL)
+			ft_dprintf(2, "Minishell: cd: « HOME » not set\n");
+	chdir(get_env(data, "HOME"));
+}
+
 void	cd_manage(t_data *data, char *cmd)
 {
-	char *path;
-
-	if (cmd[2] == '\0')
-	{
-		if (get_env(data, "HOME") == NULL)
-			ft_dprintf(2, "Minishell: cd: « HOME » not set\n");
-		chdir(get_env(data, "HOME"));
-		return ;
-	}
+	char	*path;
+	char	*pwd;
+	int	a;
+	
 	path = ft_strdup(cmd + 2);
 	if (!path)
 		exit(ft_dprintf(2, "Malloc error\n")); // faire une fonction pour exit proprement
@@ -246,7 +248,25 @@ void	cd_manage(t_data *data, char *cmd)
 	if (!path)
 		exit(ft_dprintf(2, "Malloc error\n")); // faire une fonction pour exit proprement
 	ft_dprintf(2, "path = %s\n", path);
-	chdir(path);
+	pwd = ft_strjoin("OLDPWD=", data->cwd, 0);
+	if (ft_strcmp(path, "-") == 0)
+	{
+		a = chdir(get_env(data, "OLDPWD"));
+		if (a != 0)
+			ft_dprintf(2, "Minishell: cd: %s: %s\n", path, strerror(errno));
+		else
+			add_in_env(data, pwd);
+	}
+	else
+	{
+		a = chdir(path);
+		if (a != 0)
+			ft_dprintf(2, "Minishell: cd: %s: %s\n", path, strerror(errno));
+		else
+			add_in_env(data, pwd);
+	}
+	free(pwd);
+	free(path);
 }
 
 void	recoded(t_data *data, char *cmd)
@@ -261,7 +281,7 @@ void	recoded(t_data *data, char *cmd)
 		print_env(data);
 		end_process(data, "0");
 	}
-	else if (!ft_strcmp("exit", cmd) || !ft_strncmp("export ", cmd, 7) || !ft_strcmp("cd", cmd) || !ft_strncmp("cd ", cmd, 2) || !ft_strcmp("unset", cmd) || !ft_strncmp("unset ", cmd, 6))
+	else if (!ft_strcmp("exit", cmd) || !ft_strncmp("export ", cmd, 7) || !ft_strcmp("cd", cmd) || !ft_strncmp("cd ", cmd, 3) || !ft_strcmp("unset", cmd) || !ft_strncmp("unset ", cmd, 6))
 		end_process(data, "0");
 	else if (!ft_strncmp("exit ", cmd, 5))
 		end_process(data, manage_exit(data, cmd));
@@ -330,7 +350,13 @@ int	manage_nonchild(t_data *data)
 {
 	char	*exit_code;
 
-	if (ft_strncmp("cd", data->cmd[0], 2) == 0 )
+	if (!ft_strcmp("cd", data->cmd[0]))
+	{
+		cd_home(data);
+		end_nonchild(data);
+		return (1);
+	}
+	if (ft_strncmp("cd ", data->cmd[0], 3) == 0 )
 	{
 		cd_manage(data, data->cmd[0]);
 		end_nonchild(data);
