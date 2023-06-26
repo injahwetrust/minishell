@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 23:30:16 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/23 16:00:46 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/26 15:10:58 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	reverse_ast(char *ast, char *name)
 	j = ft_strlen(name);
 	while (ast[i] != '*')
 	{
-		printf("reverse check\n");
+		//printf("reverse check\n");
 		while (ast[i] == '"' || ast[i] == '\'')
 			i--;
 		if (ast[i] != name[j])
@@ -89,7 +89,7 @@ int	match_ast(char *ast, char *name)
 
 	i = 0;
 	j = 0;
-	printf("ast = %s\n", ast);
+	//printf("ast = %s\n", ast);
 	while (ast[i])
 	{
 		while (ast[i] == '"' || ast[i] == '\'')
@@ -141,12 +141,12 @@ char	*seg_dir(t_data *data, char *cmd)
 	char	*ast;
 
 	len = ast_size(data, cmd);
-	printf("len = %d\n", len);
+	//printf("len = %d\n", len);
 	ast = malloc(sizeof(char) * len + 1);
 	if (!ast)
 		exit(0); //exit proprement
 	ft_strlcpy(ast, cmd, len);
-	printf("ast = %s\n", ast);
+	//printf("ast = %s\n", ast);
 	ast = replace_ast(ast);
 	return(ast);
 }
@@ -198,7 +198,7 @@ char	*wildcards(t_data *data, char *cmd)
 	}
 	
 	free(cmd);
-	printf("hello new = |%s|\n", new);
+	//printf("hello new = |%s|\n", new);
     return (new);
 }
 
