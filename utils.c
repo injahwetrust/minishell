@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:11:04 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/23 15:13:13 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/27 09:26:43 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,7 @@ void	print(t_data *data)
 	(void)data;
 	char	buf[50];
 	int	ret;
-
+	
 	ret = 1;
 	while (ret)
 	{
@@ -197,28 +197,6 @@ void	print(t_data *data)
 		buf[ret] = '\0';
 		write(1, buf, ret);
 	}
-	/*char	*str;
-	char	*str2;
-	struct stat stat_info;
-
-	(void)data;
-	str = get_next_line(0);
-	stat_info.st_mode = 0;
-	while (str != NULL)
-	{
-		str2 = ft_strndup(str, ft_strlen(str) - 1, 0);
-		stat(str2, &stat_info);
-		if (S_ISDIR(stat_info.st_mode))
-			printf (BO_BLUE"%s"RESET, str);
-		else if (S_ISREG(stat_info.st_mode) && stat_info.st_mode & S_IXUSR)
-			printf (BO_GREEN"%s"RESET, str);
-		else
-			printf ("%s", str);
-		free(str2);
-		free (str);
-		str = get_next_line(0);
-	}
-	get_next_line(-99);*/
 }
 
 
