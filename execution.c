@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 13:03:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/23 13:59:04 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/27 12:01:25 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ void	exec(char *cmd, t_data *data)
 		close(data->fd.p_fd[1]);
 		dup2(data->fd.p_fd[0], 0);
 		close(data->fd.p_fd[0]);
-		//sleep(1);
 	}
 }
 
@@ -138,7 +137,7 @@ void	execution(t_data *data)
 			close(data->fd.redir_fd[0]);
 			continue;
 		}
-		if (ft_strcmp(data->cmd[i], "JOHNCARPENTER&DONALDDUCK") == 0)
+		if (ft_strcmp(data->cmd[i], "\t") == 0)
 		{
 			close(data->fd.redir_fd[0]);
 			close(data->fd.redir_fd[1]);
@@ -146,12 +145,6 @@ void	execution(t_data *data)
 		}
 		data->cmd[i] = ft_strtrim(data->cmd[i], " \t", 1);
 		exec(data->cmd[i], data);
-		// if (!isatty(0))
-		// 	print(data);
-		//close(data->fd.redir_fd[0]);
-		//close(data->fd.redir_fd[1]);
-		//data->fd.redir_fd[0] = dup(data->fd.tmp);
-		//data->fd.redir_fd[0] = dup(0);
 		if (!isatty(1))
 			print(data);
 	}

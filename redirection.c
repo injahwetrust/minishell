@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 11:09:46 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/19 16:07:44 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/27 13:41:20 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*get_in(char *cmd, int begin)
 	if (cmd[i] == '>' || cmd[i] == '<')
 	{
 		ft_dprintf(2, "syntax error near unexpected symbol « %c »\n", cmd[i]);
-		return (ft_strdup("JOHNCARPENTER&DONALDDUCK"));
+		return (ft_strdup("\t"));
 	}
 	while (cmd[i] && cmd[i] != ' ' && cmd[i] != '\t' && cmd[i] != '<' && cmd[i] != '>')
 		i++;
@@ -68,8 +68,6 @@ void	heredoc(t_data *data, char *path)
 		signal(SIGINT, SIG_DFL);
 		close(data->fd.redir_fd[0]);
 		close(data->fd.redir_fd[1]);
-		close(data->fd.p_fd[0]);
-		close(data->fd.p_fd[1]);
 		close(data->fd.base_fd[1]);
 		dup2(data->fd.base_fd[0], 0);
 		close(data->fd.base_fd[0]);
@@ -122,11 +120,11 @@ char	*redir_in(t_data *data, char *cmd)
 	untrim = get_in(cmd + i, data->fd.heredoc);
 	if (untrim == NULL)
 		free_all(data);
-	if ((ft_strcmp(untrim, "JOHNCARPENTER&DONALDDUCK") == 0))
+	if ((ft_strcmp(untrim, "\t") == 0))
 	{
 		free (cmd);
 		free(untrim);
-		return (ft_strdup("JOHNCARPENTER&DONALDDUCK"));
+		return (ft_strdup("\t"));
 	}
 	path = get_path(untrim, data->fd.heredoc);
 	if (path == NULL)
@@ -166,7 +164,7 @@ char	*get_out(char *cmd, int begin)
 	if (cmd[i] == '>' || cmd[i] == '<')
 	{
 		ft_dprintf(2, "syntax error near unexpected token « %c »\n", cmd[i]);
-		return (ft_strdup("JOHNCARPENTER&DONALDDUCK"));
+		return (ft_strdup("\t"));
 	}
 	while (cmd[i] && cmd[i] != ' ' && cmd[i] != '\t' && cmd[i] != '>' && cmd[i] != '<')
 		i++;
@@ -192,11 +190,11 @@ char	*redir_out(t_data *data, char *cmd)
 	untrim = get_out(cmd + i, data->fd.append);
 	if (untrim == NULL)
 		free_all(data);
-	if ((ft_strcmp(untrim, "JOHNCARPENTER&DONALDDUCK") == 0))
+	if ((ft_strcmp(untrim, "\t") == 0))
 	{
 		free (cmd);
 		free(untrim);
-		return (ft_strdup("JOHNCARPENTER&DONALDDUCK"));
+		return (ft_strdup("\t"));
 	}
 	path = get_path(untrim, data->fd.append);
 	close(data->fd.redir_fd[1]);
