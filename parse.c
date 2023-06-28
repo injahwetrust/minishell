@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 13:35:26 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/26 14:04:29 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/28 10:14:19 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,9 +124,9 @@ int	part_count(t_data *data)
 			lit++;
 		else if (data->input[i] == '"')
 			d_lit++;
-		else if (data->input[i] == '|' && !lit && !d_lit)
+		else if ((data->input[i] == '|' || data->input[i] == '&') && !lit && !d_lit)
 		{
-			while (data->input[i] == '|')
+			while ((data->input[i] == '|' || data->input[i] == '&'))
 				i++;
 			count++;
 			if (!data->input[i])

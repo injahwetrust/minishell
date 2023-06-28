@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:52:35 by injah             #+#    #+#             */
-/*   Updated: 2023/06/23 15:14:59 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/28 15:03:53 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	init(t_data *data, char **env)
 	data->ghost[0] = 0;
 	data->ex = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
 	data->wrong_char = "&;()<>";
+	data->fd.base_fd[0] = dup(0);
+	data->fd.base_fd[1] = dup(1);
 }
 
 void	init_loop(t_data *data)
@@ -43,14 +45,14 @@ void	init_loop(t_data *data)
 		data->fd.heredoc = 0;
 		data->fd.append = 0;
 		data->pipe = 0;
-		data->fd.base_fd[0] = dup(0);
-		data->fd.base_fd[1] = dup(1);
 		getcwd(data->cwd, sizeof(data->cwd));
 		edit_prompt(data, data->cwd);
 		//data->fd.tmp = open("/tmp/minishell", O_CREAT | O_TRUNC | O_RDONLY, 0644);
 		data->lit = 0;
 		data->d_lit = 0;
 		data->slash = 0;
+		dup2(data->fd.base_fd[0], 0);
+		dup2(data->fd.base_fd[1], 1);
 }
 
 void	header(void)
@@ -263,10 +265,10 @@ int	main(int ac, char **av, char **env)
 		while (data.dollar--)
 			data.input = ez_money(&data);
 		parse_input(&data);
-
 		i = -1;
 		while (data.cmd[++i])
 			data.cmd[i] = wildcards(&data, data.cmd[i]);
+		printf("finished wildcards\n");
 		manage_lit(&data);
 		if (!ft_strcmp(data.cmd[0], "")) // stx_error(&data, data.input) changer le stx de place pour check sur chaque argument
 		{
@@ -278,6 +280,13 @@ int	main(int ac, char **av, char **env)
 			free(data.input);
 			continue;
 		}
+		i = -1;
+		while (data.cmd[++i])
+			printf("cmd %d = %s\n", i + 1, data.cmd[i]);
+		i = -1;
+		while (data.ope[++i])
+			printf("operateur %d = %s\n", i + 1, data.ope[i]);
+		printf("\n-----------------------\n\n");
 		
 		
 		
@@ -296,10 +305,6 @@ int	main(int ac, char **av, char **env)
 		while (wait(NULL) > 0)
 			;
 		data.last_ret = WEXITSTATUS(status);
-		dup2(data.fd.base_fd[0], 0);
-		close(data.fd.base_fd[0]);
-		dup2(data.fd.base_fd[1], 1);
-		close(data.fd.base_fd[1]);
 		ft_free_tab(data.cmd);
 		ft_free_tab(data.ope);
 	}

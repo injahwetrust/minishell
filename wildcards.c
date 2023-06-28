@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 23:30:16 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/26 15:10:58 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/06/28 10:15:50 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,7 @@ char	*wildcards(t_data *data, char *cmd)
 	i = 0;
 	data->lit = 0;
 	data->d_lit = 0;
+	//printf("enter wildcard with %s\n", cmd);
 	while (cmd[i])
 	{
 		if (cmd[i] == '"' && !data->lit)
