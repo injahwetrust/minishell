@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 23:23:17 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/16 16:33:03 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/16 21:36:04 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	process(t_data *data)
 		}
 		while (wait(NULL) > 0)
 			;
-		printf("data->last_pid = %d\ndata->last_ret = %d\n", data->last_pid, data->last_ret);
+		info(data);
 		if (data->argc > 1)
 			end(data);
 		end_loop(data);

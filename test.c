@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 23:41:35 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/12 12:38:29 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/16 21:36:22 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,6 @@ int	info(t_data *data)
 		printf("----------------------\n");
 		i++;
 	}
+	printf("data->last_pid = %d\ndata->last_ret = %d\n", data->last_pid, data->last_ret);
 	return (0);
 }

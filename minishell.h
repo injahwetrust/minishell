@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/07/16 19:05:02 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/16 21:19:24 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,20 +99,14 @@ typedef struct s_fd
 {
 	int	base_fd[2];
 	int	p_fd[2];
-	//int	redir_fd[2];
-	int	heredoc;
-	int	append;
-	int	tmp;
 }	t_fd;
 
 typedef struct s_cmd
 {
 	char	*cmd;
 	char	**s_cmd;
-	
 	char	**in;
 	char	**out;
-
 	char	*prev_op;
 	char	*next_op;
 }	t_cmd;
@@ -124,6 +118,7 @@ typedef struct s_data
 	
 	
 
+	char	*input;
 	char	*last_cmd;
 	char	**paths;
 	char	**env;
@@ -133,40 +128,26 @@ typedef struct s_data
 	char	*prompt;
 	
 	t_cmd	*cmds;
-	int		nb_of_cmd;
-	
 	t_fd	fd;
 	
 	char	*ex;
-	char	*wrong_char;
 	
 	short	last_ret;
-	short	save_ret;
-	char	*input;
-	
-	int	par;
-	int	pipe;
-	int	dollar;
+
 	
 	int	last_pid;
 	short	step;
-
+	short	print;
 	int	lit;
 	int	d_lit;
-	int	slash;
-
-	int	simple_behind;
-	int	double_behind;
-	char	**ope;
-	
-	int	or;
-	int	and;
+	int	par;
 	int	in;
 	int	out;
-
+	int	and;
+	int	or;
 	int	count;
 	int	argc;
-	int	loop;
+
 }	t_data;
 
 extern int	here_pid;

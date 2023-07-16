@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 17:51:27 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/16 16:52:47 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/16 23:14:09 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static char *str_dollar(t_data *data, char *str)
 	int	i;
 	char *replaced;
 	i = 0;
-	printf("entree dans strdoll = %s\n", str);
+
 	data->lit = 0;
 	data->d_lit = 0;
 	while (str[i])

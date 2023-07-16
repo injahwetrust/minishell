@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:41:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/16 16:37:37 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/16 21:23:55 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ void	execution(t_data *data)
 	
 	i = -1;
 	creation(data);
-	info(data);
 	signals(2);
 	while (++i < data->count)
 	{

@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 23:55:59 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/16 19:43:49 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/16 21:20:19 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ int	init_loop(t_data *data)
 	dup2(data->fd.base_fd[1], 1);
 	getcwd(data->cwd, sizeof(data->cwd));
 	edit_prompt(data, data->cwd);
-	
 	data->lit = 0;
 	data->d_lit = 0;
 	data->par = 0;
@@ -96,6 +95,7 @@ int	init_loop(t_data *data)
 	data->step = 0;
 	data->count = 1;
 	data->last_pid = -1;
+	data->print = 0;
 	return (0);
 }
 

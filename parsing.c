@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 00:02:28 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/16 20:55:19 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/16 23:13:23 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ void	manage_last_cmd(t_data *data)
 	char	*new;
 
 	new = ft_strdup("");
-	i = 0;
+	i = -1;
 	exc = 0;
-	while (data->input[i])
+	while (data->input[++i])
 	{
 		if (data->input[i] == '!')
 			exc++;
@@ -55,9 +55,8 @@ void	manage_last_cmd(t_data *data)
 		{
 			new = ft_strjoin(ft_strndup(new, ft_strlen(new) - 1, 1), data->last_cmd, 1);
 			exc = 0;
+			data->print = 1;
 		}
-		printf("new = |%s|\n", new);
-		i++;
 	}
 	free(data->input);
 	data->input = new;
@@ -75,8 +74,13 @@ int	parse_input(t_data *data)
 	manage_last_cmd(data);
 	free(data->last_cmd);
 	data->last_cmd = ft_strdup(data->input);
+	if (data->print)
+		printf("%s\n", data->input);
 	if (parse_op(data))
+	{
+		data->last_ret = 2;
 		return (1);
+	}
 	data->input = wildcards(data);
 	stock(data);
 	manage_dollar(data);
