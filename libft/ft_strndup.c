@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 17:18:11 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/11 18:37:43 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/16 13:27:13 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ static char *removendup(char *src, int n)
     int len;
 
     i = 0;
-    if (n == 0)
-        return (ft_strdup(src));
     n = -n;
     len = ft_strlen(src);
     if (n > len)
@@ -45,17 +43,17 @@ char    *ft_strndup(char *src, int n, int opt)
     int len;
 
     i = 0;
+    if (!n)
+        return (ft_strdup(""));
     if (n > 0)
     {
-    	if (!src)
-        	return (NULL);
     	len = ft_strlen(src);
     	dup = malloc(sizeof(char) * n + 1);
     	if (!dup)
         	return (NULL);
     	while (i < n && i < len)
         {
-        dup[i] = src[i];
+            dup[i] = src[i];
             i++;
         }
         dup[i] = '\0';
@@ -69,6 +67,7 @@ char    *ft_strndup(char *src, int n, int opt)
 
 /*int	main(int ac, char **av)
 {
+    (void)ac;
 	char	*str = "salut tout le monde";
 	
 	str = ft_strndup(str, atoi(av[1]), 0);

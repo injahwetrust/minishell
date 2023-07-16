@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 13:34:03 by bvaujour          #+#    #+#             */
-/*   Updated: 2022/12/03 13:34:05 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/11 18:14:44 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,8 +121,13 @@ char	*ft_read_to_save(int fd, char *save)
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*save;
+	static char	*save = NULL;
 
+	if (fd == -99)
+	{
+		free (save);
+		return (NULL);
+	}
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (0);
 	save = ft_read_to_save(fd, save);

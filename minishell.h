@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/06/23 15:01:15 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/16 19:05:02 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <limits.h>
 # include <signal.h>
 # include <dirent.h>
+#include <sys/ioctl.h>
 
 //couleurs normales texte
 # define RESET			"\1\1\x1B[0m\2"
@@ -98,22 +99,41 @@ typedef struct s_fd
 {
 	int	base_fd[2];
 	int	p_fd[2];
-	int	redir_fd[2];
+	//int	redir_fd[2];
 	int	heredoc;
 	int	append;
 	int	tmp;
 }	t_fd;
 
+typedef struct s_cmd
+{
+	char	*cmd;
+	char	**s_cmd;
+	
+	char	**in;
+	char	**out;
+
+	char	*prev_op;
+	char	*next_op;
+}	t_cmd;
+
 typedef struct s_data
 {
 	char cwd[PATH_MAX];
+	
+	
+	
+
+	char	*last_cmd;
 	char	**paths;
 	char	**env;
 	char	**ghost;
     char    **new_env;
 	char	*cur_dir;
 	char	*prompt;
-	char	**cmd;
+	
+	t_cmd	*cmds;
+	int		nb_of_cmd;
 	
 	t_fd	fd;
 	
@@ -121,8 +141,10 @@ typedef struct s_data
 	char	*wrong_char;
 	
 	short	last_ret;
+	short	save_ret;
 	char	*input;
 	
+	int	par;
 	int	pipe;
 	int	dollar;
 	
@@ -137,42 +159,66 @@ typedef struct s_data
 	int	double_behind;
 	char	**ope;
 	
+	int	or;
+	int	and;
+	int	in;
+	int	out;
+
+	int	count;
+	int	argc;
+	int	loop;
 }	t_data;
 
-void	parse_input(t_data *data);
-void	manage_lit(t_data *data);
+extern int	here_pid;
+
+void	header(void);
 int		replace_in_env(t_data *data, char *str);
-char	*wildcards(t_data *data, char *cmd);
-void	end(t_data *data, char *ret);
+int		info(t_data *data);
+int		process(t_data *data);
+void	end(t_data *data);
+int		init(t_data *data, char **argv, char **env);
+int		init_loop(t_data *data);
+void	edit_lit(t_data *data, char c);
+void	edit_par(t_data *data, char c);
+void	end_loop(t_data *data);
+int		parse_input(t_data *data);
+int		parse_op(t_data *data);
+int		remove_tab(t_data *data, char *str);
+void	stock(t_data *data);
+int		in_charset(char c, char *charset);
+void	fill_cmd(t_data *data);
+void	fill_op(t_data *data);
+void	init_cmds(t_data *data);
+int		is_lit(t_data *data);
+void	remove_str(char *src, char *str);
+void	fill_in(t_data *data);
+void	fill_out(t_data *data);
+int		mixed_op(char *cmd, char c);
 char	*get_env(t_data *data, char *macro);
-void	print(t_data *data);
-void	recoded(t_data *data, char *cmd);
-void	end_process(t_data *data, char *ret);
-void	ft_free_tab(char **tab);
-void	close_n_dup(t_data *data);
-void    add_in_env(t_data *data, char *str);
-char	*parse_export(t_data *data, char *input);
-char	*parse_unset(char *input);
-void	cd_manage(t_data *data, char *cmd);
-int		manage_nonchild(t_data *data);
-void	edit_pipe(t_data *data);
-void	edit_prompt(t_data *data, char *cwd);
-void	edit_paths(t_data *data);
-char	*ez_money(t_data *data);
-int		in_ex(t_data *data, char c);
-char	*redir_in(t_data *data, char *cmd);
-char	*redir_out(t_data *data, char *cmd);
 void	execution(t_data *data);
 char	*get_exec(char *cmd, t_data *data);
-int		still_in(char *cmd);
-int		still_out(char *cmd);
-void	signals(t_data *data, int sig);
-void	handler_1(int sig);
-void	handler_2(int sig);
-void	handler_back_slash(int sig);
-void	edit_dollar(t_data *data);
-char	*manage_exit(t_data *data, char *cmd);
+void	edit_paths(t_data *data);
+void	print(void);
+void	step0(t_data *data);
+void	fill_s_cmd(t_data *data);
+int		redirection(t_data *data, t_cmd *ccmd);
+void	creation(t_data *data);
+void	constant_built_in(t_data *data, char **s_cmd);
+int		echo(char **s_cmd);
+int		env(t_data *data, char **s_cmd);
+void	canceled_built_in(t_data *data, char **s_cmd);
+int		active_built_in(t_data *data, char **s_cmd);
+int		cd(t_data *data, char **s_cmd);
+int		add_in_env(t_data *data, char *str);
+int		remove_from_env(t_data *data, char *str);
+int		is_in_env(t_data *data, char *str);
+int		parse_export(t_data *data, char *input);
+void	signals(int sig);
+void	manage_dollar(t_data *data);
+char	*wildcards(t_data *data);
+int		cont(t_data *data, char c);
+char	*seg_dir(t_data *data, char *new, int i);
+char	*get_ast(t_data *data, char *input);
 
-void	free_all(t_data *data);
 
 #endif

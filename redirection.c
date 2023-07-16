@@ -5,218 +5,168 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/12 11:09:46 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/27 13:41:20 by bvaujour         ###   ########.fr       */
+/*   Created: 2023/07/11 09:15:25 by bvaujour          #+#    #+#             */
+/*   Updated: 2023/07/15 11:54:27 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_path(char *cmd, int begin)
+static int	read_in(char *path, int fd)
 {
-	int	i;
-	char	*file;
+	char	*ret;
 
-	i = 1 + begin;
-	while (cmd[i] && (cmd[i] == ' ' || cmd[i] == '\t'))
-		i++;
-	file = ft_strndup(cmd, -i, 0);
-	if (!file)
-		exit(0); // faire une fonction pour exit proprement
-	i = 0;
-	while (file[i] && file[i] != ' ' && file[i] != '\t' && file[i] != '<' && file[i] != '>')
-		i++;
-	file = ft_strndup(file, i, 1);
-	if (!file)
-		exit(0); // faire une fonction pour exit proprement
-	return (file);
-}
-
-char	*get_in(char *cmd, int begin)
-{
-	int	i;
-	char	*file;
-
-	i = 1 + begin;
-	while (cmd[i] && (cmd[i] == ' ' || cmd[i] == '\t'))
-		i++;
-	if (cmd[i] == '>' || cmd[i] == '<')
+	signals(3);
+	while (1)
 	{
-		ft_dprintf(2, "syntax error near unexpected symbol « %c »\n", cmd[i]);
-		return (ft_strdup("\t"));
+		dprintf(2, BO_GREEN"(%s)input:"RESET, path);
+		ret = get_next_line(0);
+		if (ret == NULL)
+			dprintf(2, "\nMinishell: Warning « heredoc » terminated by EOF (instand of « %s »)\n", path);
+		if (!ret || (ft_strncmp(ret, path, ft_strlen(path)) == 0
+			&& ft_strlen(path) == ft_strlen(ret) - 1))
+		{
+			get_next_line(fd);
+			free(ret);
+			return (0);
+		}
+			write(1, ret, ft_strlen(ret));
+			free(ret);
 	}
-	while (cmd[i] && cmd[i] != ' ' && cmd[i] != '\t' && cmd[i] != '<' && cmd[i] != '>')
-		i++;
-	file = ft_strndup(cmd, i, 0);
-	if (!file)
-		exit(0); // faire une fonction pour exit proprement
-	return (file);
+	return (0);
 }
 
-void	heredoc(t_data *data, char *path)
+static void	heredoc(t_data *data, char *path)
 {
 	int	pid;
-	char	*ret;
-	int	p_fd[2];
-	
-	if (pipe(p_fd) == -1)
-		exit(ft_dprintf(2, "\xE2\x9A\xA0\xEF\xB8\x8F Pipe error\n")); // faire une fonction pour exit proprement
+	int	ret;
+	int	fd;
+
+	signals(4);
+	if (pipe(data->fd.p_fd) == -1)
+		end(data);
 	pid = fork();
-	signals(data, 4);
 	if (pid == 0)
 	{
-		signal(SIGINT, SIG_DFL);
-		close(data->fd.redir_fd[0]);
-		close(data->fd.redir_fd[1]);
-		close(data->fd.base_fd[1]);
+		fd = open("/tmp/free_gnl", O_RDONLY | O_CREAT, 0644);
 		dup2(data->fd.base_fd[0], 0);
-		close(data->fd.base_fd[0]);
-		close(p_fd[0]);
-		dup2(p_fd[1], 1);
-		close(p_fd[1]);
-		// ft_free_tab(data->paths);
-		// ft_free_tab(data->env);
-		// ft_free_tab(data->cmd);
-		while (1)
+		close(data->fd.p_fd[0]);
+		dup2(data->fd.p_fd[1], 1);
+		close(data->fd.p_fd[1]);
+		ret = read_in(path, fd);
+		close(fd);
+		step0(data);
+		exit(ret);
+	}
+	here_pid = pid;
+	waitpid(pid, NULL, 0);
+	close(data->fd.p_fd[1]);
+	dup2(data->fd.p_fd[0], 0);
+	close(data->fd.p_fd[0]);
+}
+
+static int	edit_in(t_data *data, char *in)
+{
+	int	i;
+	int	doc;
+	int	fd;
+	
+	i = 0;
+	while (in[i] == '<')
+		i++;
+	doc = i;
+	while (in[i] == ' ')
+		i++;
+	if (doc == 2)
+		heredoc(data, in + i);
+	else
+	{
+		fd = open(in + i, O_RDONLY);
+		if (fd == -1)
 		{
-			ft_dprintf(2, BO_GREEN"(%s)input:"RESET, path);
-			ret = get_next_line(0);
-			if (ft_strncmp(ret, path, ft_strlen(path)) == 0
-				&& ft_strlen(path) == strlen(ret) - 1)
-			{
-				get_next_line(-99);
-				free(ret);
-				exit(0);
-			}
-				write(1, ret, ft_strlen(ret));
-				free(ret);
+			dprintf(2, "Minishell: %s: %s\n", in + i, strerror(errno));
+			return (1);
 		}
+		dup2(fd, 0);
+		close(fd);
 	}
-	else
-	{
-		waitpid(pid, NULL, 0);
-		close(p_fd[1]);
-		dup2(p_fd[0], 0);
-		close(p_fd[0]);
-		data->fd.redir_fd[0] = dup(0);
-	}
+	return (0);
 }
 
-char	*redir_in(t_data *data, char *cmd)
+static int	edit_out(char *out)
 {
 	int	i;
-	char	*untrim;
-	char	*path;
-	char	*new;
-	(void)data;
+	int	fd;
+	int	append;
 	
 	i = 0;
-	while (cmd[i] && cmd[i] != '<')
+	while (out[i] == '>')
 		i++;
-	if (cmd[i + 1] == '<')
-		data->fd.heredoc = 1;
+	append = i;
+	while (out[i] == ' ')
+		i++;
+	if (append == 2)
+		fd = open(out + i, O_CREAT | O_APPEND | O_WRONLY, 0644);
 	else
-		data->fd.heredoc = 0;
-	untrim = get_in(cmd + i, data->fd.heredoc);
-	if (untrim == NULL)
-		free_all(data);
-	if ((ft_strcmp(untrim, "\t") == 0))
+		fd = open(out + i, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+	if (fd == -1)
 	{
-		free (cmd);
-		free(untrim);
-		return (ft_strdup("\t"));
+		dprintf(2, "Minishell: %s: %s\n", out + i, strerror(errno));
+		return (1);
 	}
-	path = get_path(untrim, data->fd.heredoc);
-	if (path == NULL)
-		free_all(data);
-	close(data->fd.redir_fd[0]);
-	if (data->fd.heredoc)
-		heredoc(data, path);
-	else
-	{
-		dprintf(2, "entrée redirigée depuis %s\n", path);
-		data->fd.redir_fd[0] = open(path, O_RDONLY, 0644);
-	}
-	new = ft_strremove(cmd, untrim, 1, 0);
-	if (!new)
-		free_all(data);
-	free(untrim);
-	free(cmd);
-	if (data->fd.redir_fd[0] == -1)
-	{
-		perror(path);
-		free(path);
-		free(new);
-		return (NULL);
-	}
-	free(path);
-	return (new);
+	dup2(fd, 1);
+	close (fd);
+	return (0);
 }
 
-char	*get_out(char *cmd, int begin)
+int	redirection(t_data *data, t_cmd *ccmd)
 {
 	int	i;
-	char	*file;
-
-	i = 1 + begin;
-	while (cmd[i] && (cmd[i] == ' ' || cmd[i] == '\t'))
-		i++;
-	if (cmd[i] == '>' || cmd[i] == '<')
-	{
-		ft_dprintf(2, "syntax error near unexpected token « %c »\n", cmd[i]);
-		return (ft_strdup("\t"));
-	}
-	while (cmd[i] && cmd[i] != ' ' && cmd[i] != '\t' && cmd[i] != '>' && cmd[i] != '<')
-		i++;
-	file = ft_strndup(cmd, i, 0);
-	if (!file)
-		exit(0); // faire une fonction pour exit proprement
-	return (file);
-}
-
-char	*redir_out(t_data *data, char *cmd)
-{
-	int	i;
-	char	*untrim;
-	char	*path;
-	char	*new;
 	(void)data;
+	i = -1;
+	while (ccmd->in[++i])
+	{
+		if (edit_in(data, ccmd->in[i]))
+			return (1);
+	}
+	i = -1;
+	while (ccmd->out[++i])
+		if (edit_out(ccmd->out[i]))
+			return (1);
+	return (0);
+}
+
+void	create_outfiles(t_cmd *ccmd)
+{
+	int	i;
+	int	j;
+	int	fd;
+	char	*clone;
 	
-	i = 0;
-	while (cmd[i] && cmd[i] != '>')
-		i++;
-	if (cmd[i + 1] == '>')
-		data->fd.append = 1;
-	untrim = get_out(cmd + i, data->fd.append);
-	if (untrim == NULL)
-		free_all(data);
-	if ((ft_strcmp(untrim, "\t") == 0))
+	i = -1;
+	while (ccmd->out[++i])
 	{
-		free (cmd);
-		free(untrim);
-		return (ft_strdup("\t"));
+		clone = ccmd->out[i];
+		j = 0;
+		while (clone[j] == '>')
+			j++;
+		clone += j;
+		while (*clone == ' ')
+			clone++;
+		if (j == 1)
+			fd = open(clone, O_CREAT | O_TRUNC, 0644);
+		else if (j == 2)
+			fd = open(clone, O_CREAT | O_APPEND, 0644);
+		if (fd != -1)
+			close(fd);
 	}
-	path = get_path(untrim, data->fd.append);
-	close(data->fd.redir_fd[1]);
-	if (data->fd.append)
-		data->fd.redir_fd[1] = open(path, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	else
-	{
-		data->fd.redir_fd[1] = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		ft_dprintf(2, "sortie redirigée vers %s\n", path);
-	}
-	new = ft_strremove(cmd, untrim, 1, 0);
-	if (!new)
-		free_all(data);
-	free(cmd);
-	free(untrim);
-	if (data->fd.redir_fd[1] == -1)
-	{
-		perror(path);
-		free(path);
-		free(new);
-		return (NULL);
-	}
-	free(path);
-	return (new);
+}
+
+void	creation(t_data *data)
+{
+	int	i;
+	
+	i = -1;
+	while (++i < data->count)
+		create_outfiles(&data->cmds[i]);
 }

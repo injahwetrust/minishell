@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 14:54:59 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/17 19:22:12 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/06 13:02:02 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		ft_isprint(int c);
 int		ft_str1_ishigher(char *str1, char *str2);
 long long	ft_atoll(const char *nptr);
 int		ft_strcmp(const char *s1, const char *s2);
-size_t	ft_strlen(const char *s);
+int		ft_strlen(const char *s);
 void	*ft_memset(void *s, int c, size_t n);
 void	ft_bzero(void *s, size_t n);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
@@ -48,7 +48,7 @@ int		ft_atoi(const char *nptr);
 void	*ft_calloc(size_t nmemb, size_t size);
 char	*ft_strdup(const char *s);
 char	*ft_strjoin(char *s1, char *s2, int option);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_substr(char const *s, int start, int len);
 char	*ft_strtrim(char *s1, char const *set, int option);
 char	**ft_split(const char *str, char c);
 char	*ft_itoa(int n);

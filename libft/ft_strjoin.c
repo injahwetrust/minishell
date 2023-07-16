@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 14:45:42 by bvaujour          #+#    #+#             */
-/*   Updated: 2022/11/12 14:49:14 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/15 12:31:40 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,12 @@ char	*ft_strjoin(char *s1, char *s2, int option)
 {
 	char	*join;
 
-	if (!s1 || !s2)
-		return (0);
+	if (!s1 && s2)
+		return (s2);
+	if (!s2 && s1)
+		return (s1);
+	if (!s1 && !s2)
+		return (NULL);
 	join = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (join == 0)
 		return (0);
@@ -55,8 +59,8 @@ char	*ft_strjoin(char *s1, char *s2, int option)
 /*int	main()
 {
 	char	*s1 = "hello";
-	char	*s2 = "world";
+	char	*s2 = NULL;
 	
-	printf ("%s\n", ft_strjoin(s1, s2));
-	printf ("%ld\n", ft_strlen(ft_strjoin(s1, s2)));
+	printf ("%s\n", ft_strjoin(s1, s2, 0));
+	printf ("%d\n", ft_strlen(ft_strjoin(s1, s2, 0)));
 }*/
