@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 00:02:28 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/16 19:56:11 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/16 20:55:19 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,13 @@ void	manage_last_cmd(t_data *data)
 			exc++;
 		else
 			exc = 0;
-		if (exc == 2)
+		if (exc != 2)
+			new = ft_strjoin(new, ft_strndup(data->input + i, 1, 0), 3);
+		else
 		{
-			new = ft_strjoin(ft_strndup(new, ft_strlen(new) - 2, 1), data->last_cmd, 1);
+			new = ft_strjoin(ft_strndup(new, ft_strlen(new) - 1, 1), data->last_cmd, 1);
 			exc = 0;
 		}
-		else
-			new = ft_strjoin(new, ft_strndup(data->input + i, 1, 0), 3);
 		printf("new = |%s|\n", new);
 		i++;
 	}
@@ -73,7 +73,7 @@ int	parse_input(t_data *data)
 		return (1);
 	}
 	manage_last_cmd(data);
-	free (data->last_cmd);
+	free(data->last_cmd);
 	data->last_cmd = ft_strdup(data->input);
 	if (parse_op(data))
 		return (1);

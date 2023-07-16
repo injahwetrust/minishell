@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 17:18:11 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/16 13:27:13 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/16 21:04:54 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,28 +36,36 @@ static char *removendup(char *src, int n)
     return (dup);
 }
 
-char    *ft_strndup(char *src, int n, int opt)
+static char    *ndup(char *src, int n)
 {
     char    *dup;
     int i;
     int len;
 
     i = 0;
-    if (!n)
+    len = ft_strlen(src);
+    dup = malloc(sizeof(char) * n + 1);
+    if (!dup)
+        return (NULL);
+    while (i < n && i < len)
+    {
+        dup[i] = src[i];
+        i++;
+    }
+    dup[i] = '\0';
+    return (dup);
+}
+
+char    *ft_strndup(char *src, int n, int opt)
+{
+    char    *dup;
+
+    if (!n && opt == 1)
+        return (free(src), ft_strdup(""));
+    else if (!n && opt == 0)
         return (ft_strdup(""));
     if (n > 0)
-    {
-    	len = ft_strlen(src);
-    	dup = malloc(sizeof(char) * n + 1);
-    	if (!dup)
-        	return (NULL);
-    	while (i < n && i < len)
-        {
-            dup[i] = src[i];
-            i++;
-        }
-        dup[i] = '\0';
-    }
+        dup = ndup(src, n);
 	else
 		dup = removendup(src, n);
     if (opt == 1 && src)
