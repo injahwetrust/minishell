@@ -6,21 +6,51 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 13:33:31 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/08 13:33:54 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/17 02:08:16 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int	mixed_op2(char *cmd, char c, int i)
+{
+	int	n;
+	
+	n = 0;
+	if (c == '<' && cmd[i] == '>')
+	{
+		while (cmd[i] && cmd[i++] == '>')
+			n++;
+		if (n == 2)
+			return (dprintf(2, "Minishell: Syntax error near unexpected symbol « > »\n"));
+		if (n == 3)
+			return (dprintf(2, "Minishell: Syntax error near unexpected symbol « >> »\n"));
+	}
+	else if (c == '>' && cmd[i] == '<')
+	{
+		while (cmd[i] && cmd[i++] == '<')
+			n++;
+		if (n == 1)
+			return (dprintf(2, "Minishell: Syntax error near unexpected symbol « < »\n"));
+		if (n == 2)
+			return (dprintf(2, "Minishell: Syntax error near unexpected symbol « << »\n"));
+		if (n == 3)
+			return (dprintf(2, "Minishell: Syntax error near unexpected symbol « <<< »\n"));
+	}
+	return (0);
+}
+
 int	mixed_op(char *cmd, char c)
 {
 	int	i;
-
 	i = 1;
+	
 	while (cmd[i])
 	{
 		if (cmd[i] == ' ')
 			i++;
+		else if (mixed_op2(cmd, c, i))
+			return (1);
 		else if (in_charset(cmd[i], "|&") && cmd[i] != c && cmd[i + 1] == cmd[i])
 			return (dprintf(2, "Minishell: Syntax error near unexpected symbol « %c%c »\n", cmd[i], cmd[i]));
 		else if (in_charset(cmd[i], "|&") && cmd[i] != c)

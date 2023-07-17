@@ -6,13 +6,13 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 14:18:16 by vanitas           #+#    #+#             */
-/*   Updated: 2023/07/15 11:55:55 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/17 12:07:04 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handler_1(int sig)
+static void	handler_1(int sig)
 {
 	write(1, "\n", 1);
 	rl_replace_line("", 0);
@@ -21,19 +21,19 @@ void	handler_1(int sig)
 	(void)sig;
 }
 
-void	handler_2(int sig)
+static void	handler_2(int sig)
 {
 	write(1, "\n", 1);
 	(void)sig;
 }
 
-void	handler_back_slash(int sig)
+static void	handler_back_slash(int sig)
 {
 	ft_printf("Quit (core dumped)\n");
 	(void)sig;
 }
 
-void	handler_3(int sig)
+static void	handler_3(int sig)
 {
 	kill(here_pid, SIGKILL);
 	dprintf(2, "\n");

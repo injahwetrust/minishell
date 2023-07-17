@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:41:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/16 21:23:55 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/17 02:24:52 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,12 @@ void	simple_exec(t_data *data, char **s_cmd)
 	data->last_pid = pid;
 }
 
-int	cancel_cmd(t_data *data, char	*op)
+int	cancel_cmd(t_data *data, char *op, char **s_cmd)
 {
 	int	status;
 
+	if (ft_strcmp(s_cmd[0], "") == 0)
+		return (1);
 	if (ft_strcmp(op, "&&") == 0)
 	{
 		waitpid(data->last_pid, &status, 0);
@@ -120,7 +122,7 @@ void	execution(t_data *data)
 	{
 		if (redirection(data, &data->cmds[i]))
 			continue ;
-		if (cancel_cmd(data, data->cmds[i].prev_op))
+		if (cancel_cmd(data, data->cmds[i].prev_op, data->cmds[i].s_cmd))
 			continue ;
 		if (ft_strcmp(data->cmds[i].prev_op, "|") == 0 || ft_strcmp(data->cmds[i].next_op, "|") == 0)
 			exec_pipe(data, data->cmds[i].s_cmd);

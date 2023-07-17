@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 09:15:25 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/15 11:54:27 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/17 02:30:58 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,13 +126,19 @@ int	redirection(t_data *data, t_cmd *ccmd)
 	i = -1;
 	while (ccmd->in[++i])
 	{
+		if (ft_strcmp(ccmd->in[i], "<") == 0)
+			continue ;
 		if (edit_in(data, ccmd->in[i]))
 			return (1);
 	}
 	i = -1;
 	while (ccmd->out[++i])
+	{
+		if (ft_strcmp(ccmd->out[i], ">") == 0)
+			continue ;
 		if (edit_out(ccmd->out[i]))
 			return (1);
+	}
 	return (0);
 }
 

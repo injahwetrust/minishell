@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 11:03:24 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/16 00:38:24 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/17 02:34:44 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ static int	op_newline(t_data *data)
 		return (free(last), dprintf(2, "Minishell: Syntax error near unexpected symbol « %s »\n", "||"));
 	else if (!ft_strcmp(last, "<") || !ft_strcmp(last, "<<")
 		|| !ft_strcmp(last, "<<<") || !ft_strcmp(last, ">")
-			|| !ft_strcmp(last, ">>"))
+			|| !ft_strcmp(last, ">>") || !ft_strcmp(last, "<>"))
 		return (free(last), dprintf(2, "Minishell: Syntax error near unexpected symbol « %s »\n", "newline"));
 	return (free(last), 0);
 }
@@ -122,7 +122,9 @@ int	parse_op(t_data *data)
 		if (!is_lit(data) && (count_op(data, data->input[i])
 			|| count_in_out(data, data->input[i])))
 			return (1);
-		if ((data->input[i] == '|' || data->input[i] == '&') && !is_lit(data))
+		if ((data->input[i] == '|' || data->input[i] == '&'
+			|| data->input[i] == '<' || data->input[i] == '>')
+				&& !is_lit(data))
 			if (mixed_op(data->input + i, data->input[i]))
 				return (1);
 	}
