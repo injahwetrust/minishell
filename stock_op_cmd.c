@@ -65,3 +65,32 @@ void	fill_cmd(t_data *data)
 	}
 	data->cmds[j].cmd = ft_strndup(clone, i, 0);
 }
+
+void	manage_last_cmd(t_data *data)
+{
+	int	i;
+	int	exc;
+	char	*new;
+
+	new = ft_strdup("");
+	i = -1;
+	exc = 0;
+	while (data->input[++i])
+	{
+		if (data->input[i] == '!')
+			exc++;
+		else
+			exc = 0;
+		if (exc != 2)
+			new = ft_strjoin(new, ft_strndup(data->input + i, 1, 0), 3);
+		else
+		{
+			new = ft_strjoin(ft_strndup(new, ft_strlen(new) - 1, 1), data->last_cmd, 1);
+			exc = 0;
+			data->print = 1;
+		}
+	}
+	free(data->input);
+	data->input = new;
+}
+

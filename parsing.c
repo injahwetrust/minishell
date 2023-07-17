@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 00:02:28 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/17 13:50:43 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/17 17:49:25 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,32 +34,49 @@ int	parse_export(t_data *data, char *input)
 	return (0);
 }
 
-void	manage_last_cmd(t_data *data)
+static int	first_char(t_data *data)
 {
 	int	i;
-	int	exc;
-	char	*new;
+	char c;
 
-	new = ft_strdup("");
-	i = -1;
-	exc = 0;
-	while (data->input[++i])
+	i = 0;
+	c = 0;
+	if (in_charset(data->input[0], "&|;"))
 	{
-		if (data->input[i] == '!')
-			exc++;
-		else
-			exc = 0;
-		if (exc != 2)
-			new = ft_strjoin(new, ft_strndup(data->input + i, 1, 0), 3);
-		else
-		{
-			new = ft_strjoin(ft_strndup(new, ft_strlen(new) - 1, 1), data->last_cmd, 1);
-			exc = 0;
-			data->print = 1;
-		}
+		c = data->input[0];
+		while (data->input[i] == c)
+			i++;
+		if (i == 1)
+			return (dprintf(2, "Minishell: Syntax error near unexpected token « %c »\n", c));
+		if (i >= 2)
+			return (dprintf(2, "Minishell: Syntax error near unexpected token « %c%c »\n", c, c));
 	}
-	free(data->input);
-	data->input = new;
+	return (0);
+}
+
+static int	empty_par(t_data *data)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	while (data->input[++i])
+		if (data->input[i] == '(')
+		{
+			j = i + 1;
+			while (data->input[j] && data->input[j] != ' ')
+				if (data->input[j++] == ')')
+					return (dprintf(2, "Minishell: Syntax error near unexpected token « ) »\n"));
+		}
+	return (0);
+}
+static int	parse_cmd(t_data *data)
+{
+	if (first_char(data))
+		return (1);
+	if (empty_par(data))
+		return (1);
+	return (0);
 }
 
 int	parse_input(t_data *data)
@@ -71,19 +88,19 @@ int	parse_input(t_data *data)
 		data->last_ret = 1;
 		return (1);
 	}
+	if (parse_cmd(data) || parse_op(data))
+	{
+		data->last_ret = 2;
+		return (1);
+	}
 	manage_last_cmd(data);
 	free(data->last_cmd);
 	data->last_cmd = ft_strdup(data->input);
 	if (data->print)
 		printf("%s\n", data->input);
-	if (parse_op(data))
-	{
-		data->last_ret = 2;
-		return (1);
-	}
 	data->input = wildcards(data);
 	stock(data);
 	manage_dollar(data);
-	remove_lit(data);
+	//remove_lit(data);
 	return (0);
 }

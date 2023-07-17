@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 00:17:39 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/16 18:38:13 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/17 17:50:03 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ int	remove_tab(t_data *data, char *str)
 			str[i] = ' ';
 		i++;
 	}
+	data->lit = 0;
+	data->d_lit = 0;
 	return (0);
 }
 

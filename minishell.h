@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/07/16 21:19:24 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/17 17:36:24 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,6 +200,8 @@ char	*wildcards(t_data *data);
 int		cont(t_data *data, char c);
 char	*seg_dir(t_data *data, char *new, int i);
 char	*get_ast(t_data *data, char *input);
+int		false_space(t_data *data);
+void	manage_last_cmd(t_data *data);
 
 
 #endif

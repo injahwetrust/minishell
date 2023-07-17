@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 11:03:24 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/17 14:49:20 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/17 17:47:49 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static int	parse_quotes_parenthesis(t_data *data)
 		return (ft_dprintf(2, "Minishell: Syntax error near unexpected token %c\n", '('));
 	else if (data->par < 0)
 		return (ft_dprintf(2, "Minishell: Syntax error near unexpected token %c\n", ')'));
+	//dprintf(2, "parse_quotes_parenthesis passed\n");
 	return (0);
 }
 
@@ -54,6 +55,7 @@ static int	count_op(t_data *data, char c)
 		data->and++;
 	else
 		data->and = 0;
+	//dprintf(2, "count_op passed\n");
 	return (0);
 }
 
@@ -77,6 +79,7 @@ static int	count_in_out(t_data *data, char c)
 		data->in++;
 	else
 		data->in = 0;
+	//dprintf(2, "count_in_out passed\n");
 	return (0);
 }
 
@@ -106,6 +109,7 @@ static int	op_newline(t_data *data)
 		|| !ft_strcmp(last, "<<<") || !ft_strcmp(last, ">")
 			|| !ft_strcmp(last, ">>") || !ft_strcmp(last, "<>"))
 		return (free(last), dprintf(2, "Minishell: Syntax error near unexpected token « %s »\n", "newline"));
+	//dprintf(2, "op_newline passed\n");
 	return (free(last), 0);
 }
 
@@ -114,7 +118,7 @@ int	parse_op(t_data *data)
 	int	i;
 	
 	i = -1;
-	if (parse_quotes_parenthesis(data) || op_newline(data))
+	if (parse_quotes_parenthesis(data))
 		return (1);
 	while (data->input[++i])
 	{
@@ -125,12 +129,14 @@ int	parse_op(t_data *data)
 		if ((data->input[i] == '|' || data->input[i] == '&'
 			|| data->input[i] == '<' || data->input[i] == '>')
 				&& !is_lit(data))
-			if (mixed_op(data->input + i, data->input[i]))
-				return (1);
+		if (mixed_op(data->input + i, data->input[i]))
+			return (1);
 	}
 	edit_lit(data, data->input[i]);
 	if (!is_lit(data) && (count_op(data, data->input[i])
 			|| count_in_out(data, data->input[i])))
-			return (1);
+		return (1);
+	if (false_space(data) || op_newline(data))
+		return (1);
 	return (0);
 }

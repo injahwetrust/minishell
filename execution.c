@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:41:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/17 02:24:52 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/17 18:26:23 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ void	go(t_data *data, char **s_cmd)
 	path = get_exec(s_cmd[0], data);
 	if (execve(path, s_cmd, data->env) <= -1)
 	{
-		errno = 3;
-		perror(s_cmd[0]);
+		dprintf(2, "Minishell: %s: command not found\n", s_cmd[0]);
 		if (data->paths)
 			ft_free_tab(data->paths);
 		step0(data);
