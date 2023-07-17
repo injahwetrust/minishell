@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 11:03:24 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/17 02:34:44 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/17 14:49:20 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,28 +28,28 @@ static int	parse_quotes_parenthesis(t_data *data)
 	else if (data->d_lit)
 		return (ft_dprintf(2, "Minishell Error: unclosed double quotes\n"));
 	if (data->par > 0)
-		return (ft_dprintf(2, "Minishell: Syntax error near unexpected symbol %c\n", '('));
+		return (ft_dprintf(2, "Minishell: Syntax error near unexpected token %c\n", '('));
 	else if (data->par < 0)
-		return (ft_dprintf(2, "Minishell: Syntax error near unexpected symbol %c\n", ')'));
+		return (ft_dprintf(2, "Minishell: Syntax error near unexpected token %c\n", ')'));
 	return (0);
 }
 
 static int	count_op(t_data *data, char c)
 {
 	if (data->or == 3 && c != '|')
-		return (dprintf(2, "Minishell: Syntax error near unexpected symbol « %c »\n", '|'));
+		return (dprintf(2, "Minishell: Syntax error near unexpected token « %c »\n", '|'));
 	else if (data->or == 3 && c == '|')
-		return (dprintf(2, "Minishell: Syntax error near unexpected symbol « %s »\n", "||"));
+		return (dprintf(2, "Minishell: Syntax error near unexpected token « %s »\n", "||"));
 	else if (c == '|')
 		data->or++;
 	else
 		data->or = 0;
 	if (data->and == 1 && c != '&')
-		return (dprintf(2, "Minishell: Syntax error near unexpected symbol « %c »\n", '&'));
+		return (dprintf(2, "Minishell: Syntax error near unexpected token « %c »\n", '&'));
 	if (data->and == 3 && c != '&')
-		return (dprintf(2, "Minishell: Syntax error near unexpected symbol « %c »\n", '&'));
+		return (dprintf(2, "Minishell: Syntax error near unexpected token « %c »\n", '&'));
 	else if (data->and == 3 && c == '&')
-		return (dprintf(2, "Minishell: Syntax error near unexpected symbol « %s »\n", "&&"));
+		return (dprintf(2, "Minishell: Syntax error near unexpected token « %s »\n", "&&"));
 	else if (c == '&')
 		data->and++;
 	else
@@ -60,19 +60,19 @@ static int	count_op(t_data *data, char c)
 static int	count_in_out(t_data *data, char c)
 {
 	if (data->out == 3 && c != '>')
-		return (dprintf(2, "Minishell: Syntax error near unexpected symbol « %c »\n", '>'));
+		return (dprintf(2, "Minishell: Syntax error near unexpected token « %c »\n", '>'));
 	else if (data->out == 3 && c == '>')
-		return (dprintf(2, "Minishell: Syntax error near unexpected symbol « %s »\n", ">>"));
+		return (dprintf(2, "Minishell: Syntax error near unexpected token « %s »\n", ">>"));
 	else if (c == '>')
 		data->out++;
 	else
 		data->out = 0;
 	if (data->in == 3 && c != '<')
-		return (dprintf(2, "Minishell: Syntax error near unexpected symbol « %c »\n", '<'));
+		return (dprintf(2, "Minishell: Syntax error near unexpected token « %c »\n", '<'));
 	else if (data->in == 4 && c != '<')
-		return (dprintf(2, "Minishell: Syntax error near unexpected symbol « %s »\n", "<<"));
+		return (dprintf(2, "Minishell: Syntax error near unexpected token « %s »\n", "<<"));
 	else if (data->in == 4 && c == '<')
-		return (dprintf(2, "Minishell: Syntax error near unexpected symbol « %s »\n", "<<<"));
+		return (dprintf(2, "Minishell: Syntax error near unexpected token « %s »\n", "<<<"));
 	else if (c == '<')
 		data->in++;
 	else
@@ -95,17 +95,17 @@ static int	op_newline(t_data *data)
 	if (!last)
 		end(data);
 	if (!ft_strncmp(last, "&", 1) && strlen(last) == 1)
-		return (free(last), dprintf(2, "Minishell: Syntax error near unexpected symbol « %c »\n", '&'));
+		return (free(last), dprintf(2, "Minishell: Syntax error near unexpected token « %c »\n", '&'));
 	else if (!ft_strncmp(last, "&", 2) && strlen(last) > 1)
-		return (free(last), dprintf(2, "Minishell: Syntax error near unexpected symbol « %s »\n", "&&"));
+		return (free(last), dprintf(2, "Minishell: Syntax error near unexpected token « %s »\n", "&&"));
 	else if (!ft_strncmp(last, "|", 1) && strlen(last) == 1)
-		return (free(last), dprintf(2, "Minishell: Syntax error near unexpected symbol « %c »\n", '|'));
+		return (free(last), dprintf(2, "Minishell: Syntax error near unexpected token « %c »\n", '|'));
 	else if (!ft_strncmp(last, "||", 2) && strlen(last) > 1)
-		return (free(last), dprintf(2, "Minishell: Syntax error near unexpected symbol « %s »\n", "||"));
+		return (free(last), dprintf(2, "Minishell: Syntax error near unexpected token « %s »\n", "||"));
 	else if (!ft_strcmp(last, "<") || !ft_strcmp(last, "<<")
 		|| !ft_strcmp(last, "<<<") || !ft_strcmp(last, ">")
 			|| !ft_strcmp(last, ">>") || !ft_strcmp(last, "<>"))
-		return (free(last), dprintf(2, "Minishell: Syntax error near unexpected symbol « %s »\n", "newline"));
+		return (free(last), dprintf(2, "Minishell: Syntax error near unexpected token « %s »\n", "newline"));
 	return (free(last), 0);
 }
 
