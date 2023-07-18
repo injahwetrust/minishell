@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 09:15:25 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/17 02:30:58 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/18 20:21:39 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void	heredoc(t_data *data, char *path)
 		step0(data);
 		exit(ret);
 	}
-	here_pid = pid;
+	last_ret = pid;
 	waitpid(pid, NULL, 0);
 	close(data->fd.p_fd[1]);
 	dup2(data->fd.p_fd[0], 0);

@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 23:55:59 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/18 15:59:05 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/18 21:02:09 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	init(t_data *data, char **argv, char **env)
 			i++;
 		}
 	}
-	data->last_ret = 0;
+	last_ret = 0;
 	data->last_cmd = ft_strdup("./minishell");
 	data->ghost = malloc(sizeof(char *));
 	data->ghost[0] = 0;

@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 14:18:16 by vanitas           #+#    #+#             */
-/*   Updated: 2023/07/17 12:07:04 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/19 00:44:04 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,29 @@ static void	handler_1(int sig)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
+	last_ret = 130;
 	(void)sig;
 }
 
 static void	handler_2(int sig)
 {
 	write(1, "\n", 1);
+	last_ret = 130;
 	(void)sig;
 }
 
 static void	handler_back_slash(int sig)
 {
 	ft_printf("Quit (core dumped)\n");
+	last_ret = 131;
 	(void)sig;
 }
 
 static void	handler_3(int sig)
 {
-	kill(here_pid, SIGKILL);
+	kill(last_ret, SIGKILL);
 	dprintf(2, "\n");
+	last_ret = 130;
 	(void)sig;
 }
 

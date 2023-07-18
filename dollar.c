@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 17:51:27 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/18 18:03:56 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/18 20:18:59 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char	*get_part(t_data *data, char *begin, char *part)
 		str2 = ft_strjoin(begin, part, 1);
 	else if (ft_strcmp(macro, "?") == 0)
 	{
-		str2 = ft_strjoin(begin, ft_itoa(data->last_ret), 3);
+		str2 = ft_strjoin(begin, ft_itoa(last_ret), 3);
 		str2 = ft_strjoin(str2, ft_strndup(part, -i, 0), 3);
 	}
 	else if (get_env(data, macro))

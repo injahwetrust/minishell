@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:41:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/18 12:07:33 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/18 23:57:07 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	simple_exec(t_data *data, char **s_cmd)
 	ret = active_built_in(data, s_cmd);
 	if (ret != -1)
 	{
-		data->last_ret = ret;
+		last_ret = ret;
 		return ;
 	}
 	pid = fork();
@@ -92,7 +92,12 @@ int	cancel_cmd(t_data *data, char *op, char **s_cmd)
 	int	status;
 
 	if (ft_strcmp(s_cmd[0], "") == 0)
-		return (1);
+		return (last_ret = 0, 1);
+	if (ft_strcmp(s_cmd[0], "\t") == 0)
+	{
+		free (s_cmd[0]);
+		s_cmd[0] = ft_strdup("");
+	}
 	if (ft_strcmp(op, "&&") == 0)
 	{
 		waitpid(data->last_pid, &status, 0);

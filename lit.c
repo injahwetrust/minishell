@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 23:55:37 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/18 02:49:10 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/18 18:17:47 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,18 @@ static void	remove_lit(t_data *data, char **s_cmd)
 	i = 0;
 	while (s_cmd[i])
 	{
-		str = remove_quotes(data, s_cmd[i]);
-		free (s_cmd[i]);
-		s_cmd[i] = ft_strdup(str);
-		free(str);
+		if (!ft_strcmp(s_cmd[i], "\"\"") || !ft_strcmp(s_cmd[i], "''"))
+		{
+			free (s_cmd[i]);
+			s_cmd[i] = ft_strdup("\t");
+		}
+		else
+		{
+			str = remove_quotes(data, s_cmd[i]);
+			free (s_cmd[i]);
+			s_cmd[i] = ft_strdup(str);
+			free(str);
+		}
 		i++;
 	}
 }

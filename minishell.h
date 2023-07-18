@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/07/18 00:03:59 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/18 21:03:19 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,10 +114,6 @@ typedef struct s_cmd
 typedef struct s_data
 {
 	char cwd[PATH_MAX];
-	
-	
-	
-
 	char	*input;
 	char	*last_cmd;
 	char	**paths;
@@ -126,20 +122,14 @@ typedef struct s_data
     char    **new_env;
 	char	*cur_dir;
 	char	*prompt;
-	
+	char	*ex;
 	t_cmd	*cmds;
 	t_fd	fd;
-	
-	char	*ex;
-	
-	short	last_ret;
-
-	
 	int	last_pid;
 	short	step;
 	short	print;
-	int	lit;
-	int	d_lit;
+	short int	lit;
+	short int	d_lit;
 	int	par;
 	int	in;
 	int	out;
@@ -150,7 +140,7 @@ typedef struct s_data
 
 }	t_data;
 
-extern int	here_pid;
+extern int	last_ret;
 
 void	header(void);
 int		replace_in_env(t_data *data, char *str);

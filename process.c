@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 23:23:17 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/18 17:33:57 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/19 00:48:29 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	next_it(t_data *data)
 {
 	if (!ft_strcmp(data->input, ":"))
 	{
-		data->last_ret = 0;
+		last_ret = 0;
 		return (1);
 	}
 	if (!ft_strcmp(data->input, ""))
@@ -53,20 +53,16 @@ int	process(t_data *data)
 	{
 		if (get_input(data))
 			continue ;
-		if (ft_strcmp(data->input, "exit") == 0)
-		{
-			end(data);
-			printf("exit\n");
-		}
 		execution(data);
 		if (data->last_pid > 0)
 		{
 			waitpid(data->last_pid, &status, 0);
-			data->last_ret = WEXITSTATUS(status);
+			if (last_ret != 130 && last_ret != 131)
+				last_ret = WEXITSTATUS(status);
 		}
 		while (wait(NULL) > 0)
 			;
-		info(data);
+		//info(data);
 		if (data->argc > 1)
 			end(data);
 		end_loop(data);

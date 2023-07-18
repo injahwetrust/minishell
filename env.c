@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 10:03:35 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/16 16:25:59 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/18 22:59:10 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,7 @@ int    add_in_env(t_data *data, char *str)
     int i;
 	
 	if (parse_export(data, str))
-	{
-		printf("export reject %s\n", str);
 		return (1);
-	}
 	if (replace_in_env(data, str))
 		return (0);
     i = 0;

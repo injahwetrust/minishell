@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 00:02:28 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/18 17:52:04 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/18 22:58:40 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ int	parse_export(t_data *data, char *input)
 		dprintf(2, "Minishell: export: « %s » wrong identifier\n", input);
 		return (1);
 	}
-	while (input[i])
+	while (input[i] && input[i] != '=')
 	{
-		if (!in_charset(input[i], data->ex) || input[i] != '=')
+		if (!in_charset(input[i], data->ex))
 		{
-			dprintf(2, "Minishell: export: « %s » wrong identifier\n", input);
-			return (1);
+				dprintf(2, "Minishell: export: « %s » wrong identifier\n", input);
+				return (1);
 		}
 		i++;
 	}
@@ -85,12 +85,12 @@ int	parse_input(t_data *data)
 		return (1);
 	if (ft_strcmp(data->input, "!") == 0)
 	{
-		data->last_ret = 1;
+		last_ret = 1;
 		return (1);
 	}
 	if (parse_cmd(data) || parse_op(data))
 	{
-		data->last_ret = 2;
+		last_ret = 2;
 		return (1);
 	}
 	manage_last_cmd(data);
@@ -98,9 +98,8 @@ int	parse_input(t_data *data)
 	data->last_cmd = ft_strdup(data->input);
 	if (data->print)
 		printf("%s\n", data->input);
-	printf("lit = %d\nd_lit = %d\n", data->lit, data->d_lit);
 	manage_dollar(data);
-	printf("lit = %d\nd_lit = %d\n", data->lit, data->d_lit);
+	last_ret = -1;
 	data->input = wildcards(data);
 	stock(data);
 	manage_lit(data);
