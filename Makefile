@@ -6,7 +6,7 @@
 #    By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/06 16:33:49 by vanitas           #+#    #+#              #
-#    Updated: 2023/07/16 16:03:34 by bvaujour         ###   ########.fr        #
+#    Updated: 2023/07/18 00:04:19 by bvaujour         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,6 +54,7 @@ SRC		=	main.c						\
 			dollar.c					\
 			wildcards.c					\
 			wildcards2.c				\
+			lit.c						\
 			
 			
 OBJ			=	$(SRC:.c=.o)
