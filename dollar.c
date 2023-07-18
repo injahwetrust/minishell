@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 17:51:27 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/16 23:14:09 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/18 16:06:59 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char	*get_part(t_data *data, char *begin, char *part)
 	char	*str2;
 
 	i = 0;
-	while (part[i] && part[i] != ' ' && part[i] != '\'' && part[i] != '"')
+	while (part[i] && in_charset(part[i], data->ex))
 		i++;
 	macro = ft_strndup(part, i, 0);
 	if (ft_strcmp(macro, "?") == 0)
@@ -42,14 +42,16 @@ static char *str_dollar(t_data *data, char *str)
 {
 	int	i;
 	char *replaced;
-	i = 0;
+	i = -1;
 
 	data->lit = 0;
 	data->d_lit = 0;
-	while (str[i])
+	while (str[++i])
 	{
 		edit_lit(data, str[i]);
-		if (str[i] == '$' && !data->lit && i != 0)
+		if (str[i] == '$' && !data->lit && !in_charset(str[i + 1], data->ex))
+			continue ;
+		else if (str[i] == '$' && !data->lit && i != 0)
 		{
 			replaced = get_part(data, ft_strndup(str, i, 0), str + i + 1);
 			return (replaced);
@@ -59,7 +61,6 @@ static char *str_dollar(t_data *data, char *str)
 			replaced = get_part(data, ft_strdup(""), str + i + 1);
 			return (replaced);
 		}
-		i++;
 	}
 	return (NULL);
 }
@@ -75,7 +76,7 @@ static void	replace_str(t_data *data, char **s_cmd, int i)
 	while (s_cmd[i][++j])
 	{
 		edit_lit(data, s_cmd[i][j]);
-		if (s_cmd[i][j] == '$' && !data->lit)
+		if (s_cmd[i][j] == '$' && in_charset(s_cmd[i][j + 1], data->ex) && s_cmd[i][j + 1])
 			dol++;
 	}
 	while (dol)

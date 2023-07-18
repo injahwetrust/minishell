@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 23:55:59 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/16 23:30:20 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/18 15:59:05 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	init(t_data *data, char **argv, char **env)
 	data->last_cmd = ft_strdup("./minishell");
 	data->ghost = malloc(sizeof(char *));
 	data->ghost[0] = 0;
-	data->ex = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_=";
+	data->ex = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
 	init_env(data, env);
 	return (0);
 }
