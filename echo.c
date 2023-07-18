@@ -6,13 +6,13 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 09:53:29 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/14 14:44:21 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/18 14:55:10 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	newline(char *str)
+static int	no_newline(char *str)
 {
 	int	i;
 
@@ -30,11 +30,13 @@ static int	newline(char *str)
 
 int	echo(char **s_cmd)
 {
-	int	nl;
+	int	no_nl;
 	int	i;
 
-	nl = newline(s_cmd[1]);
-	i = 1 + nl;
+	i = 0;
+	no_nl = 0;
+	while (no_newline(s_cmd[++i]))
+		no_nl = 1;
 	while (s_cmd[i])
 	{
 		ft_printf("%s", s_cmd[i]);
@@ -43,7 +45,7 @@ int	echo(char **s_cmd)
 		write(1, " ", 1);
 		i++;
 	}
-	if (!nl)
+	if (!no_nl)
 		write(1, "\n", 1);
 	return (0);
 }
