@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 23:23:17 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/18 14:34:23 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/18 17:33:57 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	process(t_data *data)
 		}
 		while (wait(NULL) > 0)
 			;
-		//info(data);
+		info(data);
 		if (data->argc > 1)
 			end(data);
 		end_loop(data);

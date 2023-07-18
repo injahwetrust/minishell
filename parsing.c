@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 00:02:28 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/18 15:58:52 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/18 17:52:04 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,11 @@ int	parse_input(t_data *data)
 	data->last_cmd = ft_strdup(data->input);
 	if (data->print)
 		printf("%s\n", data->input);
+	printf("lit = %d\nd_lit = %d\n", data->lit, data->d_lit);
+	manage_dollar(data);
+	printf("lit = %d\nd_lit = %d\n", data->lit, data->d_lit);
 	data->input = wildcards(data);
 	stock(data);
-	manage_dollar(data);
 	manage_lit(data);
 	return (0);
 }

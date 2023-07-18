@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 17:51:27 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/18 16:06:59 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/18 18:03:56 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,14 @@ static char	*get_part(t_data *data, char *begin, char *part)
 	char	*macro;
 	char	*str2;
 
-	i = 0;
-	while (part[i] && in_charset(part[i], data->ex))
-		i++;
+	i = -1;
+	while (part[++i] && ((in_charset(part[i], data->ex) && !in_charset(part[i], "\"'")) || part[i] == '?'))
+		if (i == 1 && in_charset(part[i - 1], "0123456789"))
+			break ;
 	macro = ft_strndup(part, i, 0);
-	if (ft_strcmp(macro, "?") == 0)
+	if (ft_strcmp(macro, "") == 0)
+		str2 = ft_strjoin(begin, part, 1);
+	else if (ft_strcmp(macro, "?") == 0)
 	{
 		str2 = ft_strjoin(begin, ft_itoa(data->last_ret), 3);
 		str2 = ft_strjoin(str2, ft_strndup(part, -i, 0), 3);
@@ -49,8 +52,11 @@ static char *str_dollar(t_data *data, char *str)
 	while (str[++i])
 	{
 		edit_lit(data, str[i]);
-		if (str[i] == '$' && !data->lit && !in_charset(str[i + 1], data->ex))
+		if (str[i] == '$' && !data->lit && !in_charset(str[i + 1], data->ex) && !in_charset(str[i + 1], "\"'?") && str[i + 1])
+		{
+			printf("continued\n");
 			continue ;
+		}
 		else if (str[i] == '$' && !data->lit && i != 0)
 		{
 			replaced = get_part(data, ft_strndup(str, i, 0), str + i + 1);
@@ -65,52 +71,28 @@ static char *str_dollar(t_data *data, char *str)
 	return (NULL);
 }
 
-static void	replace_str(t_data *data, char **s_cmd, int i)
+void	manage_dollar(t_data *data)
 {
-	char	*str;
-	int	j;
+	int	i;
 	int	dol;
-	
+	char	*str;
+
 	dol = 0;
-	j = -1;
-	while (s_cmd[i][++j])
+	i = -1;
+	while (data->input[++i])
 	{
-		edit_lit(data, s_cmd[i][j]);
-		if (s_cmd[i][j] == '$' && in_charset(s_cmd[i][j + 1], data->ex) && s_cmd[i][j + 1])
+		edit_lit(data, data->input[i]);
+		if (data->input[i] == '$' && !data->lit && (in_charset(data->input[i + 1], data->ex) || in_charset(data->input[i + 1], "\"'?")))
 			dol++;
 	}
 	while (dol)
 	{
-		str = str_dollar(data, s_cmd[i]);
-		free(s_cmd[i]);
-		s_cmd[i] = ft_strdup(str);
+		str = str_dollar(data, data->input);
+		free(data->input);
+		data->input = ft_strdup(str);
 		free(str);
 		dol--;
+		data->d_lit = 0;
+		data->lit = 0;
 	}
-}
-
-static void	replace_dollar(t_data *data, char **s_cmd)
-{
-	int	i;
-
-
-	i = 0;
-	while (s_cmd[i])
-	{
-		replace_str(data, s_cmd, i);
-		i++;
-	}
-}
-
-void	manage_dollar(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < data->count)
-	{
-		replace_dollar(data, data->cmds[i].s_cmd);
-		i++;
-	}
-	
 }
