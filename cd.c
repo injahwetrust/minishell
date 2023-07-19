@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:25:47 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/18 22:50:33 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/20 00:16:14 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ static int	cd_path(t_data *data, char *path)
 	else
 	{
 		ret = chdir(path);
+		printf("retour de chdir = %d\n", ret);
+		printf("retour de access = %d\n", access(path, F_OK));
 		if (ret)
 			return (dprintf(2, "Minishell: cd: %s: %s\n", path, strerror(errno)));
 		else
