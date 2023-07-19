@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 23:23:17 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/19 00:48:29 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/19 12:03:12 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ static int	get_input(t_data *data)
 	if (data->argc == 1)
 		data->input = readline(data->prompt);
 	if (data->input == NULL)
+	{
+		printf("exit\n");
 		end(data);
+	}
 	data->input = ft_strtrim(data->input, " \t", 1);
 	if (next_it(data))
 	{
@@ -62,7 +65,7 @@ int	process(t_data *data)
 		}
 		while (wait(NULL) > 0)
 			;
-		//info(data);
+		info(data);
 		if (data->argc > 1)
 			end(data);
 		end_loop(data);

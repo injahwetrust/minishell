@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/07/18 21:03:19 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/19 12:34:45 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,7 @@ char	*get_ast(t_data *data, char *input);
 int		false_space(t_data *data);
 void	manage_last_cmd(t_data *data);
 void	manage_lit(t_data *data);
+int		manage_exit(t_data *data, char **s_cmd);
 
 
 #endif

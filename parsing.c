@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 00:02:28 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/18 22:58:40 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/19 11:59:09 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ int	parse_export(t_data *data, char *input)
 	i = 0;
 	if (in_charset(input[0], "0123456789"))
 	{
-		dprintf(2, "Minishell: export: « %s » wrong identifier\n", input);
+		dprintf(2, "Minishell: export: « %s » not a valid identifier\n", input);
 		return (1);
 	}
 	while (input[i] && input[i] != '=')
 	{
 		if (!in_charset(input[i], data->ex))
 		{
-				dprintf(2, "Minishell: export: « %s » wrong identifier\n", input);
+				dprintf(2, "Minishell: export: « %s » not a valid identifier\n", input);
 				return (1);
 		}
 		i++;

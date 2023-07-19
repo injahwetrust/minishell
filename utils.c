@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 00:17:39 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/17 17:50:03 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/19 11:48:34 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	remove_tab(t_data *data, char *str)
 		edit_lit(data, str[i]);
 		if (str[i] == '#' && !is_lit(data))
 			return (1);
-		if (str[i] == '\t')
+		if (str[i] == '\t' && !is_lit(data))
 			str[i] = ' ';
 		i++;
 	}

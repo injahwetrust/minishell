@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:28:42 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/18 23:54:30 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/19 12:25:44 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,11 @@ int	active_built_in(t_data *data, char **s_cmd)
 		ret = remove_from_env(data, s_cmd[1]);
 	else if (ft_strcmp("exit", s_cmd[0]) == 0 && s_cmd[1])
 	{
-		ret = ft_atoi(s_cmd[1]);
-		printf("exit\n");
-		step0(data);
-		exit(ret);
+		ret = manage_exit(data, s_cmd);
+		// ret = ft_atoi(s_cmd[1]);
+		// printf("exit\n");
+		// step0(data);
+		// exit(ret);
 	}
 	else if (ft_strcmp("exit", s_cmd[0]) == 0 && !s_cmd[1])
 	{

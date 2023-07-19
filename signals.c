@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 14:18:16 by vanitas           #+#    #+#             */
-/*   Updated: 2023/07/19 00:44:04 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/19 01:41:26 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	signals(int sig)
 	if (sig == 1)
 	{
 		signal(SIGINT, handler_1);
+		signal(SIGTSTP, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
 	}
 	if (sig == 2)
