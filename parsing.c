@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 00:02:28 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/19 11:59:09 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/25 08:41:41 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int	parse_input(t_data *data)
 	last_ret = -1;
 	data->input = wildcards(data);
 	stock(data);
+	bash_morphing(data);
 	manage_lit(data);
 	return (0);
 }

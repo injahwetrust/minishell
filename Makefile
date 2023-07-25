@@ -6,7 +6,7 @@
 #    By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/06 16:33:49 by vanitas           #+#    #+#              #
-#    Updated: 2023/07/19 12:35:27 by bvaujour         ###   ########.fr        #
+#    Updated: 2023/07/25 12:11:33 by bvaujour         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,12 +50,14 @@ SRC		=	main.c						\
 			env.c						\
 			echo.c						\
 			cd.c						\
+			exit.c						\
+			export.c					\
 			signals.c					\
 			dollar.c					\
 			wildcards.c					\
 			wildcards2.c				\
 			lit.c						\
-			exit.c						\
+			bash_morphing.c				\
 			
 			
 OBJ			=	$(SRC:.c=.o)

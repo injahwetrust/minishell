@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:41:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/19 11:54:57 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/21 10:51:53 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ void	execution(t_data *data)
 			simple_exec(data, data->cmds[i].s_cmd);
 		if (!isatty(0) && !isatty(1))
 			print();
-		if (!isatty(0) && i == data->count - 1)
+		else if (!isatty(0) && i == data->count - 1)
 			print();
 	}
 }

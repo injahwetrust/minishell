@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/07/19 12:34:45 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/25 12:11:02 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,6 +194,8 @@ int		false_space(t_data *data);
 void	manage_last_cmd(t_data *data);
 void	manage_lit(t_data *data);
 int		manage_exit(t_data *data, char **s_cmd);
+void	bash_morphing(t_data *data);
+int		print_declare(t_data *data);
 
 
 #endif

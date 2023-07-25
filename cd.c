@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:25:47 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/20 00:16:14 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/20 02:55:38 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,32 +23,44 @@ static int	cd_home(t_data *data)
 	return (0);
 }
 
+static int cd_error()
+{
+	char	*str;
+	
+	str = getcwd(NULL, 0);
+	if (str == NULL)
+	{
+		dprintf(2, "chdir: error retrieving current directory: getcmd: cannot access parent directories: %s\n", strerror(errno));
+		free (str);
+		return (1);
+	}
+	free (str);
+	return (0);
+}
+
 static int	cd_path(t_data *data, char *path)
 {
 	int	ret;
 	char	*pwd;
-	
-	pwd = ft_strjoin("OLDPWD=", data->cwd, 0);
-	if (!pwd)
-		end(data);
+
 	if (ft_strcmp(path, "-") == 0)
 	{
 		ret = chdir(get_env(data, "OLDPWD"));
 		if (ret != 0)
-			return (dprintf(2, "Minishell: cd: %s: %s\n", path, strerror(errno)));
-		else
-			add_in_env(data, pwd);
+			return (dprintf(2, "Minishell: cd: « OLDPWD » undefined\n"));
 	}
 	else
 	{
 		ret = chdir(path);
-		printf("retour de chdir = %d\n", ret);
-		printf("retour de access = %d\n", access(path, F_OK));
+		if (cd_error())
+			return (1);
 		if (ret)
 			return (dprintf(2, "Minishell: cd: %s: %s\n", path, strerror(errno)));
-		else
-			add_in_env(data, pwd);
 	}
+	pwd = ft_strjoin("OLDPWD=", data->cwd, 0);
+	if (!pwd)
+		end(data);
+	add_in_env(data, pwd);
 	free(pwd);
 	return (0);
 }

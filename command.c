@@ -6,32 +6,11 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:28:42 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/19 12:25:44 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/25 12:10:15 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	print_declare(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (data->env[i])
-	{
-		printf("export ");
-		printf("%s\n", data->env[i]);
-		i++;
-	}
-	i = 0;
-	while (data->ghost[i])
-	{
-		printf("export ");
-		printf("%s\n", data->ghost[i]);
-		i++;
-	}
-	return (1);
-}
 
 void	canceled_built_in(t_data *data, char **s_cmd)
 {
@@ -90,13 +69,7 @@ int	active_built_in(t_data *data, char **s_cmd)
 	else if (ft_strcmp("unset", s_cmd[0]) == 0)
 		ret = remove_from_env(data, s_cmd[1]);
 	else if (ft_strcmp("exit", s_cmd[0]) == 0 && s_cmd[1])
-	{
 		ret = manage_exit(data, s_cmd);
-		// ret = ft_atoi(s_cmd[1]);
-		// printf("exit\n");
-		// step0(data);
-		// exit(ret);
-	}
 	else if (ft_strcmp("exit", s_cmd[0]) == 0 && !s_cmd[1])
 	{
 		printf("exit\n");

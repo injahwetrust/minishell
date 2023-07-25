@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 10:03:35 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/18 22:59:10 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/25 09:50:02 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	replace_in_env(t_data *data, char *str)
 		i++;
 	if (!str[i])
 	{
-		printf("add in ghost\n");
 		add_in_ghost(data, str);
 		return (1);
 	}
@@ -114,11 +113,18 @@ int	remove_from_env(t_data *data, char *str)
 
 int	env(t_data *data, char **s_cmd)
 {
-	if (s_cmd[1])
+	int	i;
+	
+	i = 0;
+	while (s_cmd[i])
 	{
-		errno = ENOENT;
-		dprintf(2, "Minishell: %s: %s\n", s_cmd[1], strerror(errno));
-		return (1);
+		if (ft_strcmp(s_cmd[i], "env") != 0)
+		{
+			errno = ENOENT;
+			dprintf(2, "Minishell: «%s»: %s\n", s_cmd[i], strerror(errno));
+			return (127);
+		}
+		i++;
 	}
 	print_env(data);
 	return (0);
