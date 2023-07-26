@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 10:03:35 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/25 19:32:11 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/26 15:49:53 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,30 @@ void	print_env(t_data *data)
 		i++;
 	}
 }
+void	remove_from_ghost(t_data *data, char *str)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (data->ghost[i])
+		i++;
+	data->new_env = malloc(sizeof(char *) * i);
+	if (!data->new_env)
+		end(data);
+	i = 0;
+	while (data->ghost[i])
+	{
+		if (!strncmp(str, data->ghost[i], ft_strlen(str)))
+			free (data->ghost[i++]);
+		else
+			data->new_env[j++] = data->ghost[i++];
+	}
+	data->new_env[j] = 0;
+	free(data->ghost);
+	data->ghost = data->new_env;
+}
 
 int	remove_from_env(t_data *data, char *str)
 {
@@ -113,24 +137,27 @@ int	remove_from_env(t_data *data, char *str)
 	
 	i = 0;
 	j = 0;
-	if (!str || !is_in_env(data, str))
-		return (0);
-	while (data->env[i])
-		i++;
-	data->new_env = malloc(sizeof(char *) * i);
-	if (!data->new_env)
-		end(data);
-	i = 0;
-	while (data->env[i])
+	if (is_in_env(data, str) == 1)
 	{
-		if (!strncmp(str, data->env[i], ft_strlen(str)))
-			free (data->env[i++]);
-		else
-			data->new_env[j++] = data->env[i++];
+		while (data->env[i])
+			i++;
+		data->new_env = malloc(sizeof(char *) * i);
+		if (!data->new_env)
+			end(data);
+		i = 0;
+		while (data->env[i])
+		{
+			if (!strncmp(str, data->env[i], ft_strlen(str)) && data->env[i][ft_strlen(str)] == '=')
+				free (data->env[i++]);
+			else
+				data->new_env[j++] = data->env[i++];
+		}
+		data->new_env[j] = 0;
+		free(data->env);
+		data->env = data->new_env;
 	}
-	data->new_env[j] = 0;
-	free(data->env);
-	data->env = data->new_env;
+	else if (is_in_env(data, str) == 2)
+		remove_from_ghost(data, str);
 	return (0);
 }
 

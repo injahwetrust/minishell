@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 13:40:58 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/16 16:03:02 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/26 15:46:44 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,13 @@ int	is_in_env(t_data *data, char *str)
 	{
 		if (!strncmp(str, data->env[i], ft_strlen(str)) && data->env[i][ft_strlen(str)] == '=')
 			return (1);
+		i++;
+	}
+	i = 0;
+	while (data->ghost[i])
+	{
+		if (!strcmp(str, data->ghost[i]))
+			return (2);
 		i++;
 	}
 	return (0);
