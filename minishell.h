@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/07/25 12:11:02 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/26 14:55:31 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ int		mixed_op(char *cmd, char c);
 char	*get_env(t_data *data, char *macro);
 void	execution(t_data *data);
 char	*get_exec(char *cmd, t_data *data);
-void	edit_paths(t_data *data);
+void	edit_paths(t_data *data, char *cmd);
 void	print(void);
 void	step0(t_data *data);
 void	fill_s_cmd(t_data *data);

@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 10:03:35 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/25 09:50:02 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/25 19:32:11 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,36 @@ int	replace_in_env(t_data *data, char *str)
 	return (0);
 }
 
-int    add_in_env(t_data *data, char *str)
+int	join_in_env(t_data *data, char *str)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (str[i] && str[i] != '+')
+		i++;
+	if (!str[i] || str[i + 1] != '=')
+		return (0);
+	while (data->env[j])
+	{
+		if (ft_strncmp(data->env[j], str, i) == 0)
+		{
+			data->env[j] = ft_strjoin(data->env[j], str + i + 2, 1);
+			return (1);
+		}
+		j++;
+	}
+	return (0);
+}
+
+int	add_in_env(t_data *data, char *str)
 {
     int i;
 	
 	if (parse_export(data, str))
 		return (1);
-	if (replace_in_env(data, str))
+	if (replace_in_env(data, str) || join_in_env(data, str))
 		return (0);
     i = 0;
     while (data->env[i])

@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 01:27:00 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/14 23:06:05 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/26 14:58:16 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,17 @@ char	*get_env(t_data *data, char *macro)
 	return (NULL);
 }
 
-void	edit_paths(t_data *data)
+void	edit_paths(t_data *data, char *cmd)
 {
     int     i;
     
+	if (!get_env(data, "PATH"))
+	{
+		errno =  ENOENT;
+		dprintf(2, "Minishell: %s: %s\n", cmd, strerror(errno));
+		step0(data);
+		exit(127);
+	}
     i = -1;
     data->paths = ft_split(get_env(data, "PATH"), ':');
 	if (!data->paths)

@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:41:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/21 10:51:53 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/26 14:57:22 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	go(t_data *data, char **s_cmd)
 {
 	char	*path;
 	DIR	*dir;
-	
-	edit_paths(data);
+
+	edit_paths(data, s_cmd[0]);
 	dir = opendir(s_cmd[0]);
 	if (dir != NULL)
 	{

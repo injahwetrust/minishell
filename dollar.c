@@ -6,11 +6,26 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 17:51:27 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/18 20:18:59 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/26 14:40:37 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static char	*join_dollar(t_data *data, char *begin, char *macro)
+{
+	char	*str;
+
+	if (ft_strcmp(get_env(data, macro), "\"") == 0 && data->d_lit)
+		str = ft_strjoin(begin, "\"'\"'\"", 1);
+	else
+	{
+		str = ft_strjoin(begin, "\"", 1);
+		str = ft_strjoin(str, get_env(data, macro), 1);
+		str = ft_strjoin(str, "\"", 1);
+	}
+	return (str);
+}
 
 static char	*get_part(t_data *data, char *begin, char *part)
 {
@@ -20,19 +35,19 @@ static char	*get_part(t_data *data, char *begin, char *part)
 
 	i = -1;
 	while (part[++i] && ((in_charset(part[i], data->ex) && !in_charset(part[i], "\"'")) || part[i] == '?'))
-		if (i == 1 && in_charset(part[i - 1], "0123456789"))
+		if (i == 1 && (in_charset(part[i - 1], "0123456789") || part[i - 1] == '?'))
 			break ;
 	macro = ft_strndup(part, i, 0);
 	if (ft_strcmp(macro, "") == 0)
 		str2 = ft_strjoin(begin, part, 1);
-	else if (ft_strcmp(macro, "?") == 0)
+	else if (ft_strncmp(macro, "?", 1) == 0)
 	{
 		str2 = ft_strjoin(begin, ft_itoa(last_ret), 3);
 		str2 = ft_strjoin(str2, ft_strndup(part, -i, 0), 3);
 	}
 	else if (get_env(data, macro))
 	{
-		str2 = ft_strjoin(begin, get_env(data, macro), 1);
+		str2 = join_dollar(data, begin, macro);
 		str2 = ft_strjoin(str2, ft_strndup(part, -i, 0), 3);
 	}
 	else
@@ -53,10 +68,7 @@ static char *str_dollar(t_data *data, char *str)
 	{
 		edit_lit(data, str[i]);
 		if (str[i] == '$' && !data->lit && !in_charset(str[i + 1], data->ex) && !in_charset(str[i + 1], "\"'?") && str[i + 1])
-		{
-			printf("continued\n");
 			continue ;
-		}
 		else if (str[i] == '$' && !data->lit && i != 0)
 		{
 			replaced = get_part(data, ft_strndup(str, i, 0), str + i + 1);

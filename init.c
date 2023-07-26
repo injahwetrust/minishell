@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 23:55:59 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/18 21:02:09 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/26 15:07:19 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static int	init_env(t_data *data, char **env)
 	}
 	else
 		add_in_env(data, "SHLVL=1");
+	remove_from_env(data, "OLDPWD");
 	free(shell);
 	return (0);
 }

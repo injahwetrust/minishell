@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 11:03:24 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/17 17:47:49 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/25 19:58:04 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ static int	parse_quotes_parenthesis(t_data *data)
 	else if (data->d_lit)
 		return (ft_dprintf(2, "Minishell Error: unclosed double quotes\n"));
 	if (data->par > 0)
-		return (ft_dprintf(2, "Minishell: Syntax error near unexpected token %c\n", '('));
+		return (ft_dprintf(2, "Minishell: Syntax error near unexpected token « %c »\n", '('));
 	else if (data->par < 0)
-		return (ft_dprintf(2, "Minishell: Syntax error near unexpected token %c\n", ')'));
+		return (ft_dprintf(2, "Minishell: Syntax error near unexpected token « %c »\n", ')'));
 	//dprintf(2, "parse_quotes_parenthesis passed\n");
 	return (0);
 }

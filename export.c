@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 12:09:08 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/25 12:10:28 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/25 12:12:49 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static void	print_classed_declare(char **dec)
 		write(1, "\"\n", 2);
 	}
 }
+
 static void	class_alpha(char **dec)
 {
 	char	*tmp;

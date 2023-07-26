@@ -6,13 +6,13 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 08:42:52 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/25 09:42:57 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/07/25 20:18:11 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	is_it_ex(t_data *data, char *cmd)
+static int	is_it_exec(t_data *data, char *cmd)
 {
 	char	**paths;
 	int	i;
@@ -41,7 +41,7 @@ static void	env_and_cmd(t_data *data, t_cmd *cmds)
 	while (ft_strcmp(cmds->s_cmd[i], "env") == 0)
 	{
 		i++;
-		if (cmds->s_cmd[i] && ft_strcmp(cmds->s_cmd[i], "env") && is_it_ex(data, cmds->s_cmd[i]))
+		if (cmds->s_cmd[i] && ft_strcmp(cmds->s_cmd[i], "env") && is_it_exec(data, cmds->s_cmd[i]))
 		{
 			new = ft_tabdup(cmds->s_cmd + i, NULL, 0);
 			ft_free_tab(cmds->s_cmd);
