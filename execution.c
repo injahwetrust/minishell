@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:41:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/26 14:57:22 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/08/06 00:32:27 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,15 @@ void	go(t_data *data, char **s_cmd)
 	path = get_exec(s_cmd[0], data);
 	if (execve(path, s_cmd, data->env) <= -1)
 	{
-		dprintf(2, "Minishell: %s : command not found\n", s_cmd[0]);
+		if (errno == 13)
+			dprintf(2, "Minishell: %s: %s\n", s_cmd[0], strerror(errno));
+		else
+			dprintf(2, "Minishell: %s : command not found\n", s_cmd[0]);
 		if (data->paths)
 			ft_free_tab(data->paths);
 		step0(data);
+		if (errno == 13)
+			exit(126);
 		exit(127);
 	}
 }
@@ -72,7 +77,7 @@ void	simple_exec(t_data *data, char **s_cmd)
 	ret = active_built_in(data, s_cmd);
 	if (ret != -1)
 	{
-		last_ret = ret;
+		data->active_ret = ret;
 		return ;
 	}
 	pid = fork();
@@ -89,8 +94,6 @@ void	simple_exec(t_data *data, char **s_cmd)
 
 int	cancel_cmd(t_data *data, char *op, char **s_cmd)
 {
-	int	status;
-
 	if (ft_strcmp(s_cmd[0], "") == 0)
 		return (last_ret = 0, 1);
 	if (ft_strcmp(s_cmd[0], "\t") == 0)
@@ -100,17 +103,23 @@ int	cancel_cmd(t_data *data, char *op, char **s_cmd)
 	}
 	if (ft_strcmp(op, "&&") == 0)
 	{
-		waitpid(data->last_pid, &status, 0);
-		status %= 255;
-		if (status > 0)
-			return (1);
+		if (data->last_pid != -1)
+		{
+			waitpid(data->last_pid, &last_ret, 0);
+			last_ret %= 255;
+		}
+		if (last_ret > 0)
+			return (data->last_pid = -1, 1);
 	}
 	else if (ft_strcmp(op, "||") == 0)
 	{
-		waitpid(data->last_pid, &status, 0);
-		status %= 255;
-		if (status == 0)
-			return (1);
+		if (data->last_pid != -1)
+		{
+			waitpid(data->last_pid, &last_ret, 0);
+			last_ret %= 255;
+		}
+		if (last_ret == 0)
+			return (data->last_pid = -1, 1);
 	}
 	return (0);
 }
@@ -118,12 +127,14 @@ int	cancel_cmd(t_data *data, char *op, char **s_cmd)
 void	execution(t_data *data)
 {
 	int	i;
-	
+
 	i = -1;
 	creation(data);
 	signals(2);
+	info(data);
 	while (++i < data->count)
 	{
+		data->active_ret = -1;
 		if (redirection(data, &data->cmds[i]))
 			continue ;
 		if (cancel_cmd(data, data->cmds[i].prev_op, data->cmds[i].s_cmd))
@@ -134,7 +145,7 @@ void	execution(t_data *data)
 			simple_exec(data, data->cmds[i].s_cmd);
 		if (!isatty(0) && !isatty(1))
 			print();
-		else if (!isatty(0) && i == data->count - 1)
+		else if (!isatty(0) && i == data->count - 1 && ft_strcmp(data->cmds[i].prev_op, "|") == 0)
 			print();
 	}
 }

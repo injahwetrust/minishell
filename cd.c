@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:25:47 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/20 02:55:38 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/08/05 16:46:52 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,18 @@
 
 static int	cd_home(t_data *data)
 {
+	char	*pwd;
+
 	if (get_env(data, "HOME") == NULL)
 	{
 		dprintf(2, "Minishell: cd: « HOME » not set\n");
 		return (1);
 	}
 	chdir(get_env(data, "HOME"));
-	return (0);
+	pwd = ft_strjoin("OLDPWD=", data->cwd, 0);
+	if (!pwd)
+		end(data);
+	return (add_in_env(data, pwd), free(pwd), 0);
 }
 
 static int cd_error()
@@ -45,8 +50,12 @@ static int	cd_path(t_data *data, char *path)
 
 	if (ft_strcmp(path, "-") == 0)
 	{
-		ret = chdir(get_env(data, "OLDPWD"));
-		if (ret != 0)
+		if (get_env(data, "OLDPWD"))
+		{
+			printf("%s\n", get_env(data, "OLDPWD"));
+			ret = chdir(get_env(data, "OLDPWD"));
+		}
+		else
 			return (dprintf(2, "Minishell: cd: « OLDPWD » undefined\n"));
 	}
 	else
@@ -60,9 +69,7 @@ static int	cd_path(t_data *data, char *path)
 	pwd = ft_strjoin("OLDPWD=", data->cwd, 0);
 	if (!pwd)
 		end(data);
-	add_in_env(data, pwd);
-	free(pwd);
-	return (0);
+	return (add_in_env(data, pwd), free(pwd), 0);
 }
 
 int	cd(t_data *data, char **s_cmd)
@@ -78,7 +85,7 @@ int	cd(t_data *data, char **s_cmd)
 		perror("Minishell: cd");
 		return (1);
 	}
-	if (i == 1)
+	if (i == 1 || (i == 2 && ft_strcmp("--", s_cmd[1]) == 0))
 	{
 		if (cd_home(data))
 			return (1);

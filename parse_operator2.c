@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 13:33:31 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/17 16:21:42 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/08/06 00:48:31 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ static int	count_space(char *cmd, char c)
 	
 	i = -1;
 	n = 0;
-	//printf("entree dans count space avec %s\n", cmd);
 	while (cmd[++i])
 	{
 		if (cmd[i] == c && i > 1)

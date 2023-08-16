@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 11:03:24 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/25 19:58:04 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/08/06 00:54:10 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static int	count_in_out(t_data *data, char c)
 		return (dprintf(2, "Minishell: Syntax error near unexpected token « %s »\n", ">>"));
 	else if (c == '>')
 		data->out++;
-	else
+	else if (c != ' ')
 		data->out = 0;
 	if (data->in == 3 && c != '<')
 		return (dprintf(2, "Minishell: Syntax error near unexpected token « %c »\n", '<'));
@@ -77,9 +77,8 @@ static int	count_in_out(t_data *data, char c)
 		return (dprintf(2, "Minishell: Syntax error near unexpected token « %s »\n", "<<<"));
 	else if (c == '<')
 		data->in++;
-	else
+	else if (c != ' ')
 		data->in = 0;
-	//dprintf(2, "count_in_out passed\n");
 	return (0);
 }
 
@@ -109,7 +108,6 @@ static int	op_newline(t_data *data)
 		|| !ft_strcmp(last, "<<<") || !ft_strcmp(last, ">")
 			|| !ft_strcmp(last, ">>") || !ft_strcmp(last, "<>"))
 		return (free(last), dprintf(2, "Minishell: Syntax error near unexpected token « %s »\n", "newline"));
-	//dprintf(2, "op_newline passed\n");
 	return (free(last), 0);
 }
 

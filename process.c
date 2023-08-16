@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 23:23:17 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/21 10:45:59 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/08/05 23:13:03 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static int	next_it(t_data *data)
 		return (1);
 	return (0);
 }
+
 static int	get_input(t_data *data)
 {
 	init_loop(data);
@@ -63,11 +64,15 @@ int	process(t_data *data)
 			if (last_ret != 130 && last_ret != 131)
 				last_ret = WEXITSTATUS(status);
 		}
+		if (data->active_ret != -1)
+			last_ret = data->active_ret;
 		while (wait(NULL) > 0)
 			;
-		//info(data);
 		if (data->argc > 1)
-			end(data);
+		{
+			step0(data);
+			exit(last_ret);
+		}
 		end_loop(data);
 	}
 	return (0);

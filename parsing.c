@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 00:02:28 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/26 14:38:49 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/08/05 20:56:05 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,10 @@ static int	empty_par(t_data *data)
 		if (data->input[i] == '(')
 		{
 			j = i + 1;
-			while (data->input[j] && data->input[j] != ' ')
-				if (data->input[j++] == ')')
-					return (dprintf(2, "Minishell: Syntax error near unexpected token « ) »\n"));
+			while (data->input[j] && data->input[j] == ' ')
+				j++;
+			if (data->input[j++] == ')')
+				return (dprintf(2, "Minishell: Syntax error near unexpected token « ) »\n"));
 		}
 	return (0);
 }
@@ -106,7 +107,6 @@ int	parse_input(t_data *data)
 	data->input = wildcards(data);
 	stock(data);
 	bash_morphing(data);
-	info(data);
 	manage_lit(data);
 	return (0);
 }

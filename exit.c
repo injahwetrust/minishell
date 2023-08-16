@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 12:21:34 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/19 16:45:40 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/08/05 17:15:03 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ static void checkflow(t_data *data, char *cmd, char *max, int i)
 	max[0] -= 1;
 	cmd[i] -= 1;
 	ret = ft_atoll(cmd);
-	if (ret >= ft_atoll(max))
+	if ((ret >= 0 && ret >= ft_atoll(max)) || (ret < 0 && ret < -ft_atoll(max)))
 	{
+		cmd[i] += 1;
 		free(max);
 		printf("exit\n");
 		dprintf(2, "Minishell: exit: %s: numeric argument required\n", cmd);
@@ -106,9 +107,11 @@ static int	too_many_arg(t_data *data, char *cmd)
 {
 	int	i;
 
-	i = 0;
-	while (cmd[i])
+	i = -1;
+	while (cmd[++i])
 	{
+		if (i == 0 && (cmd[i] == '-' || cmd[i] == '+'))
+			continue ;
 		if (!ft_isdigit(cmd[i]))
 		{
 			printf("exit\n");
@@ -116,7 +119,6 @@ static int	too_many_arg(t_data *data, char *cmd)
 			step0(data);
 			exit(2);
 		}
-		i++;
 	}
 	printf("exit\n");
 	dprintf(2, "Minishell: exit: too many arguments\n");

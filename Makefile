@@ -6,7 +6,7 @@
 #    By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/06 16:33:49 by vanitas           #+#    #+#              #
-#    Updated: 2023/07/25 12:11:33 by bvaujour         ###   ########.fr        #
+#    Updated: 2023/08/05 17:39:26 by bvaujour         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,9 +15,9 @@ NAME		=	minishell
 
 CC			=	cc
 
-FLAG		=	-Wall -Wextra -Werror -g3
+FLAG		=	-Wall -Wextra -Werror -g
 
-VFLAGS		=	valgrind --trace-children=yes -s --leak-check=full --show-leak-kinds=all --suppressions=readline.supp --track-origins=yes --track-fds=yes
+VFLAGS		=	valgrind --trace-children=yes -s --leak-check=full --show-leak-kinds=all --suppressions=/home/bvaujour/projets/mini/readline.supp --track-origins=yes --track-fds=yes
 
 #VFLAGS		=	valgrind --leak-check=full --track-fds=yes --trace-children=yes
 

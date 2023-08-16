@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/07/26 14:55:31 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/08/05 19:18:42 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ typedef struct s_cmd
 
 typedef struct s_data
 {
-	char cwd[PATH_MAX];
+	char	*cwd;
 	char	*input;
 	char	*last_cmd;
 	char	**paths;
@@ -137,6 +137,7 @@ typedef struct s_data
 	int	or;
 	int	count;
 	int	argc;
+	int	active_ret;
 
 }	t_data;
 

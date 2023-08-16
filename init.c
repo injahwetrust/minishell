@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 23:55:59 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/26 15:07:19 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/08/05 19:37:32 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,13 @@ int	init(t_data *data, char **argv, char **env)
 		}
 	}
 	last_ret = 0;
+	data->active_ret = -1;
 	data->last_cmd = ft_strdup("./minishell");
 	data->ghost = malloc(sizeof(char *));
 	data->ghost[0] = 0;
 	data->ex = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
 	init_env(data, env);
+	add_in_env(data, "_=/usr/bin/env");
 	return (0);
 }
 
@@ -82,9 +84,14 @@ void	edit_prompt(t_data *data, char *cwd)
 
 int	init_loop(t_data *data)
 {
+	char	*pwd;
+
 	dup2(data->fd.base_fd[0], 0);
 	dup2(data->fd.base_fd[1], 1);
-	getcwd(data->cwd, sizeof(data->cwd));
+	data->cwd = getcwd(NULL, 0);
+	pwd = ft_strjoin("PWD=", data->cwd, 0);
+	add_in_env(data, pwd);
+	free(pwd);
 	edit_prompt(data, data->cwd);
 	data->lit = 0;
 	data->d_lit = 0;

@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 23:59:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/16 19:09:11 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/08/05 16:46:16 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	step0(t_data *data)
 	close(data->fd.base_fd[1]);
 	free(data->input);
 	free(data->prompt);
+	free(data->cwd);
 	free(data->last_cmd);
 	ft_free_tab(data->env);
 	ft_free_tab(data->ghost);
@@ -55,6 +56,7 @@ void	end_loop(t_data *data)
 {
 		free(data->input);
 		free(data->prompt);
+		free(data->cwd);
 		if (data->step > 0)
 		{
 			free_cmds(data);
