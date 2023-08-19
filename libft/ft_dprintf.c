@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_dprintf.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 16:15:03 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/09 18:38:25 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/08/18 18:20:07 by vanitas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ int	format_fd(int fd, char c, va_list ap)
 	else if (c == 'u')
 		ft_putnbr_base_fd(fd, va_arg(ap, unsigned int), "0123456789", &len);
 	else if (c == 'x')
-		ft_putnbr_base_fd(fd, va_arg(ap, unsigned int), "0123456789abcdef", &len);
+		ft_putnbr_base_fd(fd, va_arg(ap, unsigned int), HEX_MIN, &len);
 	else if (c == 'X')
-		ft_putnbr_base_fd(fd, va_arg(ap, unsigned int), "0123456789ABCDEF", &len);
+		ft_putnbr_base_fd(fd, va_arg(ap, unsigned int), HEX_MAJ, &len);
 	return (len);
 }
 
