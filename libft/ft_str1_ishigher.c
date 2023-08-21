@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_str1_ishigher.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:10:01 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/16 01:14:17 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/08/21 16:08:41 by vanitas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 int	check_len(char *str1, char *str2)
 {
-	if (str1[0] == '-' && (str2[0] == '+' || (str2[0] >= '0' && str2[0] <= '9')))
+	if (str1[0] == '-' && (str2[0] == '+'
+			|| (str2[0] >= '0' && str2[0] <= '9')))
 		return (0);
-	else if ((str1[0] == '+' || (str1[0] >= '0' && str1[0] <= '9')) && str2[0] == '-')
+	else if ((str1[0] == '+'
+			|| (str1[0] >= '0' && str1[0] <= '9')) && str2[0] == '-')
 		return (1);
 	if (ft_strlen(str1) > ft_strlen(str2) && str1[0] == '-')
 		return (0);
@@ -52,8 +54,3 @@ int	ft_str1_ishigher(char *str1, char *str2)
 	}
 	return (-1);
 }
-
-// int	main()
-// {
-// 	printf("ret = %d\n", ft_str1_ishigher("-9223372036854775810", "-9223372036854775809"));
-// }

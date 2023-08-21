@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 14:32:13 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/06 13:01:19 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/08/21 16:05:36 by vanitas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*ft_substr(char const *s, int start, int len)
 {
 	char	*sub;
-	int	i;
+	int		i;
 
 	if (!s)
 		return (0);

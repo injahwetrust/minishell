@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_operator2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 13:33:31 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/18 16:10:55 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/08/21 16:36:49 by vanitas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ int	mixed_op(char *cmd, char c)
 			return (dprintf(2, PARSE_ERR_SYCH, cmd[i]));
 		else
 			return (0);
-		//dprintf(2, "mixed_op passed\n");
 	}
 	return (0);
 }
+//dprintf(2, "mixed_op passed\n");
 
 static int	count_space(char *cmd, char c)
 {

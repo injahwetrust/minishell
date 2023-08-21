@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stock_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 01:25:02 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/18 16:20:11 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/08/21 16:22:13 by vanitas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	pass_in(t_data *data, char *cmd)
 
 	i = 0;
 	while (cmd[i] == '<')
-				i++;
+		i++;
 	while (cmd[i] == ' ')
 		i++;
 	while ((cmd[i] && cmd[i] != ' ' && cmd[i] != '<' && cmd[i] != '>')

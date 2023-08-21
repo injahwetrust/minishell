@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_operator.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 11:03:24 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/18 16:00:13 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/08/21 16:24:25 by vanitas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ static int	parse_quotes_parenthesis(t_data *data)
 		return (ft_dprintf(2, PARSE_ERR_SYCH, '('));
 	else if (data->par < 0)
 		return (ft_dprintf(2, PARSE_ERR_SYCH, ')'));
-	//dprintf(2, "parse_quotes_parenthesis passed\n");
 	return (0);
 }
+/*dprintf(2, "parse_quotes_parenthesis passed\n");*/
 
 static int	count_op(t_data *data, char c)
 {
@@ -55,9 +55,9 @@ static int	count_op(t_data *data, char c)
 		data->and++;
 	else
 		data->and = 0;
-	//dprintf(2, "count_op passed\n");
 	return (0);
 }
+//dprintf(2, "count_op passed\n");
 
 static int	count_in_out(t_data *data, char c)
 {
@@ -89,7 +89,7 @@ static int	op_newline(t_data *data)
 
 	i = ft_strlen(data->input) - 1;
 	while (i > 0 && (data->input[i] == '<' || data->input[i] == '>'
-		|| data->input[i] == '&' || data->input[i] == '|'))
+			|| data->input[i] == '&' || data->input[i] == '|'))
 		i--;
 	if (i == 0)
 		last = ft_strdup(data->input);
@@ -126,7 +126,7 @@ int	parse_op(t_data *data)
 				|| count_in_out(data, data->input[i])))
 			return (1);
 		if ((data->input[i] == '|' || data->input[i] == '&'
-			|| data->input[i] == '<' || data->input[i] == '>')
+				|| data->input[i] == '<' || data->input[i] == '>')
 			&& !is_lit(data))
 		if (mixed_op(data->input + i, data->input[i]))
 			return (1);
