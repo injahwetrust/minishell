@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strremoveall.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 11:28:18 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/21 16:11:50 by vanitas          ###   ########.fr       */
+/*   Updated: 2023/08/22 17:19:31 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,29 +53,37 @@ static int	x_str(char *src, char *to_del)
 	return (x);
 }
 
+void	ft_strremoveall_norm(char *src, char *new, int i, int j)
+{
+	while (src[i])
+		new[j++] = src[i++];
+	new[j] = '\0';
+}
+
 char	*ft_strremoveall(char *src, char *to_del, int opt)
 {
 	int		i;
 	int		j;
 	int		go_to;
 	char	*new;
+	int		len;
 
 	i = 0;
 	j = 0;
 	if (!to_del || !*to_del || !src || !*src || del_in(src, to_del, i) == -1)
 		return (src);
-	new = malloc(sizeof(char) * (ft_strlen(src) - (ft_strlen(to_del) * x_str(src, to_del)) + 1));
+	len = ft_strlen(src) - (ft_strlen(to_del) * x_str(src, to_del)) + 1;
+	new = malloc(sizeof(char) * len);
 	if (!new)
 		return (NULL);
-	while ((go_to = del_in(src + i, to_del, i)) != -1)
+	go_to = del_in(src + i, to_del, i);
+	while (go_to != -1)
 	{
 		while (i < go_to)
 			new[j++] = src[i++];
 		i += ft_strlen(to_del);
 	}
-	while (src[i])
-		new[j++] = src[i++];
-	new[j] = '\0';
+	ft_strremoveall_norm(src, new, i, j);
 	if (opt == 1)
 		free(src);
 	return (new);

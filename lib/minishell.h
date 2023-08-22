@@ -6,7 +6,7 @@
 /*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/08/18 16:34:30 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/08/22 17:33:35 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,16 +96,16 @@
 # define HEADER5		"/_/  /_/_/_/ /_/_/____/_/ /_/\\___/_/_/\n"
 
 //Cd Error for norm
-# define CD_ERR_CHDIR "chdir: error retrieving current directory: getcmd: cannot access parent directories: %s\n"
+# define CD_ERR_CHDIR " getcmd: cannot access parent directories: %s\n"
 # define CD_ERR_1 "Minishell: cd: %s: %s\n"
 
 //For data->ex
-# define DATA_EX "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"
+# define DATA_EX "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"
 
 //Parse Errors
 # define PARSE_ERR_SYCH "Minishell: Syntax error near unexpected token « %c »\n"
-# define PARSE_ERR_SYCH_2 "Minishell: Syntax error near unexpected token « %c%c »\n"
-# define PARSE_ERR_SYCH_3 "Minishell count space: Syntax error near unexpected token « %c%c%c »\n"
+# define PARSE_ERR_SYCH_2 " Syntax error near unexpected token « %c%c »\n"
+# define PARSE_ERR_SYCH_3 " Syntax error near unexpected token « %c%c%c »\n"
 # define PARSE_ERR_SYSTR "Minishell: Syntax error near unexpected token « %s »\n"
 # define RBRACK_ERR_1 "Minishell: Syntax error near unexpected token « < »\n"
 # define RBRACK_ERR_2 "Minishell: Syntax error near unexpected token « << »\n"
@@ -116,7 +116,13 @@
 # define EXPORT_ERR "Minishell: export: « %s » not a valid identifier\n"
 
 //HereDoc ERR
-# define HERE_DOC_EOF "\nMinishell: Warning « heredoc » terminated by EOF (instead of « %s »)\n"
+# define H_ERROR " Warning « heredoc » terminated by EOF (instead of « %s »)\n"
+
+//Norm for this LIB
+# define MINI "\nMinishell:"
+# define CHDIR "chdir: error retrieving current directory:"
+# define AZ_MIN "abcdefghijklmnopqrstuvwxyz"
+# define COUNT_S "count space:"
 
 typedef struct s_fd
 {
@@ -166,59 +172,66 @@ typedef struct s_data
 
 extern int	g_last_ret;
 
-void	header(void);
-int		replace_in_env(t_data *data, char *str);
-int		info(t_data *data);
-int		process(t_data *data);
-void	end(t_data *data);
-int		init(t_data *data, char **argv, char **env);
-int		init_loop(t_data *data);
-void	edit_lit(t_data *data, char c);
-void	edit_par(t_data *data, char c);
-void	end_loop(t_data *data);
-int		parse_input(t_data *data);
-int		parse_op(t_data *data);
-int		remove_tab(t_data *data, char *str);
-void	stock(t_data *data);
-int		in_charset(char c, char *charset);
-void	fill_cmd(t_data *data);
-void	fill_op(t_data *data);
-void	init_cmds(t_data *data);
-int		is_lit(t_data *data);
-void	remove_str(char *src, char *str);
-void	fill_in(t_data *data);
-void	fill_out(t_data *data);
-int		mixed_op(char *cmd, char c);
-char	*get_env(t_data *data, char *macro);
-void	execution(t_data *data);
-char	*get_exec(char *cmd, t_data *data);
-void	edit_paths(t_data *data, char *cmd);
-void	print(void);
-void	step0(t_data *data);
-void	fill_s_cmd(t_data *data);
-int		redirection(t_data *data, t_cmd *ccmd);
-void	creation(t_data *data);
-void	constant_built_in(t_data *data, char **s_cmd);
-int		echo(char **s_cmd);
-int		env(t_data *data, char **s_cmd);
-void	canceled_built_in(t_data *data, char **s_cmd);
-int		active_built_in(t_data *data, char **s_cmd);
-int		cd(t_data *data, char **s_cmd);
-int		add_in_env(t_data *data, char *str);
-int		remove_from_env(t_data *data, char *str);
-int		is_in_env(t_data *data, char *str);
-int		parse_export(t_data *data, char *input);
-void	signals(int sig);
-void	manage_dollar(t_data *data);
-char	*wildcards(t_data *data);
-int		cont(t_data *data, char c);
-char	*seg_dir(t_data *data, char *new, int i);
-char	*get_ast(t_data *data, char *input);
-int		false_space(t_data *data);
-void	manage_last_cmd(t_data *data);
-void	manage_lit(t_data *data);
-int		manage_exit(t_data *data, char **s_cmd);
-void	bash_morphing(t_data *data);
-int		print_declare(t_data *data);
+void		header(void);
+int			replace_in_env(t_data *data, char *str);
+int			info(t_data *data);
+int			process(t_data *data);
+void		end(t_data *data);
+int			init(t_data *data, char **argv, char **env);
+int			init_loop(t_data *data);
+void		edit_lit(t_data *data, char c);
+void		edit_par(t_data *data, char c);
+void		end_loop(t_data *data);
+int			parse_input(t_data *data);
+int			parse_op(t_data *data);
+int			remove_tab(t_data *data, char *str);
+void		stock(t_data *data);
+int			in_charset(char c, char *charset);
+void		fill_cmd(t_data *data);
+void		fill_op(t_data *data);
+void		init_cmds(t_data *data);
+int			is_lit(t_data *data);
+void		remove_str(char *src, char *str);
+void		fill_in(t_data *data);
+void		fill_out(t_data *data);
+int			mixed_op(char *cmd, char c);
+char		*get_env(t_data *data, char *macro);
+void		execution(t_data *data);
+char		*get_exec(char *cmd, t_data *data);
+void		edit_paths(t_data *data, char *cmd);
+void		print(void);
+void		step0(t_data *data);
+void		fill_s_cmd(t_data *data);
+int			redirection(t_data *data, t_cmd *ccmd);
+void		creation(t_data *data);
+void		constant_built_in(t_data *data, char **s_cmd);
+int			echo(char **s_cmd);
+int			env(t_data *data, char **s_cmd);
+void		canceled_built_in(t_data *data, char **s_cmd);
+int			active_built_in(t_data *data, char **s_cmd);
+int			cd(t_data *data, char **s_cmd);
+int			add_in_env(t_data *data, char *str);
+int			remove_from_env(t_data *data, char *str);
+int			is_in_env(t_data *data, char *str);
+int			parse_export(t_data *data, char *input);
+void		signals(int sig);
+void		manage_dollar(t_data *data);
+char		*wildcards(t_data *data);
+int			cont(t_data *data, char c);
+char		*seg_dir(t_data *data, char *new, int i);
+char		*get_ast(t_data *data, char *input);
+int			false_space(t_data *data);
+void		manage_last_cmd(t_data *data);
+void		manage_lit(t_data *data);
+int			manage_exit(t_data *data, char **s_cmd);
+void		bash_morphing(t_data *data);
+int			print_declare(t_data *data);
+int			op_newline_norm(t_data *data, int i);
+void		cancel_cmd_norm(char **s_cmd);
+void		creation(t_data *data);
+int			join_in_env(t_data *data, char *str);
+void		underflow(t_data *data, char *cmd, char *max);
+void		checkflow(t_data *data, char *cmd, char *max, int i);
+void		dir_null(t_data *data, DIR *dir, char **s_cmd);
 
 #endif

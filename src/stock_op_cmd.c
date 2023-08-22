@@ -6,7 +6,7 @@
 /*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 00:05:43 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/18 16:20:36 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/08/22 15:22:02 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ void	manage_last_cmd(t_data *data)
 			new = ft_strjoin(new, ft_strndup(data->input + i, 1, 0), 3);
 		else
 		{
-			new = ft_strjoin(ft_strndup(new, ft_strlen(new) - 1, 1), data->last_cmd, 1);
+			new = ft_strjoin(ft_strndup(new, ft_strlen(new) - 1, 1),
+					data->last_cmd, 1);
 			exc = 0;
 			data->print = 1;
 		}

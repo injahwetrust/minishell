@@ -6,7 +6,7 @@
 /*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 23:55:59 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/18 15:13:57 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/08/22 17:31:00 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	init(t_data *data, char **argv, char **env)
 	data->last_cmd = ft_strdup("./minishell");
 	data->ghost = malloc(sizeof(char *));
 	data->ghost[0] = 0;
-	data->ex = DATA_EX;
+	data->ex = AZ_MIN DATA_EX;
 	init_env(data, env);
 	add_in_env(data, "_=/usr/bin/env");
 	return (0);
@@ -77,7 +77,8 @@ void	edit_prompt(t_data *data, char *cwd)
 		cwd++;
 		j++;
 	}
-	data->prompt = ft_strjoin(BGO_GREEN BO_BLACK"Minishell~", RESET BO_GREEN"\1🐸\2", 0);
+	data->prompt = ft_strjoin(BGO_GREEN BO_BLACK"Minishell~",
+			RESET BO_GREEN"\1🐸\2", 0);
 	data->prompt = ft_strjoin(data->prompt, cwd, 1);
 	data->prompt = ft_strjoin(data->prompt, RESET"$ ", 1);
 }

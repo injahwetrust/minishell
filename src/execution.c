@@ -6,7 +6,7 @@
 /*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:41:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/18 15:05:43 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/08/22 17:11:56 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,7 @@ void	go(t_data *data, char **s_cmd)
 
 	edit_paths(data, s_cmd[0]);
 	dir = opendir(s_cmd[0]);
-	if (dir != NULL)
-	{
-		closedir(dir);
-		ft_dprintf(2, "Minishell: %s: Is a directory\n", s_cmd[0]);
-		if (data->paths)
-			ft_free_tab(data->paths);
-		step0(data);
-		exit(126);
-	}
+	dir_null(data, dir, s_cmd);
 	path = get_exec(s_cmd[0], data);
 	if (execve(path, s_cmd, data->env) <= -1)
 	{
@@ -96,11 +88,7 @@ int	cancel_cmd(t_data *data, char *op, char **s_cmd)
 {
 	if (ft_strcmp(s_cmd[0], "") == 0)
 		return (g_last_ret = 0, 1);
-	if (ft_strcmp(s_cmd[0], "\t") == 0)
-	{
-		free (s_cmd[0]);
-		s_cmd[0] = ft_strdup("");
-	}
+	cancel_cmd_norm(s_cmd);
 	if (ft_strcmp(op, "&&") == 0)
 	{
 		if (data->last_pid != -1)

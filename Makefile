@@ -6,7 +6,7 @@
 #    By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/06 16:33:49 by vanitas           #+#    #+#              #
-#    Updated: 2023/08/18 14:34:40 by mablatie         ###   ########.fr        #
+#    Updated: 2023/08/22 17:09:22 by mablatie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,11 +46,15 @@ SRC		=	main.c						\
 			src/stock_out.c				\
 			src/stock_s_cmd.c			\
 			src/execution.c				\
+			src/execution2.c			\
 			src/redirection.c			\
+			src/redirection2.c			\
 			src/env.c					\
+			src/env2.c					\
 			src/echo.c					\
 			src/cd.c					\
 			src/exit.c					\
+			src/exit2.c					\
 			src/export.c				\
 			src/signals.c				\
 			src/dollar.c				\

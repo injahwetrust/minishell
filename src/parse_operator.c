@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_operator.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 11:03:24 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/21 16:24:25 by vanitas          ###   ########.fr       */
+/*   Updated: 2023/08/22 16:12:06 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,7 @@ static int	op_newline(t_data *data)
 	char	*last;
 
 	i = ft_strlen(data->input) - 1;
-	while (i > 0 && (data->input[i] == '<' || data->input[i] == '>'
-			|| data->input[i] == '&' || data->input[i] == '|'))
-		i--;
+	i = op_newline_norm(data, i);
 	if (i == 0)
 		last = ft_strdup(data->input);
 	else
@@ -128,8 +126,8 @@ int	parse_op(t_data *data)
 		if ((data->input[i] == '|' || data->input[i] == '&'
 				|| data->input[i] == '<' || data->input[i] == '>')
 			&& !is_lit(data))
-		if (mixed_op(data->input + i, data->input[i]))
-			return (1);
+			if (mixed_op(data->input + i, data->input[i]))
+				return (1);
 	}
 	edit_lit(data, data->input[i]);
 	if (!is_lit(data) && (count_op(data, data->input[i])

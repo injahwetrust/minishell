@@ -6,7 +6,7 @@
 /*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 00:02:28 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/18 16:13:46 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/08/22 16:16:12 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static int	empty_par(t_data *data)
 
 	i = -1;
 	while (data->input[++i])
+	{
 		if (data->input[i] == '(')
 		{
 			j = i + 1;
@@ -71,6 +72,7 @@ static int	empty_par(t_data *data)
 			if (data->input[j++] == ')')
 				return (dprintf(2, CPAR_ERR));
 		}
+	}
 	return (0);
 }
 

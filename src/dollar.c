@@ -6,7 +6,7 @@
 /*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 17:51:27 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/18 14:59:22 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/08/22 16:34:19 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,16 @@ static char	*join_dollar(t_data *data, char *begin, char *macro)
 	return (str);
 }
 
+int	get_part_norm(t_data *data, char *part, int i)
+{
+	while (part[++i] && ((in_charset(part[i], data->ex)
+				&& !in_charset(part[i], "\"'")) || part[i] == '?'))
+		if (i == 1 && (in_charset(part[i - 1], "0123456789")
+				|| part[i - 1] == '?'))
+			break ;
+	return (i);
+}
+
 static char	*get_part(t_data *data, char *begin, char *part)
 {
 	int		i;
@@ -34,9 +44,7 @@ static char	*get_part(t_data *data, char *begin, char *part)
 	char	*str2;
 
 	i = -1;
-	while (part[++i] && ((in_charset(part[i], data->ex) && !in_charset(part[i], "\"'")) || part[i] == '?'))
-		if (i == 1 && (in_charset(part[i - 1], "0123456789") || part[i - 1] == '?'))
-			break ;
+	i = get_part_norm(data, part, i);
 	macro = ft_strndup(part, i, 0);
 	if (ft_strcmp(macro, "") == 0)
 		str2 = ft_strjoin(begin, part, 1);

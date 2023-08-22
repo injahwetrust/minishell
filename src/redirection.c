@@ -6,7 +6,7 @@
 /*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 09:15:25 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/18 16:18:32 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/08/22 17:27:13 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	read_in(char *path, int fd)
 		dprintf(2, BO_GREEN"(%s)input:"RESET, path);
 		ret = get_next_line(0);
 		if (ret == NULL)
-			dprintf(2, HERE_DOC_EOF, path);
+			dprintf(2, MINI H_ERROR, path);
 		if (!ret || (ft_strncmp(ret, path, ft_strlen(path)) == 0
 				&& ft_strlen(path) == ft_strlen(ret) - 1))
 		{
@@ -122,7 +122,6 @@ static int	edit_out(char *out)
 int	redirection(t_data *data, t_cmd *ccmd)
 {
 	int		i;
-	(void)data;
 
 	i = -1;
 	while (ccmd->in[++i])
@@ -147,39 +146,4 @@ int	redirection(t_data *data, t_cmd *ccmd)
 		}
 	}
 	return (0);
-}
-
-void	create_outfiles(t_cmd *ccmd)
-{
-	int		i;
-	int		j;
-	int		fd;
-	char	*clone;
-
-	i = -1;
-	while (ccmd->out[++i])
-	{
-		clone = ccmd->out[i];
-		j = 0;
-		while (clone[j] == '>')
-			j++;
-		clone += j;
-		while (*clone == ' ')
-			clone++;
-		if (j == 1)
-			fd = open(clone, O_CREAT | O_TRUNC, 0644);
-		else if (j == 2)
-			fd = open(clone, O_CREAT | O_APPEND, 0644);
-		if (fd != -1)
-			close(fd);
-	}
-}
-
-void	creation(t_data *data)
-{
-	int	i;
-
-	i = -1;
-	while (++i < data->count)
-		create_outfiles(&data->cmds[i]);
 }

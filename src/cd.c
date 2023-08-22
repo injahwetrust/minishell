@@ -6,7 +6,7 @@
 /*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:25:47 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/18 14:54:12 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/08/22 17:29:25 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	cd_error(void)
 	str = getcwd(NULL, 0);
 	if (str == NULL)
 	{
-		dprintf(2, CD_ERR_CHDIR, strerror(errno));
+		dprintf(2, CHDIR CD_ERR_CHDIR, strerror(errno));
 		free (str);
 		return (1);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 14:50:21 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/21 16:35:38 by vanitas          ###   ########.fr       */
+/*   Updated: 2023/08/22 16:21:59 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static int	back(t_data *data, char *ast, char *name)
 {
 	int	i;
 	int	j;
-	(void)data;
 
 	i = ft_strlen(ast);
 	j = ft_strlen(name);

@@ -6,7 +6,7 @@
 /*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:28:42 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/18 14:31:20 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/08/22 16:45:03 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,8 @@ void	constant_built_in(t_data *data, char **s_cmd)
 	}
 }
 
-int	active_built_in(t_data *data, char **s_cmd)
+void	active_built_in_norm(t_data *data, int ret, int i, char **s_cmd)
 {
-	int	ret;
-	int	i;
-
-	ret = -1;
 	if (ft_strcmp("cd", s_cmd[0]) == 0)
 		ret = cd(data, s_cmd);
 	else if (ft_strcmp("export", s_cmd[0]) == 0 && s_cmd[1])
@@ -85,5 +81,15 @@ int	active_built_in(t_data *data, char **s_cmd)
 		printf("exit\n");
 		end(data);
 	}
+}
+
+int	active_built_in(t_data *data, char **s_cmd)
+{
+	int	ret;
+	int	i;
+
+	ret = -1;
+	i = 0;
+	active_built_in_norm(data, ret, i, s_cmd);
 	return (ret);
 }

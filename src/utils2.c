@@ -6,7 +6,7 @@
 /*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 01:27:00 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/18 16:25:44 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/08/22 14:55:33 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,18 +103,4 @@ char	*get_exec(char *cmd, t_data *data)
 			return (data->paths[i]);
 	}
 	return (cmd);
-}
-
-void	print(void)
-{
-	char	buf[50];
-	int		ret;
-
-	ret = 1;
-	while (ret)
-	{
-		ret = read(0, buf, sizeof(buf));
-		buf[ret] = '\0';
-		write(1, buf, ret);
-	}
 }

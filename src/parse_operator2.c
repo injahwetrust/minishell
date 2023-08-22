@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_operator2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 13:33:31 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/21 16:36:49 by vanitas          ###   ########.fr       */
+/*   Updated: 2023/08/22 17:33:41 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ int	mixed_op(char *cmd, char c)
 			return (1);
 		else if (in_charset(cmd[i], "|&")
 			&& cmd[i] != c && cmd[i + 1] == cmd[i])
-			return (dprintf(2, PARSE_ERR_SYCH_2, cmd[i], cmd[i]));
+			return (dprintf(2, MINI PARSE_ERR_SYCH_2, cmd[i], cmd[i]));
 		else if (in_charset(cmd[i], "|&") && cmd[i] != c)
 			return (dprintf(2, PARSE_ERR_SYCH, cmd[i]));
 		else if (in_charset(cmd[i], "|&") && i > 1 && cmd[i + 1] == cmd[i])
-			return (dprintf(2, PARSE_ERR_SYCH_2, cmd[i], cmd[i]));
+			return (dprintf(2, MINI PARSE_ERR_SYCH_2, cmd[i], cmd[i]));
 		else if (in_charset(cmd[i], "|&") && i > 1)
 			return (dprintf(2, PARSE_ERR_SYCH, cmd[i]));
 		else
@@ -83,9 +83,9 @@ static int	count_space(char *cmd, char c)
 			if (n == 1 || n == 2)
 				return (dprintf(2, PARSE_ERR_SYCH, c));
 			if (n >= 3 && c == '<')
-				return (dprintf(2, PARSE_ERR_SYCH_3, c, c, c));
+				return (dprintf(2, MINI COUNT_S PARSE_ERR_SYCH_3, c, c, c));
 			if (n >= 3)
-				return (dprintf(2, PARSE_ERR_SYCH_2, c, c));
+				return (dprintf(2, MINI PARSE_ERR_SYCH_2, c, c));
 		}
 		if (cmd[i] != c && cmd[i] != ' ')
 			return (0);

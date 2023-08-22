@@ -6,7 +6,7 @@
 /*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 13:40:58 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/18 16:26:10 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/08/22 17:08:25 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,26 @@ int	cont(t_data *data, char c)
 		return (1);
 	}
 	return (0);
+}
+
+void	print(void)
+{
+	char	buf[50];
+	int		ret;
+
+	ret = 1;
+	while (ret)
+	{
+		ret = read(0, buf, sizeof(buf));
+		buf[ret] = '\0';
+		write(1, buf, ret);
+	}
+}
+
+int	op_newline_norm(t_data *data, int i)
+{
+	while (i > 0 && (data->input[i] == '<' || data->input[i] == '>'
+			|| data->input[i] == '&' || data->input[i] == '|'))
+		i--;
+	return (i);
 }
