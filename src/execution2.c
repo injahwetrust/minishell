@@ -1,29 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
+/*   execution2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/17 14:40:43 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/18 16:46:27 by mablatie         ###   ########.fr       */
+/*   Created: 2023/08/22 17:08:34 by mablatie          #+#    #+#             */
+/*   Updated: 2023/08/22 17:12:15 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../lib/minishell.h"
 
-void	ft_putendl_fd(char *s, int fd)
+void	cancel_cmd_norm(char **s_cmd)
 {
-	if (!s)
-		return ;
-	write(fd, s, ft_strlen(s));
-	write (fd, "\n", 1);
+	if (ft_strcmp(s_cmd[0], "\t") == 0)
+	{
+		free (s_cmd[0]);
+		s_cmd[0] = ft_strdup("");
+	}
 }
 
-/*int	main()
+void	dir_null(t_data *data, DIR *dir, char **s_cmd)
 {
-	char	*str = "hello";
-
-	ft_putendl_fd(str, 1);
-	return (0);
-}*/
+	if (dir != NULL)
+	{
+		closedir(dir);
+		ft_dprintf(2, "Minishell: %s: Is a directory\n", s_cmd[0]);
+		if (data->paths)
+			ft_free_tab(data->paths);
+		step0(data);
+		exit(126);
+	}
+}

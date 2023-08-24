@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:25:01 by bvaujour          #+#    #+#             */
-/*   Updated: 2022/11/28 12:35:30 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/08/21 16:02:45 by vanitas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	str_count(char *str, char c)
 		}
 	}
 	return (sc);
-}			
+}
 
 static char	*ft_str(char **parts, char *str, char c)
 {

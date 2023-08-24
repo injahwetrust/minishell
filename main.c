@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 20:30:21 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/07/18 20:18:10 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/08/18 14:37:58 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "lib/minishell.h"
 
-int last_ret;
+int	g_last_ret;
+
 int	main(int argc, char **argv, char **env)
 {
 	t_data	data;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free_tab.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 19:13:47 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/17 19:14:06 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/08/18 16:42:27 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_free_tab(char **tab)
 {
 	int	i;
-	
+
 	i = -1;
 	while (tab[++i])
 		free(tab[i]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 19:45:59 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/13 20:34:50 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/08/21 16:03:30 by vanitas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,3 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	}
 	return (0);
 }
-
-/*int	main()
-{
-		printf("%d\n", ft_strncmp("GNOME_SHELL_SESSION_MODE=ubuntu","?" , ft_strlen("?")));
-		printf("%d\n", strncmp("test\200","test\0" , 6));
-}*/

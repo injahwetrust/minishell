@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strremove.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:10:38 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/06/20 14:27:43 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/08/21 16:07:40 by vanitas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,42 +14,44 @@
 
 /*Remove the n'th occurence of to_del in src*/
 
-static void option(char *src, char *to_del, int opt)
+static void	option(char *src, char *to_del, int opt)
 {
-    if (opt == 1)
-        free(src);
-    else if (opt == 2)
-        free(to_del);
-    else if (opt == 3)
-    {
-        free(src);
-        free(to_del);
-    }
+	if (opt == 1)
+		free(src);
+	else if (opt == 2)
+		free(to_del);
+	else if (opt == 3)
+	{
+		free(src);
+		free(to_del);
+	}
 }
-char    *ft_strremove(char *src, char *to_del, int n, int opt)
+
+char	*ft_strremove(char *src, char *to_del, int n, int opt)
 {
-    int i;
-    int j;
-    char    *new;
-    
-    if (!to_del || !*to_del || !src || !*src || n < 0 || n > ft_countoccur(src, to_del))
-    {
-        option(src, to_del, opt);
-        return (src);
-    }
-    new = malloc(sizeof(char) * (ft_strlen(src) - ft_strlen(to_del) + 1));
-    if (!new)
-        return (NULL);
-    i = -1;
-    j = ft_chrstrinstr(src, to_del, n);
-    while (++i < j)
-        new[i] = src[i];
-    j += ft_strlen(to_del) - 1;
-    while (src[++j])
-        new[i++] = src[j];
-    new[i] = '\0';
-    option(src, to_del, opt);
-    return(new);
+	int		i;
+	int		j;
+	char	*new;
+
+	if (!to_del || !*to_del || !src || !*src
+		|| n < 0 || n > ft_countoccur(src, to_del))
+	{
+		option(src, to_del, opt);
+		return (src);
+	}
+	new = malloc(sizeof(char) * (ft_strlen(src) - ft_strlen(to_del) + 1));
+	if (!new)
+		return (NULL);
+	i = -1;
+	j = ft_chrstrinstr(src, to_del, n);
+	while (++i < j)
+		new[i] = src[i];
+	j += ft_strlen(to_del) - 1;
+	while (src[++j])
+		new[i++] = src[j];
+	new[i] = '\0';
+	option(src, to_del, opt);
+	return (new);
 }
 
 // int main()
