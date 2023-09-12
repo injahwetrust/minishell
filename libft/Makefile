@@ -6,7 +6,7 @@
 #    By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/07 12:35:11 by bvaujour          #+#    #+#              #
-#    Updated: 2023/06/17 19:14:44 by bvaujour         ###   ########.fr        #
+#    Updated: 2023/09/08 16:08:44 by bvaujour         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,19 +25,20 @@ FLAG = -Wall -Werror -Wextra -g3
 all : $(NAME)
 
 %.o: %.c
-	cc $(FLAG) -c $< -o $@
+	@cc $(FLAG) -c $< -o $@
+	@printf "Compiling libft files.....%-50s \r" $@
 
 $(NAME) : $(OBJ) libft.h bonus
-	ar -rcs $(NAME) $(OBJ)
+	@ar -rcs $(NAME) $(OBJ)
 
 bonus: $(OBJ_BONUS) $(OBJ)
-	ar -rcs $(NAME) $(OBJ_BONUS) $(OBJ)
+	@ar -rcs $(NAME) $(OBJ_BONUS) $(OBJ)
 
 clean:
-	rm -rf $(OBJ) $(OBJ_BONUS) ./a.out
+	@rm -rf $(OBJ) $(OBJ_BONUS) ./a.out
 
 fclean: clean
-	rm -rf $(NAME)
+	@rm -rf $(NAME)
 
 re: fclean all
 

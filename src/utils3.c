@@ -6,7 +6,7 @@
 /*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 13:40:58 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/22 17:08:25 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/08/25 13:54:10 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	is_in_env(t_data *data, char *str)
 	i = 0;
 	while (data->env[i])
 	{
-		if (!strncmp(str, data->env[i], ft_strlen(str))
+		if (!ft_strncmp(str, data->env[i], ft_strlen(str))
 			&& data->env[i][ft_strlen(str)] == '=')
 			return (1);
 		i++;
@@ -27,7 +27,7 @@ int	is_in_env(t_data *data, char *str)
 	i = 0;
 	while (data->ghost[i])
 	{
-		if (!strcmp(str, data->ghost[i]))
+		if (!ft_strcmp(str, data->ghost[i]))
 			return (2);
 		i++;
 	}
@@ -74,4 +74,16 @@ int	op_newline_norm(t_data *data, int i)
 			|| data->input[i] == '&' || data->input[i] == '|'))
 		i--;
 	return (i);
+}
+
+int	error_print(char *s_cmd)
+{
+	int	res;
+	int	fd;
+
+	fd = dup(1);
+	dup2(2, 1);
+	res = printf("Minishell: %s : command not found\n", s_cmd);
+	dup2(fd, 1);
+	return (res);
 }

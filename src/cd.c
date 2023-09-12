@@ -6,7 +6,7 @@
 /*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:25:47 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/22 17:29:25 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/08/24 16:58:46 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	cd_home(t_data *data)
 
 	if (get_env(data, "HOME") == NULL)
 	{
-		dprintf(2, "Minishell: cd: « HOME » not set\n");
+		ft_dprintf(2, "Minishell: cd: « HOME » not set\n");
 		return (1);
 	}
 	chdir(get_env(data, "HOME"));
@@ -35,7 +35,7 @@ static int	cd_error(void)
 	str = getcwd(NULL, 0);
 	if (str == NULL)
 	{
-		dprintf(2, CHDIR CD_ERR_CHDIR, strerror(errno));
+		ft_dprintf(2, CHDIR CD_ERR_CHDIR, strerror(errno));
 		free (str);
 		return (1);
 	}
@@ -56,7 +56,7 @@ static int	cd_path(t_data *data, char *path)
 			ret = chdir(get_env(data, "OLDPWD"));
 		}
 		else
-			return (dprintf(2, "Minishell: cd: « OLDPWD » undefined\n"));
+			return (ft_dprintf(2, "Minishell: cd: « OLDPWD » undefined\n"));
 	}
 	else
 	{
@@ -64,7 +64,7 @@ static int	cd_path(t_data *data, char *path)
 		if (cd_error())
 			return (1);
 		if (ret)
-			return (dprintf(2, CD_ERR_1, path, strerror(errno)));
+			return (ft_dprintf(2, CD_ERR_1, path, strerror(errno)));
 	}
 	pwd = ft_strjoin("OLDPWD=", data->cwd, 0);
 	if (!pwd)

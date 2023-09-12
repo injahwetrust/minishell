@@ -6,7 +6,7 @@
 /*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 16:59:50 by mablatie          #+#    #+#             */
-/*   Updated: 2023/08/22 17:03:19 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/08/24 17:00:06 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	checkflow(t_data *data, char *cmd, char *max, int i)
 		cmd[i] += 1;
 		free(max);
 		printf("exit\n");
-		dprintf(2, "Minishell: exit: %s: numeric argument required\n", cmd);
+		ft_dprintf(2, "Minishell: exit: %s: numeric argument required\n", cmd);
 		step0(data);
 		exit(2);
 	}

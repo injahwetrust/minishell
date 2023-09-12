@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 14:18:16 by vanitas           #+#    #+#             */
-/*   Updated: 2023/08/18 14:39:13 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/09/12 14:25:49 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	handler_back_slash(int sig)
 static void	handler_3(int sig)
 {
 	kill(g_last_ret, SIGKILL);
-	dprintf(2, "\n");
+	ft_dprintf(2, "quit\n");
 	g_last_ret = 130;
 	(void)sig;
 }

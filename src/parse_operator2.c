@@ -6,7 +6,7 @@
 /*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 13:33:31 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/22 17:33:41 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/08/24 17:12:56 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,20 @@ static int	mixed_op2(char *cmd, char c, int i)
 		while (cmd[i] && cmd[i++] == '>')
 			n++;
 		if (n == 2)
-			return (dprintf(2, BRACK_ERR_1));
+			return (ft_dprintf(2, BRACK_ERR_1));
 		if (n >= 3)
-			return (dprintf(2, BRACK_ERR_2));
+			return (ft_dprintf(2, BRACK_ERR_2));
 	}
 	else if (c == '>' && cmd[i] == '<')
 	{
 		while (cmd[i] && cmd[i++] == '<')
 			n++;
 		if (n == 1)
-			return (dprintf(2, RBRACK_ERR_1));
+			return (ft_dprintf(2, RBRACK_ERR_1));
 		if (n == 2)
-			return (dprintf(2, RBRACK_ERR_2));
+			return (ft_dprintf(2, RBRACK_ERR_2));
 		if (n >= 3)
-			return (dprintf(2, RBRACK_ERR_3));
+			return (ft_dprintf(2, RBRACK_ERR_3));
 	}
 	return (0);
 }
@@ -53,19 +53,18 @@ int	mixed_op(char *cmd, char c)
 			return (1);
 		else if (in_charset(cmd[i], "|&")
 			&& cmd[i] != c && cmd[i + 1] == cmd[i])
-			return (dprintf(2, MINI PARSE_ERR_SYCH_2, cmd[i], cmd[i]));
+			return (ft_dprintf(2, MINI PARSE_ERR_SYCH_2, cmd[i], cmd[i]));
 		else if (in_charset(cmd[i], "|&") && cmd[i] != c)
-			return (dprintf(2, PARSE_ERR_SYCH, cmd[i]));
+			return (ft_dprintf(2, PARSE_ERR_SYCH, cmd[i]));
 		else if (in_charset(cmd[i], "|&") && i > 1 && cmd[i + 1] == cmd[i])
-			return (dprintf(2, MINI PARSE_ERR_SYCH_2, cmd[i], cmd[i]));
+			return (ft_dprintf(2, MINI PARSE_ERR_SYCH_2, cmd[i], cmd[i]));
 		else if (in_charset(cmd[i], "|&") && i > 1)
-			return (dprintf(2, PARSE_ERR_SYCH, cmd[i]));
+			return (ft_dprintf(2, PARSE_ERR_SYCH, cmd[i]));
 		else
 			return (0);
 	}
 	return (0);
 }
-//dprintf(2, "mixed_op passed\n");
 
 static int	count_space(char *cmd, char c)
 {
@@ -81,11 +80,11 @@ static int	count_space(char *cmd, char c)
 			while (cmd[i++] == c)
 				n++;
 			if (n == 1 || n == 2)
-				return (dprintf(2, PARSE_ERR_SYCH, c));
+				return (ft_dprintf(2, PARSE_ERR_SYCH, c));
 			if (n >= 3 && c == '<')
-				return (dprintf(2, MINI COUNT_S PARSE_ERR_SYCH_3, c, c, c));
+				return (ft_dprintf(2, MINI COUNT_S PARSE_ERR_SYCH_3, c, c, c));
 			if (n >= 3)
-				return (dprintf(2, MINI PARSE_ERR_SYCH_2, c, c));
+				return (ft_dprintf(2, MINI PARSE_ERR_SYCH_2, c, c));
 		}
 		if (cmd[i] != c && cmd[i] != ' ')
 			return (0);

@@ -6,7 +6,7 @@
 /*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 16:46:05 by mablatie          #+#    #+#             */
-/*   Updated: 2023/08/22 16:56:09 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/08/24 17:17:16 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	remove_from_ghost(t_data *data, char *str)
 	i = 0;
 	while (data->ghost[i])
 	{
-		if (!strncmp(str, data->ghost[i], ft_strlen(str)))
+		if (!ft_strncmp(str, data->ghost[i], ft_strlen(str)))
 			free (data->ghost[i++]);
 		else
 			data->new_env[j++] = data->ghost[i++];
@@ -90,7 +90,7 @@ int	remove_from_env(t_data *data, char *str)
 		i = 0;
 		while (data->env[i])
 		{
-			if (!strncmp(str, data->env[i], ft_strlen(str))
+			if (!ft_strncmp(str, data->env[i], ft_strlen(str))
 				&& data->env[i][ft_strlen(str)] == '=')
 				free (data->env[i++]);
 			else

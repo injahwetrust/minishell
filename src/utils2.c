@@ -6,7 +6,7 @@
 /*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 01:27:00 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/22 14:55:33 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/08/24 17:01:31 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	is_a_path(t_data *data, char *cmd)
 		return ;
 	if (access(cmd, F_OK))
 	{
-		dprintf(2, "Minishell: %s: %s\n", cmd, strerror(errno));
+		ft_dprintf(2, "Minishell: %s: %s\n", cmd, strerror(errno));
 		step0(data);
 		exit(127);
 	}
@@ -76,7 +76,7 @@ void	edit_paths(t_data *data, char *cmd)
 	if (!get_env(data, "PATH"))
 	{
 		errno = ENOENT;
-		dprintf(2, "Minishell: %s: %s\n", cmd, strerror(errno));
+		ft_dprintf(2, "Minishell: %s: %s\n", cmd, strerror(errno));
 		step0(data);
 		exit(127);
 	}

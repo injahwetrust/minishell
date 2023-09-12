@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/08/22 17:33:35 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/09/08 17:12:46 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@
 # define H_ERROR " Warning « heredoc » terminated by EOF (instead of « %s »)\n"
 
 //Norm for this LIB
-# define MINI "\nMinishell:"
+# define MINI "Minishell:"
 # define CHDIR "chdir: error retrieving current directory:"
 # define AZ_MIN "abcdefghijklmnopqrstuvwxyz"
 # define COUNT_S "count space:"
@@ -142,7 +142,7 @@ typedef struct s_cmd
 
 typedef struct s_data
 {
-	char		*cwd;
+	char		cwd[PATH_MAX];
 	char		*input;
 	char		*last_cmd;
 	char		**paths;
@@ -177,7 +177,7 @@ int			replace_in_env(t_data *data, char *str);
 int			info(t_data *data);
 int			process(t_data *data);
 void		end(t_data *data);
-int			init(t_data *data, char **argv, char **env);
+void		init(t_data *data, char **argv, char **env);
 int			init_loop(t_data *data);
 void		edit_lit(t_data *data, char c);
 void		edit_par(t_data *data, char c);
@@ -233,5 +233,7 @@ int			join_in_env(t_data *data, char *str);
 void		underflow(t_data *data, char *cmd, char *max);
 void		checkflow(t_data *data, char *cmd, char *max, int i);
 void		dir_null(t_data *data, DIR *dir, char **s_cmd);
+int			error_print(char *s_cmd);
+void		step1(t_data *data);
 
 #endif

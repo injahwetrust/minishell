@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 23:55:59 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/22 17:31:00 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/08/31 17:28:01 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	init_env(t_data *data, char **env)
 	return (0);
 }
 
-int	init(t_data *data, char **argv, char **env)
+void	init(t_data *data, char **argv, char **env)
 {
 	int	i;
 
@@ -54,11 +54,12 @@ int	init(t_data *data, char **argv, char **env)
 	data->active_ret = -1;
 	data->last_cmd = ft_strdup("./minishell");
 	data->ghost = malloc(sizeof(char *));
+	if (!data->ghost)
+		step1(data);
 	data->ghost[0] = 0;
 	data->ex = AZ_MIN DATA_EX;
 	init_env(data, env);
 	add_in_env(data, "_=/usr/bin/env");
-	return (0);
 }
 
 void	edit_prompt(t_data *data, char *cwd)
@@ -89,7 +90,7 @@ int	init_loop(t_data *data)
 
 	dup2(data->fd.base_fd[0], 0);
 	dup2(data->fd.base_fd[1], 1);
-	data->cwd = getcwd(NULL, 0);
+	getcwd(data->cwd, sizeof(data->cwd));
 	pwd = ft_strjoin("PWD=", data->cwd, 0);
 	add_in_env(data, pwd);
 	free(pwd);

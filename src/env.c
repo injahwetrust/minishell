@@ -6,7 +6,7 @@
 /*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 10:03:35 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/22 16:49:54 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/08/24 16:59:30 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	env(t_data *data, char **s_cmd)
 		if (ft_strcmp(s_cmd[i], "env") != 0)
 		{
 			errno = ENOENT;
-			dprintf(2, "Minishell: «%s»: %s\n", s_cmd[i], strerror(errno));
+			ft_dprintf(2, "Minishell: «%s»: %s\n", s_cmd[i], strerror(errno));
 			return (127);
 		}
 		i++;

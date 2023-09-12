@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:41:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/22 17:11:56 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/09/08 17:08:29 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void	go(t_data *data, char **s_cmd)
 	if (execve(path, s_cmd, data->env) <= -1)
 	{
 		if (errno == 13)
-			dprintf(2, "Minishell: %s: %s\n", s_cmd[0], strerror(errno));
+			ft_dprintf(2, "Minishell: %s: %s\n", s_cmd[0], strerror(errno));
 		else
-			dprintf(2, "Minishell: %s : command not found\n", s_cmd[0]);
+			error_print(s_cmd[0]);
 		if (data->paths)
 			ft_free_tab(data->paths);
 		step0(data);
@@ -117,9 +117,7 @@ void	execution(t_data *data)
 	int	i;
 
 	i = -1;
-	creation(data);
-	signals(2);
-	info(data);
+	(creation(data), signals(2));
 	while (++i < data->count)
 	{
 		data->active_ret = -1;
@@ -137,5 +135,8 @@ void	execution(t_data *data)
 		else if (!isatty(0) && i == data->count - 1
 			&& ft_strcmp(data->cmds[i].prev_op, "|") == 0)
 			print();
+		dup2(data->fd.base_fd[1], 1);
+		if (ft_strcmp(data->cmds[i].next_op, "|") != 0)
+			dup2(data->fd.base_fd[0], 0);
 	}
 }

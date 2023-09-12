@@ -6,7 +6,7 @@
 /*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 00:02:28 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/22 16:16:12 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/08/25 13:53:21 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	parse_export(t_data *data, char *input)
 	i = 0;
 	if (in_charset(input[0], "0123456789="))
 	{
-		dprintf(2, "Minishell: export: « %s » not a valid identifier\n", input);
+		ft_dprintf(2, MINI "export: « %s » not a valid identifier\n", input);
 		return (1);
 	}
 	while (input[i] && input[i] != '=')
@@ -28,7 +28,7 @@ int	parse_export(t_data *data, char *input)
 			break ;
 		if (!in_charset(input[i], data->ex))
 		{
-			dprintf(2, EXPORT_ERR, input);
+			ft_dprintf(2, EXPORT_ERR, input);
 			return (1);
 		}
 		i++;
@@ -49,9 +49,9 @@ static int	first_char(t_data *data)
 		while (data->input[i] == c)
 			i++;
 		if (i == 1)
-			return (dprintf(2, PARSE_ERR_SYCH, c));
+			return (ft_dprintf(2, PARSE_ERR_SYCH, c));
 		if (i >= 2)
-			return (dprintf(2, PARSE_ERR_SYCH_2, c, c));
+			return (ft_dprintf(2, PARSE_ERR_SYCH_2, c, c));
 	}
 	return (0);
 }
@@ -70,7 +70,7 @@ static int	empty_par(t_data *data)
 			while (data->input[j] && data->input[j] == ' ')
 				j++;
 			if (data->input[j++] == ')')
-				return (dprintf(2, CPAR_ERR));
+				return (ft_dprintf(2, CPAR_ERR));
 		}
 	}
 	return (0);

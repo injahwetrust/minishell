@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+         #
+#    By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/06 16:33:49 by vanitas           #+#    #+#              #
-#    Updated: 2023/08/22 17:09:22 by mablatie         ###   ########.fr        #
+#    Updated: 2023/09/12 14:57:47 by bvaujour         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,11 +15,9 @@ NAME		=	minishell
 
 CC			=	cc
 
-FLAG		=	-Wall -Wextra -Werror -g
+FLAG		=	-Wall -Wextra -Werror -g -MMD
 
-VFLAGS		=	valgrind --trace-children=yes -s --leak-check=full --show-leak-kinds=all --suppressions=/home/bvaujour/projets/mini/readline.supp --track-origins=yes --track-fds=yes
-
-#VFLAGS		=	valgrind --leak-check=full --track-fds=yes --trace-children=yes
+VFLAGS		=	valgrind --trace-children=yes -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes
 
 LIBFT_PATH	=	./libft/
 
@@ -30,7 +28,6 @@ LIBFT_LIB	=	$(addprefix $(LIBFT_PATH), $(LIBFT_FILE))
 SRC		=	main.c						\
 			src/header.c				\
 			src/command.c				\
-			src/test.c					\
 			src/process.c				\
 			src/parsing.c				\
 			src/init.c					\
@@ -65,10 +62,14 @@ SRC		=	main.c						\
 						
 OBJ			=	$(SRC:.c=.o)
 
+DEP			=	$(OBJ:.o=.d)
+
 all: $(NAME)
 
 $(NAME): $(LIBFT_LIB) $(OBJ)
-	$(CC) $(OBJ) $(LIBFT_LIB) -o $(NAME) -lreadline
+	@$(CC) $(OBJ) $(LIBFT_LIB) -o $(NAME) -lreadline
+	@echo "\nCompilation complete"
+
 
 boot: $(NAME)
 	@./$(NAME)
@@ -83,18 +84,24 @@ push	: fclean
 	
 .c.o:
 	@$(CC) $(FLAG) -c $< -o $@
+	@printf "Compiling files.....%-50s \r" $@
+	
 
 $(LIBFT_LIB):
-	@make -C $(LIBFT_PATH)
+	@echo "Preparing Libft"
+	@make -sC $(LIBFT_PATH)
 
 clean:
 	@make clean -sC $(LIBFT_PATH)
+	@rm -f $(DEP)
 	@rm -f $(OBJ)
 
 fclean: clean
 	@rm -f $(NAME)
-	@make fclean -C $(LIBFT_PATH)
+	@make fclean -sC $(LIBFT_PATH)
 
 re: fclean all
+
+-include $(DEP)
 
 .PHONY: all clean fclean re

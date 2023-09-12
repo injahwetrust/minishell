@@ -6,7 +6,7 @@
 /*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 12:21:34 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/22 17:00:23 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/08/25 13:52:12 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	overflow(t_data *data, char *cmd, char *max)
 {
 	free(max);
 	printf("exit\n");
-	dprintf(2, "bash: exit: %s: numeric argument required\n", cmd);
+	ft_dprintf(2, "bash: exit: %s: numeric argument required\n", cmd);
 	step0(data);
 	exit(2);
 }
@@ -59,7 +59,7 @@ static void	parse_exit(t_data *data, char *cmd)
 		if (!ft_isdigit(cmd[i]))
 		{
 			printf("exit\n");
-			dprintf(2, "bash: exit: %s: numeric argument required\n", cmd);
+			ft_dprintf(2, "bash: exit: %s: numeric argument required\n", cmd);
 			step0(data);
 			exit(2);
 		}
@@ -79,13 +79,13 @@ static int	too_many_arg(t_data *data, char *cmd)
 		if (!ft_isdigit(cmd[i]))
 		{
 			printf("exit\n");
-			dprintf(2, "Minishell: exit: %s: numeric argument required\n", cmd);
+			ft_dprintf(2, MINI "exit: %s: numeric argument required\n", cmd);
 			step0(data);
 			exit(2);
 		}
 	}
 	printf("exit\n");
-	dprintf(2, "Minishell: exit: too many arguments\n");
+	ft_dprintf(2, "Minishell: exit: too many arguments\n");
 	return (1);
 }
 

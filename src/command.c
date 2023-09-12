@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:28:42 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/22 16:45:03 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/08/24 15:35:34 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,25 +57,25 @@ void	constant_built_in(t_data *data, char **s_cmd)
 	}
 }
 
-void	active_built_in_norm(t_data *data, int ret, int i, char **s_cmd)
+void	active_built_in_norm(t_data *data, int *ret, int i, char **s_cmd)
 {
 	if (ft_strcmp("cd", s_cmd[0]) == 0)
-		ret = cd(data, s_cmd);
+		*ret = cd(data, s_cmd);
 	else if (ft_strcmp("export", s_cmd[0]) == 0 && s_cmd[1])
 	{
-		ret = add_in_env(data, s_cmd[1]);
+		*ret = add_in_env(data, s_cmd[1]);
 		i = 1;
 		while (s_cmd[++i] && !ret)
-			ret = add_in_env(data, s_cmd[i]);
+			*ret = add_in_env(data, s_cmd[i]);
 	}
 	else if (ft_strcmp("unset", s_cmd[0]) == 0)
 	{
 		i = 0;
 		while (s_cmd[++i])
-			ret = remove_from_env(data, s_cmd[i]);
+			*ret = remove_from_env(data, s_cmd[i]);
 	}
 	else if (ft_strcmp("exit", s_cmd[0]) == 0 && s_cmd[1])
-		ret = manage_exit(data, s_cmd);
+		*ret = manage_exit(data, s_cmd);
 	else if (ft_strcmp("exit", s_cmd[0]) == 0 && !s_cmd[1])
 	{
 		printf("exit\n");
@@ -90,6 +90,6 @@ int	active_built_in(t_data *data, char **s_cmd)
 
 	ret = -1;
 	i = 0;
-	active_built_in_norm(data, ret, i, s_cmd);
+	active_built_in_norm(data, &ret, i, s_cmd);
 	return (ret);
 }
