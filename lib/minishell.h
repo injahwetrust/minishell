@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/09/08 17:12:46 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/14 15:27:18 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,5 +235,6 @@ void		checkflow(t_data *data, char *cmd, char *max, int i);
 void		dir_null(t_data *data, DIR *dir, char **s_cmd);
 int			error_print(char *s_cmd);
 void		step1(t_data *data);
+void		redirect_close(t_data *data);
 
 #endif

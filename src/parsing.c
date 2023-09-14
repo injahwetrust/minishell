@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 00:02:28 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/25 13:53:21 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/09/14 14:23:25 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	first_char(t_data *data)
 		if (i == 1)
 			return (ft_dprintf(2, PARSE_ERR_SYCH, c));
 		if (i >= 2)
-			return (ft_dprintf(2, PARSE_ERR_SYCH_2, c, c));
+			return (ft_dprintf(2, MINI PARSE_ERR_SYCH_2, c, c));
 	}
 	return (0);
 }

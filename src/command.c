@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:28:42 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/24 15:35:34 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/14 14:25:15 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	active_built_in_norm(t_data *data, int *ret, int i, char **s_cmd)
 	{
 		*ret = add_in_env(data, s_cmd[1]);
 		i = 1;
-		while (s_cmd[++i] && !ret)
+		while (s_cmd[++i] && !*ret)
 			*ret = add_in_env(data, s_cmd[i]);
 	}
 	else if (ft_strcmp("unset", s_cmd[0]) == 0)

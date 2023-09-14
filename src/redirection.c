@@ -6,47 +6,31 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 09:15:25 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/12 15:01:14 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/14 15:36:06 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../lib/minishell.h"
 
-static int	read_in(char *path)
+static int	read_in(char *path, int fd)
 {
 	char	*ret;
-	char	*limiter;
-	int		fd;
-	int		i;
 
 	signals(3);
-	fd = open("/tmp/mini_here_doc", O_CREAT | O_WRONLY, 0644);
-	limiter = ft_strjoin(path, ": ", 0);
 	while (1)
 	{
-		i = 0;
-		ret = readline(limiter);
+		ft_dprintf(2, BO_GREEN"(%s)input:"RESET, path);
+		ret = get_next_line(0);
 		if (ret == NULL)
+			ft_dprintf(2, "\n"MINI H_ERROR, path);
+		if (!ret || (ft_strncmp(ret, path, ft_strlen(path)) == 0
+				&& ft_strlen(path) == ft_strlen(ret) - 1))
 		{
-			free(limiter);
-			close(fd);
-			ft_dprintf(2, MINI H_ERROR, path);
-			return (1);
-		}
-		if (ft_strcmp(ret, path) == 0)
-		{
-			dprintf(2, "test\n");
+			get_next_line(fd);
 			free(ret);
-			free(limiter);
-			close(fd);
-			break ;
+			return (0);
 		}
-		while (ret[i])
-		{
-			write(fd, &ret[i], 1);
-			i++;
-		}
-		write(fd, "\n", 1);
+		write(1, ret, ft_strlen(ret));
 		free(ret);
 	}
 	return (0);
@@ -59,21 +43,26 @@ static void	heredoc(t_data *data, char *path)
 	int	fd;
 
 	signals(4);
+	if (pipe(data->fd.p_fd) == -1)
+		end(data);
 	pid = fork();
 	if (pid == 0)
 	{
-		dup2(data->fd.base_fd[0], 0);
-		ret = read_in(path);
+		fd = open("/tmp/free_gnl", O_RDONLY | O_CREAT, 0644);
+		redirect_close(data);
+		ret = read_in(path, fd);
+		close(fd);
 		step0(data);
 		exit(ret);
 	}
 	g_last_ret = pid;
 	waitpid(pid, NULL, 0);
-	fd = open("/tmp/mini_here_doc", O_RDONLY);
-	if (fd == -1)
-		end(data);
-	dup2(fd, 0);
-	close(fd);
+	if (close(data->fd.p_fd[1]) == -1)
+		(perror("Minishell"), end(data));
+	if (dup2(data->fd.p_fd[0], 0) == -1)
+		(perror("Minishell"), end(data));
+	if (close(data->fd.p_fd[0]) == -1)
+		(perror("Minishell"), end(data));
 }
 
 static int	edit_in(t_data *data, char *in)

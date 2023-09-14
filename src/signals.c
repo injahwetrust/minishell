@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 14:18:16 by vanitas           #+#    #+#             */
-/*   Updated: 2023/09/12 14:25:49 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/14 14:11:35 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ static void	handler_back_slash(int sig)
 	(void)sig;
 }
 
-static void	handler_3(int sig)
+static void	handler_4(int sig)
 {
 	kill(g_last_ret, SIGKILL);
-	ft_dprintf(2, "quit\n");
+	ft_dprintf(2, "\n");
 	g_last_ret = 130;
 	(void)sig;
 }
@@ -64,7 +64,7 @@ void	signals(int sig)
 	}
 	if (sig == 4)
 	{
-		signal(SIGINT, handler_3);
+		signal(SIGINT, handler_4);
 		signal(SIGQUIT, SIG_IGN);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 23:55:59 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/31 17:28:01 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/14 15:43:39 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,16 @@ void	init(t_data *data, char **argv, char **env)
 
 	data->fd.base_fd[0] = dup(0);
 	data->fd.base_fd[1] = dup(1);
-	i = 1;
+	if (data->fd.base_fd[0] == -1 || data->fd.base_fd[1] == -1)
+		(perror("Minishell"), exit(0));
+	i = 0;
 	if (data->argc > 1)
 	{
 		data->input = ft_strdup("");
-		while (i < data->argc)
+		while (++i < data->argc)
 		{
 			data->input = ft_strjoin(data->input, argv[i], 1);
 			data->input = ft_strjoin(data->input, " ", 1);
-			i++;
 		}
 	}
 	g_last_ret = 0;
@@ -58,8 +59,7 @@ void	init(t_data *data, char **argv, char **env)
 		step1(data);
 	data->ghost[0] = 0;
 	data->ex = AZ_MIN DATA_EX;
-	init_env(data, env);
-	add_in_env(data, "_=/usr/bin/env");
+	(init_env(data, env), add_in_env(data, "_=/usr/bin/env"));
 }
 
 void	edit_prompt(t_data *data, char *cwd)

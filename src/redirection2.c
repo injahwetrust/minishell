@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 16:38:13 by mablatie          #+#    #+#             */
-/*   Updated: 2023/08/22 16:38:27 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/09/14 15:26:28 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,16 @@ void	creation(t_data *data)
 	i = -1;
 	while (++i < data->count)
 		create_outfiles(&data->cmds[i]);
+}
+
+void	redirect_close(t_data *data)
+{
+	if (dup2(data->fd.base_fd[0], 0) == -1)
+		(perror("Minishell"), end(data));
+	if (close(data->fd.p_fd[0]) == -1)
+		(perror("Minishell"), end(data));
+	if (dup2(data->fd.p_fd[1], 1) == -1)
+		(perror("Minishell"), end(data));
+	if (close(data->fd.p_fd[1]) == -1)
+		(perror("Minishell"), end(data));
 }
