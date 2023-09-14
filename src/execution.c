@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:41:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/12 16:36:55 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/15 00:51:59 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ void	simple_exec(t_data *data, char **s_cmd)
 	int	pid;
 	int	ret;
 
+	if (ft_strcmp("./minishell", s_cmd[0]) == 0)
+		signals(3);
 	ret = active_built_in(data, s_cmd);
 	if (ret != -1)
 	{

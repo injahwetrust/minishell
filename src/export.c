@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 12:09:08 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/18 15:07:07 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/09/15 00:44:12 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ static void	print_classed_declare(char **dec)
 				token = 0;
 			}
 		}
-		write(1, "\"\n", 2);
+		if (token == 0)
+			write(1, "\"", 1);
+		write(1, "\n", 2);
 	}
 }
 

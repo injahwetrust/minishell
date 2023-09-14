@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env2.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 16:46:05 by mablatie          #+#    #+#             */
-/*   Updated: 2023/08/24 17:17:16 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/09/15 00:35:29 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	add_in_env(t_data *data, char *str)
 	data->new_env[i + 1] = 0;
 	free(data->env);
 	data->env = data->new_env;
+	check_ghost(data, str);
 	return (0);
 }
 

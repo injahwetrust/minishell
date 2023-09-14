@@ -6,7 +6,7 @@
 #    By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/06 16:33:49 by vanitas           #+#    #+#              #
-#    Updated: 2023/09/12 14:57:47 by bvaujour         ###   ########.fr        #
+#    Updated: 2023/09/15 00:35:05 by bvaujour         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ SRC		=	main.c						\
 			src/redirection2.c			\
 			src/env.c					\
 			src/env2.c					\
+			src/env3.c					\
 			src/echo.c					\
 			src/cd.c					\
 			src/exit.c					\

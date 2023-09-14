@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/09/14 15:27:18 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/15 00:38:45 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,5 +236,7 @@ void		dir_null(t_data *data, DIR *dir, char **s_cmd);
 int			error_print(char *s_cmd);
 void		step1(t_data *data);
 void		redirect_close(t_data *data);
+void		check_ghost(t_data *data, char *str);
+void		remove_from_ghost(t_data *data, char *str);
 
 #endif

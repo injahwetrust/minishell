@@ -1,32 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   env3.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/04 20:30:21 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/14 23:25:21 by bvaujour         ###   ########.fr       */
+/*   Created: 2023/09/15 00:29:58 by bvaujour          #+#    #+#             */
+/*   Updated: 2023/09/15 00:38:17 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lib/minishell.h"
+#include "../lib/minishell.h"
 
-int	g_last_ret;
-
-int	main(int argc, char **argv, char **env)
+void	check_ghost(t_data *data, char *str)
 {
-	t_data	data;
-
-	if ((!isatty(1) || !isatty(0)) && argc == 1)
-	{
-		ft_dprintf(2, "Abord\n");
-		return (0);
-	}
-	data.argc = argc;
-	if (argc == 1)
-		header();
-	init(&data, argv, env);
-	process(&data);
-	return (0);
+	int		i;
+	char	*part;
+	(void)data;
+	i = 0;
+	while (str[i] && str[i] != '=')
+		i++;
+	part = ft_strndup(str, i, 0);
+	if(is_in_env(data, part))
+		remove_from_ghost(data, part);
+	free(part);
 }
