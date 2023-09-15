@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 23:55:59 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/15 18:57:51 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/15 19:01:05 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int	init_loop(t_data *data)
 	data->count = 1;
 	data->last_pid = -1;
 	data->print = 0;
-	toggleSignalsOn();
+	toggle_signals_on();
 	return (0);
 }
 
