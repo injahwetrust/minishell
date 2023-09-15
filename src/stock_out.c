@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stock_out.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 01:33:45 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/21 16:22:46 by vanitas          ###   ########.fr       */
+/*   Updated: 2023/09/15 01:25:21 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	fill_out(t_data *data)
 		len = count_out(data, data->cmds[i].cmd) + 1;
 		data->cmds[i].out = malloc(sizeof(char *) * len);
 		if (!data->cmds[i].out)
-			end(data);
+			exit(666); //revoir
 		get_out(data, data->cmds[i].cmd, data->cmds[i].out);
 		i++;
 	}

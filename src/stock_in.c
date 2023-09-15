@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stock_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 01:25:02 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/21 16:22:13 by vanitas          ###   ########.fr       */
+/*   Updated: 2023/09/15 01:19:53 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	fill_in(t_data *data)
 		len = count_in(data, data->cmds[i].cmd) + 1;
 		data->cmds[i].in = malloc(sizeof(char *) * len);
 		if (!data->cmds[i].in)
-			end(data);
+			exit(666); //revoir
 		get_in(data, data->cmds[i].cmd, data->cmds[i].in);
 		i++;
 	}

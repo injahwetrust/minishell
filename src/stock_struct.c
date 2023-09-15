@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stock_struct.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:31:00 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/18 16:23:48 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/09/15 01:30:09 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void	trim_cmds(t_data *data)
 	while (i < data->count)
 	{
 		data->cmds[i].cmd = ft_strtrim(data->cmds[i].cmd, " ", 1);
+		if (!data->cmds[i].cmd)
+			exit(666); //revoir
 		if (i > 0)
 			data->cmds[i].prev_op = data->cmds[i - 1].next_op;
 		i++;
@@ -70,7 +72,7 @@ void	stock(t_data *data)
 	data->step++;
 	data->cmds = malloc(sizeof(t_cmd) * data->count);
 	if (!data->cmds)
-		end(data);
+		exit(666); //revoir
 	init_cmds(data);
 	fill_cmd(data);
 	fill_op(data);

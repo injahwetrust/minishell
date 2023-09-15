@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 23:23:17 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/25 17:08:22 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/15 02:10:55 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,15 @@ static int	get_input(t_data *data)
 		end(data);
 	}
 	data->input = ft_strtrim(data->input, " \t", 1);
+	if (!data->input)
+		exit(666); //revoir
 	if (next_it(data))
 	{
 		end_loop(data);
 		return (1);
 	}
 	add_history(data->input);
+	ft_dprintf(data->fd.history_fd, "%s\n", data->input);
 	if (parse_input(data))
 	{
 		end_loop(data);

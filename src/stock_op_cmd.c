@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stock_op_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 00:05:43 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/22 15:22:02 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/09/15 01:27:23 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void	fill_cmd(t_data *data)
 			i++;
 	}
 	data->cmds[j].cmd = ft_strndup(clone, i, 0);
+	if (!data->cmds[j].cmd)
+		exit(666); //revoir
 }
 
 void	manage_last_cmd(t_data *data)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 01:27:00 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/24 17:01:31 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/09/15 01:22:11 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ char	*get_env(t_data *data, char *macro)
 		while (data->env[i][j] != '=')
 			j++;
 		var = ft_strndup(data->env[i], j, 0);
+		if (!var)
+			exit(666); //revoir
 		if (ft_strcmp(var, macro) == 0)
 		{
 			free(var);

@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 23:55:59 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/14 15:43:39 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/15 02:08:14 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,23 @@ static int	init_env(t_data *data, char **env)
 	int		a;
 
 	data->env = ft_tabdup(env, NULL, 0);
+	if (!data->env)
+		exit(666); //revoir
 	shell = get_env(data, "SHLVL");
 	if (shell)
 	{
 		a = ft_atoi(shell);
 		a++;
 		shell = ft_strjoin("SHLVL=", ft_itoa(a), 2);
+		if (!shell)
+			exit(666); //revoir
 		replace_in_env(data, shell);
 	}
 	else
 		add_in_env(data, "SHLVL=1");
 	remove_from_env(data, "OLDPWD");
 	free(shell);
+	data->fd.history_fd = open("/tmp/minishell_history", O_CREAT | O_APPEND | O_RDWR, 0644);
 	return (0);
 }
 
@@ -49,6 +54,8 @@ void	init(t_data *data, char **argv, char **env)
 		{
 			data->input = ft_strjoin(data->input, argv[i], 1);
 			data->input = ft_strjoin(data->input, " ", 1);
+			if (!data->input)
+				exit(666); //revoir
 		}
 	}
 	g_last_ret = 0;
@@ -56,7 +63,7 @@ void	init(t_data *data, char **argv, char **env)
 	data->last_cmd = ft_strdup("./minishell");
 	data->ghost = malloc(sizeof(char *));
 	if (!data->ghost)
-		step1(data);
+		step1(data); //revoir
 	data->ghost[0] = 0;
 	data->ex = AZ_MIN DATA_EX;
 	(init_env(data, env), add_in_env(data, "_=/usr/bin/env"));
@@ -92,6 +99,8 @@ int	init_loop(t_data *data)
 	dup2(data->fd.base_fd[1], 1);
 	getcwd(data->cwd, sizeof(data->cwd));
 	pwd = ft_strjoin("PWD=", data->cwd, 0);
+	if (!pwd)
+		exit(666); //revoir
 	add_in_env(data, pwd);
 	free(pwd);
 	edit_prompt(data, data->cwd);

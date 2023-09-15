@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stock_s_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 08:51:24 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/18 16:23:33 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/09/15 01:26:19 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	fill_s_cmd(t_data *data)
 		len = s_cmd_count(data, data->cmds[i].cmd) + 1;
 		data->cmds[i].s_cmd = malloc(sizeof(char *) * len);
 		if (!data->cmds[i].s_cmd)
-			end(data);
+			exit(666); //revoir
 		split_cmd(data, data->cmds[i].s_cmd, data->cmds[i].cmd);
 		i++;
 	}

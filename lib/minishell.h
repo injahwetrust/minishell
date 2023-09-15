@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/09/15 00:38:45 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/15 02:05:39 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ typedef struct s_fd
 {
 	int	base_fd[2];
 	int	p_fd[2];
+	int	history_fd;
 }	t_fd;
 
 typedef struct s_cmd
@@ -167,7 +168,6 @@ typedef struct s_data
 	int			count;
 	int			argc;
 	int			active_ret;
-
 }	t_data;
 
 extern int	g_last_ret;
