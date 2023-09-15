@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 23:55:59 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/15 14:21:23 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/15 17:32:08 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ void	edit_prompt(t_data *data, char *cwd)
 	data->prompt = ft_strjoin(BGO_GREEN BO_BLACK"Minishell~",
 			RESET BO_GREEN"\1🐸\2", 0);
 	data->prompt = ft_strjoin(data->prompt, cwd, 1);
+	if (!data->prompt)
+		exit (666); //Revoir
 	data->prompt = ft_strjoin(data->prompt, RESET"$ ", 1);
 }
 
@@ -114,7 +116,7 @@ int	init_loop(t_data *data)
 	data->count = 1;
 	data->last_pid = -1;
 	data->print = 0;
-	toggleSignalsOn();
+	toggle_signals_on();
 	return (0);
 }
 

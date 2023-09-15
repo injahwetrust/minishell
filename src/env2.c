@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env2.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 16:46:05 by mablatie          #+#    #+#             */
-/*   Updated: 2023/09/15 00:35:29 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/15 17:15:09 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	remove_from_env_norm(t_data *data, int i)
 {
 	data->new_env = malloc(sizeof(char *) * i);
 	if (!data->new_env)
-		end(data);
+		exit(666); //Revoir
 }
 
 void	remove_from_env_norm_2(t_data *data, int j)

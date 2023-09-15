@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 10:03:35 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/15 00:05:28 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/15 17:27:44 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	add_in_ghost(t_data *data, char *str)
 {
 	char	**new_ghost;
-	
+
 	if (is_in_env(data, str))
 		return ;
 	new_ghost = ft_tabdup(data->ghost, str, 1);

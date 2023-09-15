@@ -6,7 +6,7 @@
 /*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/09/15 16:44:34 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/09/15 17:26:36 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,8 +237,8 @@ void		step1(t_data *data);
 void		redirect_close(t_data *data);
 void		check_ghost(t_data *data, char *str);
 void		remove_from_ghost(t_data *data, char *str);
-void		toggleSignalsOff(void);
-void		toggleSignalsOn(void);
+void		toggle_signals_off(void);
+void		toggle_signals_on(void);
 int			print_history(t_data *data, char **s_cmd);
 void		history(t_data *data);
 void		exec_norm(t_data *data, int i);

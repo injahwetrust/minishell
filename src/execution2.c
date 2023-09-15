@@ -6,7 +6,7 @@
 /*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:08:34 by mablatie          #+#    #+#             */
-/*   Updated: 2023/09/15 16:44:27 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/09/15 17:27:57 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	close_and_dup_child(t_data *data)
 	if (close(data->fd.base_fd[1]) == -1)
 		(perror("Minishell"), end(data));
 }
+
 void	exec_norm(t_data *data, int i)
 {
 	if (ft_strcmp(data->cmds[i].cmd, "./minishell") == 0)

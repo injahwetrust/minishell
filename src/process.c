@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 23:23:17 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/15 13:03:23 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/15 17:26:07 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	get_input(t_data *data)
 	if (data->input == NULL)
 	{
 		printf("exit\n");
-		toggleSignalsOff();
+		toggle_signals_off();
 		end(data);
 	}
 	data->input = ft_strtrim(data->input, " \t", 1);
