@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/09/15 09:59:39 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/15 12:10:20 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,5 +240,6 @@ void		check_ghost(t_data *data, char *str);
 void		remove_from_ghost(t_data *data, char *str);
 void		toggleSignalsOff(void);
 void		toggleSignalsOn(void);
+int			print_history(t_data *data, char **s_cmd);
 
 #endif

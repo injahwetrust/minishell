@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 00:29:58 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/15 12:00:23 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/15 12:09:56 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,7 @@ void	toggleSignalsOff(void)
 
 int	print_history(t_data *data, char **s_cmd)
 {
-	
+	(void)data;
+	(void)s_cmd;
+	return(0);
 }
