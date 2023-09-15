@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 09:15:25 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/14 15:36:06 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/15 19:07:37 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,7 @@ static void	heredoc(t_data *data, char *path)
 		fd = open("/tmp/free_gnl", O_RDONLY | O_CREAT, 0644);
 		redirect_close(data);
 		ret = read_in(path, fd);
-		close(fd);
-		step0(data);
-		exit(ret);
+		(close(fd), step0(data), exit(ret));
 	}
 	g_last_ret = pid;
 	waitpid(pid, NULL, 0);

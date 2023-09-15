@@ -6,7 +6,7 @@
 /*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:41:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/15 16:45:06 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/09/15 19:08:09 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void	execution(t_data *data)
 	while (++i < data->count)
 	{
 		exec_norm(data, i);
-		if (redirection(data, &data->cmds[i]))
+		if (redirection(data, &data->cmds[i]) || g_last_ret == 130)
 			continue ;
 		if (cancel_cmd(data, data->cmds[i].prev_op, data->cmds[i].s_cmd))
 			continue ;
