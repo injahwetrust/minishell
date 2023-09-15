@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 23:23:17 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/15 02:10:55 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/15 09:54:40 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static int	get_input(t_data *data)
 	if (data->input == NULL)
 	{
 		printf("exit\n");
+		toggleSignalsOff();
 		end(data);
 	}
 	data->input = ft_strtrim(data->input, " \t", 1);

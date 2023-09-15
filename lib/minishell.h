@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/09/15 02:05:39 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/15 09:59:39 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <signal.h>
 # include <dirent.h>
 # include <sys/ioctl.h>
-
+# include <termios.h>
 //couleurs normales texte
 # define RESET			"\1\1\x1B[0m\2"
 # define BLACK			"\1\x1B[30m\2"
@@ -238,5 +238,7 @@ void		step1(t_data *data);
 void		redirect_close(t_data *data);
 void		check_ghost(t_data *data, char *str);
 void		remove_from_ghost(t_data *data, char *str);
+void		toggleSignalsOff(void);
+void		toggleSignalsOn(void);
 
 #endif

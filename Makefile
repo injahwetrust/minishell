@@ -6,10 +6,15 @@
 #    By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/06 16:33:49 by vanitas           #+#    #+#              #
-#    Updated: 2023/09/15 00:35:05 by bvaujour         ###   ########.fr        #
+#    Updated: 2023/09/15 11:30:53 by bvaujour         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+GREEN		=	\e[92;2;118m
+YELLOW		=	\e[93;4;226m
+GRAY		=	\e[33;2;37m
+RESET		=	\e[0m
+CURSIVE		=	\e[33;3m
 
 NAME		=	minishell
 
@@ -69,7 +74,8 @@ all: $(NAME)
 
 $(NAME): $(LIBFT_LIB) $(OBJ)
 	@$(CC) $(OBJ) $(LIBFT_LIB) -o $(NAME) -lreadline
-	@echo "\nCompilation complete"
+	@echo -n "                                                        \r"
+	@echo "$(CURSIVE)$(GREEN)Compilation complete\r$(RESET)"
 
 
 boot: $(NAME)
@@ -85,11 +91,10 @@ push	: fclean
 	
 .c.o:
 	@$(CC) $(FLAG) -c $< -o $@
-	@printf "Compiling files.....%-50s \r" $@
-	
+	@printf "$(CURSIVE)$(GRAY)Compiling Minishell files.....%-25s \r" $@
 
 $(LIBFT_LIB):
-	@echo "Preparing Libft"
+	@echo "$(YELLOW)Preparing Minishell$(RESET)$(CURSIVE)$(GRAY)"
 	@make -sC $(LIBFT_PATH)
 
 clean:
