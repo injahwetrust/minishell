@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/09/15 14:21:27 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/15 16:44:34 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,5 +241,7 @@ void		toggleSignalsOff(void);
 void		toggleSignalsOn(void);
 int			print_history(t_data *data, char **s_cmd);
 void		history(t_data *data);
+void		exec_norm(t_data *data, int i);
+void		close_and_dup_child(t_data *data);
 
 #endif
