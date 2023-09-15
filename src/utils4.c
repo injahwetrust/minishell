@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env3.c                                             :+:      :+:    :+:   */
+/*   utils4.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 00:29:58 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/15 00:38:17 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/15 12:00:23 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,27 @@ void	check_ghost(t_data *data, char *str)
 	if(is_in_env(data, part))
 		remove_from_ghost(data, part);
 	free(part);
+}
+
+void	toggleSignalsOn(void)
+{
+	struct termios		terminal;
+ 
+	tcgetattr(1, &terminal);
+	terminal.c_lflag &= ~ECHOCTL;
+	tcsetattr(1, TCSANOW, &terminal);
+}
+
+void	toggleSignalsOff(void)
+{
+	struct termios		terminal;
+ 
+	tcgetattr(1, &terminal);
+	terminal.c_lflag |= ECHOCTL;
+	tcsetattr(1, TCSANOW, &terminal);
+}
+
+int	print_history(t_data *data, char **s_cmd)
+{
+	
 }

@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:28:42 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/14 21:51:08 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/15 11:59:31 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	constant_built_in(t_data *data, char **s_cmd)
 	}
 	else if (ft_strcmp("export", s_cmd[0]) == 0 && !s_cmd[1])
 		ret = print_declare(data);
+	else if (ft_strcmp("history", s_cmd[0]) == 0)
+		ret = print_history(data, s_cmd);
 	if (ret != -1)
 	{
 		step0(data);

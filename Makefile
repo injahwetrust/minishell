@@ -6,7 +6,7 @@
 #    By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/06 16:33:49 by vanitas           #+#    #+#              #
-#    Updated: 2023/09/15 11:30:53 by bvaujour         ###   ########.fr        #
+#    Updated: 2023/09/15 11:54:38 by bvaujour         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ SRC		=	main.c						\
 			src/utils.c					\
 			src/utils2.c				\
 			src/utils3.c				\
+			src/utils4.c				\
 			src/parse_operator.c		\
 			src/parse_operator2.c		\
 			src/stock_struct.c			\
@@ -53,7 +54,6 @@ SRC		=	main.c						\
 			src/redirection2.c			\
 			src/env.c					\
 			src/env2.c					\
-			src/env3.c					\
 			src/echo.c					\
 			src/cd.c					\
 			src/exit.c					\
@@ -75,7 +75,7 @@ all: $(NAME)
 $(NAME): $(LIBFT_LIB) $(OBJ)
 	@$(CC) $(OBJ) $(LIBFT_LIB) -o $(NAME) -lreadline
 	@echo -n "                                                        \r"
-	@echo "$(CURSIVE)$(GREEN)Compilation complete\r$(RESET)"
+	@echo "$(GREEN)Compilation complete\r$(RESET)"
 
 
 boot: $(NAME)

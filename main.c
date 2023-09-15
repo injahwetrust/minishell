@@ -6,31 +6,13 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 20:30:21 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/15 09:58:53 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/15 11:55:27 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib/minishell.h"
 
 int	g_last_ret;
-
-void	toggleSignalsOn(void)
-{
-	struct termios		terminal;
- 
-	tcgetattr(1, &terminal);
-	terminal.c_lflag &= ~ECHOCTL;
-	tcsetattr(1, TCSANOW, &terminal);
-}
-
-void	toggleSignalsOff(void)
-{
-	struct termios		terminal;
- 
-	tcgetattr(1, &terminal);
-	terminal.c_lflag |= ECHOCTL;
-	tcsetattr(1, TCSANOW, &terminal);
-}
 
 int	main(int argc, char **argv, char **env)
 {
