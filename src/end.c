@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 23:59:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/15 02:09:14 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/15 13:32:04 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	step0(t_data *data)
 	rl_clear_history();
 	close(data->fd.base_fd[0]);
 	close(data->fd.base_fd[1]);
-	close(data->fd.history_fd);
 	free(data->input);
 	free(data->prompt);
 	free(data->last_cmd);
@@ -55,7 +54,6 @@ void	end_loop(t_data *data)
 {
 	free(data->input);
 	free(data->prompt);
-	unlink("/tmp/mini_here_doc");
 	if (data->step > 0)
 	{
 		free_cmds(data);

@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 23:55:59 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/15 09:59:06 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/15 14:21:23 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static int	init_env(t_data *data, char **env)
 		add_in_env(data, "SHLVL=1");
 	remove_from_env(data, "OLDPWD");
 	free(shell);
-	data->fd.history_fd = open("/tmp/minishell_history", O_CREAT | O_APPEND | O_RDWR, 0644);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:41:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/15 02:14:40 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/15 13:11:29 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void	exec_pipe(t_data *data, char **s_cmd)
 		close(data->fd.p_fd[1]);
 		close(data->fd.base_fd[0]);
 		close(data->fd.base_fd[1]);
-		close(data->fd.history_fd);
 		constant_built_in(data, s_cmd);
 		canceled_built_in(data, s_cmd);
 		go(data, s_cmd);
@@ -80,7 +79,6 @@ void	simple_exec(t_data *data, char **s_cmd)
 	{
 		close(data->fd.base_fd[0]);
 		close(data->fd.base_fd[1]);
-		close(data->fd.history_fd);
 		constant_built_in(data, s_cmd);
 		go(data, s_cmd);
 		exit(0);
