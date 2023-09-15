@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 23:55:59 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/15 17:32:08 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/09/15 18:57:51 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ static int	init_env(t_data *data, char **env)
 
 	data->env = ft_tabdup(env, NULL, 0);
 	if (!data->env)
-		exit(666); //revoir
+		step1(data);
+	data->step1 = 3;
 	shell = get_env(data, "SHLVL");
 	if (shell)
 	{
@@ -27,7 +28,7 @@ static int	init_env(t_data *data, char **env)
 		a++;
 		shell = ft_strjoin("SHLVL=", ft_itoa(a), 2);
 		if (!shell)
-			exit(666); //revoir
+			step1(data);
 		replace_in_env(data, shell);
 	}
 	else
@@ -54,16 +55,21 @@ void	init(t_data *data, char **argv, char **env)
 			data->input = ft_strjoin(data->input, argv[i], 1);
 			data->input = ft_strjoin(data->input, " ", 1);
 			if (!data->input)
-				exit(666); //revoir
+				(close(data->fd.base_fd[0]), close(data->fd.base_fd[1]), exit(1));
 		}
 	}
 	g_last_ret = 0;
 	data->active_ret = -1;
+	data->step1 = 0;
 	data->last_cmd = ft_strdup("./minishell");
+	if (!data->last_cmd)
+		step1(data);
+	data->step1 = 1;
 	data->ghost = malloc(sizeof(char *));
 	if (!data->ghost)
-		step1(data); //revoir
+		step1(data);
 	data->ghost[0] = 0;
+	data->step1 = 2;
 	data->ex = AZ_MIN DATA_EX;
 	(init_env(data, env), add_in_env(data, "_=/usr/bin/env"));
 }
@@ -87,8 +93,6 @@ void	edit_prompt(t_data *data, char *cwd)
 	data->prompt = ft_strjoin(BGO_GREEN BO_BLACK"Minishell~",
 			RESET BO_GREEN"\1🐸\2", 0);
 	data->prompt = ft_strjoin(data->prompt, cwd, 1);
-	if (!data->prompt)
-		exit (666); //Revoir
 	data->prompt = ft_strjoin(data->prompt, RESET"$ ", 1);
 }
 
@@ -101,7 +105,7 @@ int	init_loop(t_data *data)
 	getcwd(data->cwd, sizeof(data->cwd));
 	pwd = ft_strjoin("PWD=", data->cwd, 0);
 	if (!pwd)
-		exit(666); //revoir
+		step1(data);
 	add_in_env(data, pwd);
 	free(pwd);
 	edit_prompt(data, data->cwd);
@@ -116,7 +120,7 @@ int	init_loop(t_data *data)
 	data->count = 1;
 	data->last_pid = -1;
 	data->print = 0;
-	toggle_signals_on();
+	toggleSignalsOn();
 	return (0);
 }
 

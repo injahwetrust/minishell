@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/09/15 17:26:36 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/09/15 18:56:35 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,7 @@ typedef struct s_data
 	int			count;
 	int			argc;
 	int			active_ret;
+	int			step1;
 }	t_data;
 
 extern int	g_last_ret;

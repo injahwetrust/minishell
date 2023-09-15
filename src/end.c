@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 23:59:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/15 13:32:04 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/15 18:57:21 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,18 @@ void	end_loop(t_data *data)
 
 void	step1(t_data *data)
 {
-	free(data->last_cmd);
-	free(data->ghost);
-	close(data->fd.base_fd[0]);
-	close(data->fd.base_fd[1]);
+	if (data->step1 >= 0)
+	{
+		close(data->fd.base_fd[0]);
+		close(data->fd.base_fd[1]);
+		if (data->argc > 1)
+			free(data->input);
+	}
+	if (data->step1 >= 1)
+		free(data->last_cmd);
+	if (data->step1 >= 2)
+		ft_free_tab(data->ghost);
+	if (data->step1 >= 3)
+		ft_free_tab(data->env);
 	exit(0);
 }
