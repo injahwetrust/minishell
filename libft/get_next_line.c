@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 13:34:03 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/12 18:21:49 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/15 17:23:14 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ char	*ft_gnljoin(char *save, char *buff)
 	if (!save)
 	{
 		save = (char *)malloc(1 * sizeof(char));
+		if (!save)
+			return (NULL);
 		save[0] = '\0';
 	}
 	if (!save || !buff)
@@ -51,7 +53,7 @@ char	*ft_get_line(char *save)
 	while (save[i] && save[i] != '\n')
 		i++;
 	line = (char *)malloc(sizeof(char) * (i + 2));
-	if (!save)
+	if (!line || !save)
 		return (NULL);
 	i = 0;
 	while (save[i] && save[i] != '\n')

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:08:34 by mablatie          #+#    #+#             */
-/*   Updated: 2023/09/14 15:44:28 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/15 17:27:57 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,25 @@ void	dir_null(t_data *data, DIR *dir, char **s_cmd)
 		step0(data);
 		exit(126);
 	}
+}
+
+void	close_and_dup_child(t_data *data)
+{
+	if (close(data->fd.p_fd[0]) == -1)
+		(perror("Minishell"), end(data));
+	if (dup2(data->fd.p_fd[1], 1) == -1)
+		(perror("Minishell"), end(data));
+	if (close(data->fd.p_fd[1]) == -1)
+		(perror("Minishell"), end(data));
+	if (close(data->fd.base_fd[0]) == -1)
+		(perror("Minishell"), end (data));
+	if (close(data->fd.base_fd[1]) == -1)
+		(perror("Minishell"), end(data));
+}
+
+void	exec_norm(t_data *data, int i)
+{
+	if (ft_strcmp(data->cmds[i].cmd, "./minishell") == 0)
+		signals(3);
+	data->active_ret = -1;
 }

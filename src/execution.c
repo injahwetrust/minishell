@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:41:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/15 13:11:29 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/15 16:45:06 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,7 @@ void	exec_pipe(t_data *data, char **s_cmd)
 	pid = fork();
 	if (pid == 0)
 	{
-		close(data->fd.p_fd[0]);
-		dup2(data->fd.p_fd[1], 1);
-		close(data->fd.p_fd[1]);
-		close(data->fd.base_fd[0]);
-		close(data->fd.base_fd[1]);
+		close_and_dup_child(data);
 		constant_built_in(data, s_cmd);
 		canceled_built_in(data, s_cmd);
 		go(data, s_cmd);
@@ -122,7 +118,7 @@ void	execution(t_data *data)
 	(creation(data), signals(2));
 	while (++i < data->count)
 	{
-		data->active_ret = -1;
+		exec_norm(data, i);
 		if (redirection(data, &data->cmds[i]))
 			continue ;
 		if (cancel_cmd(data, data->cmds[i].prev_op, data->cmds[i].s_cmd))
