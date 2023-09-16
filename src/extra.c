@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 17:43:07 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/17 00:03:50 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/17 01:41:39 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,95 @@ int    save_cmd(t_data *data, char **s_cmd)
     return (0);
 }
 
+void	new_save(char **s_cmd, char **save)
+{
+	int	fd;
+	int	i;
+	char	*str;
 
-int	cmd_print(void)
+	i = 0;
+	fd = open("/tmp/minishell_save", O_RDONLY);
+	str = get_next_line(fd);
+	while (str)
+	{
+		save[i] = ft_strdup(str);
+		free(str);
+		str = get_next_line(fd);
+		i++;
+	}
+	save[i] = 0;
+	(close(fd), unlink("/tmp/minishell_save"));
+	fd = open("/tmp/minishell_save", O_WRONLY | O_APPEND | O_CREAT, 0644);
+	i = 0;
+	while (save[i])
+	{
+		str = get_next_line(fd);
+		if (i != ft_atoi(s_cmd[1]) - 1)
+			ft_dprintf(fd, "%s", save[i]);
+		free(str);
+		i++;
+	}
+	close(fd);
+}
+
+int	delete_cmd(t_data *data, char **s_cmd)
+{
+	int		fd;
+	char	*str;
+	char	**save;
+	int		i;
+
+	i = 0;
+	if (!s_cmd[1])
+	{
+		cmd_print();
+		printf("\nRerun with index to delete associated command\n");
+		printf("Rerun with -all to delete all commands\n");
+		return (0);
+	}
+	if (ft_strcmp(s_cmd[1], "-all") == 0)
+	{
+		unlink("/tmp/minishell_save");
+		return (0);
+	}
+	fd = open("/tmp/minishell_save", O_RDONLY);
+	if (fd == -1)
+	{
+		ft_dprintf(2, "Minishell: cmd: no command saved\n");
+		return (1);
+	}
+	str = get_next_line(fd);
+	while (str)
+	{
+		free(str);
+		str = get_next_line(fd);
+		i++;
+	}
+	save = malloc(sizeof(char *) * (i + 1));
+	if (!save)
+		end(data);
+	close(fd);
+	new_save(s_cmd, save);
+	ft_free_tab(save);
+	return (0);
+}
+
+void	cmd_print(void)
 {
     char    *str;
     int     i;
 	int		fd;
 
+	printf("cmd Saved commands\n\n");
 	fd = open("/tmp/minishell_save", O_RDONLY);
     i = 1;
     str = get_next_line(fd);
     if (!str)
-        return (-1);
+	{
+		close (fd);
+		ft_dprintf(2, "Minishell: cmd: no command saved\n");
+		return ;
+	}
     while (str)
     {
         printf("(%d): %s", i, str);
@@ -55,14 +132,7 @@ int	cmd_print(void)
         str = get_next_line(fd);
         i++;
     }
-    ft_printf("select a command and press enter: ");
-    str = get_next_line(0);
-    if (!str)
-        exit(0);
-    i = ft_atoi(str);
-	free(str);
-	close (fd);
-    return (i);
+	close(fd);
 }
 
 int	cmd_choice(t_data *data)
@@ -74,7 +144,11 @@ int	cmd_choice(t_data *data)
 	if (ft_strlen(data->input) > 3)
 		i = ft_atoi(data->input + 3) - 1;
 	else
-    	i = cmd_print() - 1;
+	{
+		cmd_print();
+		printf("\nRerun with index to execute associated command\n");
+		return (1);
+	}
 	if (i <= -1)
 		return (1);
 	fd = open("/tmp/minishell_save", O_RDONLY);
