@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 17:43:07 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/16 20:55:26 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/16 21:57:29 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,32 @@ int    save_tool(t_data *data, char **s_cmd)
     ft_dprintf(fd, "%s\n", s_cmd[1]);
     close(fd);
     return (0);
+}
+
+void    boot_history(void)
+{
+    char    *str;
+    int     fd;
+
+    fd = open("/tmp/minishell_history", O_RDONLY);
+    if (fd == -1)
+        return ;
+    str = get_next_line(fd);
+    if (!str)
+        return ;
+    while (str)
+    {
+        str = ft_strtrim(str, "\n", 1);
+        if (!str)
+        {
+            close(fd);
+            return ;
+        }
+        add_history(str);
+        free(str);
+        str = get_next_line(fd);
+    }
+    close(fd);
 }
 
 char	*save_option(int fd)

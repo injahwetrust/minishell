@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 14:51:46 by vanitas           #+#    #+#             */
-/*   Updated: 2023/09/16 17:56:01 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/16 21:55:28 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ void	init_norm(t_data *data, char **env)
 	data->ghost[0] = 0;
 	data->step1 = 2;
 	data->ex = AZ_MIN DATA_EX;
+	boot_history();
 	(init_env(data, env), add_in_env(data, "_=/usr/bin/env"));
 }
