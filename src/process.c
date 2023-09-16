@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 23:23:17 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/16 22:43:47 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/16 23:58:12 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,12 @@ static int	get_input(t_data *data)
 		return (1);
 	}
 	history(data);
+	if (ft_strncmp(data->input, "cmd", 3) == 0)
+		if (cmd_choice(data))
+		{
+			end_loop(data);
+			return (1);
+		}
 	if (parse_input(data))
 	{
 		end_loop(data);

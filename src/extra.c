@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 17:43:07 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/16 22:47:28 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/17 00:03:50 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,17 @@ int    save_cmd(t_data *data, char **s_cmd)
 }
 
 
-char	*cmd_core(int fd)
+int	cmd_print(void)
 {
     char    *str;
     int     i;
+	int		fd;
 
+	fd = open("/tmp/minishell_save", O_RDONLY);
     i = 1;
     str = get_next_line(fd);
     if (!str)
-        exit(0);
-    write(1, "\n", 1);
+        return (-1);
     while (str)
     {
         printf("(%d): %s", i, str);
@@ -59,42 +60,44 @@ char	*cmd_core(int fd)
     if (!str)
         exit(0);
     i = ft_atoi(str);
-    if (i)
-    {
-        close(fd);
-        fd = open("/tmp/minishell_save", O_RDONLY);
-        while (i)
-        {
-            free(str);
-            str = get_next_line(fd);
-            i--;
-        }
-    }
-    close(fd);
-    return (str);
+	free(str);
+	close (fd);
+    return (i);
 }
 
-void	cmd_choice(int sig)
+int	cmd_choice(t_data *data)
 {
 	int		fd;
 	char	*str;
+    int     i;
 
+	if (ft_strlen(data->input) > 3)
+		i = ft_atoi(data->input + 3) - 1;
+	else
+    	i = cmd_print() - 1;
+	if (i <= -1)
+		return (1);
 	fd = open("/tmp/minishell_save", O_RDONLY);
 	if (fd == -1)
-		printf("\nno saved commands\n");
-	else
-		str = cmd_core(fd);
-	if (str)
+		return (ft_dprintf(2, "no saved commands\n"), 1);
+    str = get_next_line(fd);
+    while (str)
+    {
+        if (i == 0)
+            break ;
+        free(str);
+        str = get_next_line(fd);
+        i--;
+    }
+	if (!str)
 	{
-		str = ft_strtrim(str, "\n", 1);
-		rl_replace_line(str, 0);
-		free(str);
+		close(fd);
+		return (1);
 	}
-	else
-		rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-	(void)sig;
+	free(data->input);
+	data->input = ft_strtrim(str, "\n", 1);
+	close(fd);
+    return (0);
 }
 
 void    boot_history(void)
