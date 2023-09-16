@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+         #
+#    By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/06 16:33:49 by vanitas           #+#    #+#              #
-#    Updated: 2023/09/16 14:52:12 by vanitas          ###   ########.fr        #
+#    Updated: 2023/09/16 18:00:28 by bvaujour         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,6 +66,7 @@ SRC		=	main.c						\
 			src/wildcards2.c			\
 			src/lit.c					\
 			src/bash_morphing.c			\
+			src/extra.c					\
 						
 OBJ			=	$(SRC:.c=.o)
 

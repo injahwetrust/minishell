@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:28:42 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/15 11:59:31 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/16 19:54:10 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ void	active_built_in_norm(t_data *data, int *ret, int i, char **s_cmd)
 		printf("exit\n");
 		end(data);
 	}
+	else if (ft_strcmp("save", s_cmd[0]) == 0)
+		*ret = save_tool(data, s_cmd);
 }
 
 int	active_built_in(t_data *data, char **s_cmd)

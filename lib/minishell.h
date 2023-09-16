@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/09/16 15:01:55 by vanitas          ###   ########.fr       */
+/*   Updated: 2023/09/16 20:10:55 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,7 @@ typedef struct s_data
 {
 	char		cwd[PATH_MAX];
 	char		*input;
+	char		*save;
 	char		*last_cmd;
 	char		**paths;
 	char		**env;
@@ -246,5 +247,7 @@ void		exec_norm(t_data *data, int i);
 void		close_and_dup_child(t_data *data);
 int			init_env(t_data *data, char **env);
 void		init_norm(t_data *data, char **env);
+int	    	save_tool(t_data *data, char **s_cmd);
+char    	*save_option(int fd);
 
 #endif
