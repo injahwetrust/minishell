@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 23:55:59 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/15 19:01:05 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/16 14:58:11 by vanitas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../lib/minishell.h"
 
-static int	init_env(t_data *data, char **env)
+int	init_env(t_data *data, char **env)
 {
 	char	*shell;
 	int		a;
@@ -55,23 +55,13 @@ void	init(t_data *data, char **argv, char **env)
 			data->input = ft_strjoin(data->input, argv[i], 1);
 			data->input = ft_strjoin(data->input, " ", 1);
 			if (!data->input)
-				(close(data->fd.base_fd[0]), close(data->fd.base_fd[1]), exit(1));
+			{
+				(close(data->fd.base_fd[0]), close(data->fd.base_fd[1]));
+				exit (1);
+			}
 		}
 	}
-	g_last_ret = 0;
-	data->active_ret = -1;
-	data->step1 = 0;
-	data->last_cmd = ft_strdup("./minishell");
-	if (!data->last_cmd)
-		step1(data);
-	data->step1 = 1;
-	data->ghost = malloc(sizeof(char *));
-	if (!data->ghost)
-		step1(data);
-	data->ghost[0] = 0;
-	data->step1 = 2;
-	data->ex = AZ_MIN DATA_EX;
-	(init_env(data, env), add_in_env(data, "_=/usr/bin/env"));
+	init_norm(data, env);
 }
 
 void	edit_prompt(t_data *data, char *cwd)

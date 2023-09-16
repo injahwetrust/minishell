@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/09/15 18:56:35 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/16 15:01:55 by vanitas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@
 # define PARSE_ERR_SYCH "Minishell: Syntax error near unexpected token « %c »\n"
 # define PARSE_ERR_SYCH_2 " Syntax error near unexpected token « %c%c »\n"
 # define PARSE_ERR_SYCH_3 " Syntax error near unexpected token « %c%c%c »\n"
-# define PARSE_ERR_SYSTR "Minishell: Syntax error near unexpected token « %s »\n"
+# define PARSE_ERR_SYSTR " Syntax error near unexpected token « %s »\n"
 # define RBRACK_ERR_1 "Minishell: Syntax error near unexpected token « < »\n"
 # define RBRACK_ERR_2 "Minishell: Syntax error near unexpected token « << »\n"
 # define RBRACK_ERR_3 "Minishell: Syntax error near unexpected token « <<< »\n"
@@ -244,5 +244,7 @@ int			print_history(t_data *data, char **s_cmd);
 void		history(t_data *data);
 void		exec_norm(t_data *data, int i);
 void		close_and_dup_child(t_data *data);
+int			init_env(t_data *data, char **env);
+void		init_norm(t_data *data, char **env);
 
 #endif

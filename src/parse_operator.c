@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_operator.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 11:03:24 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/24 17:18:35 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/09/16 15:02:24 by vanitas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	count_op(t_data *data, char c)
 	if (data->or == 3 && c != '|')
 		return (ft_dprintf(2, PARSE_ERR_SYCH, '|'));
 	else if (data->or == 3 && c == '|')
-		return (ft_dprintf(2, PARSE_ERR_SYSTR, "||"));
+		return (ft_dprintf(2, MINI PARSE_ERR_SYSTR, "||"));
 	else if (c == '|')
 		data->or++;
 	else
@@ -49,7 +49,7 @@ static int	count_op(t_data *data, char c)
 	if (data->and == 3 && c != '&')
 		return (ft_dprintf(2, PARSE_ERR_SYCH, '&'));
 	else if (data->and == 3 && c == '&')
-		return (ft_dprintf(2, PARSE_ERR_SYSTR, "&&"));
+		return (ft_dprintf(2, MINI PARSE_ERR_SYSTR, "&&"));
 	else if (c == '&')
 		data->and++;
 	else
@@ -62,7 +62,7 @@ static int	count_in_out(t_data *data, char c)
 	if (data->out == 3 && c != '>')
 		return (ft_dprintf(2, PARSE_ERR_SYCH, '>'));
 	else if (data->out == 3 && c == '>')
-		return (ft_dprintf(2, PARSE_ERR_SYSTR, ">>"));
+		return (ft_dprintf(2, MINI PARSE_ERR_SYSTR, ">>"));
 	else if (c == '>')
 		data->out++;
 	else if (c != ' ')
@@ -70,9 +70,9 @@ static int	count_in_out(t_data *data, char c)
 	if (data->in == 3 && c != '<')
 		return (ft_dprintf(2, PARSE_ERR_SYCH, '<'));
 	else if (data->in == 4 && c != '<')
-		return (ft_dprintf(2, PARSE_ERR_SYSTR, "<<"));
+		return (ft_dprintf(2, MINI PARSE_ERR_SYSTR, "<<"));
 	else if (data->in == 4 && c == '<')
-		return (ft_dprintf(2, PARSE_ERR_SYSTR, "<<<"));
+		return (ft_dprintf(2, MINI PARSE_ERR_SYSTR, "<<<"));
 	else if (c == '<')
 		data->in++;
 	else if (c != ' ')
@@ -96,15 +96,15 @@ static int	op_newline(t_data *data)
 	if (!ft_strncmp(last, "&", 1) && ft_strlen(last) == 1)
 		return (free(last), ft_dprintf(2, PARSE_ERR_SYCH, '&'));
 	else if (!ft_strncmp(last, "&", 2) && ft_strlen(last) > 1)
-		return (free(last), ft_dprintf(2, PARSE_ERR_SYSTR, "&&"));
+		return (free(last), ft_dprintf(2, MINI PARSE_ERR_SYSTR, "&&"));
 	else if (!ft_strncmp(last, "|", 1) && ft_strlen(last) == 1)
-		return (free(last), ft_dprintf(2, PARSE_ERR_SYSTR, "'|'"));
+		return (free(last), ft_dprintf(2, MINI PARSE_ERR_SYSTR, "'|'"));
 	else if (!ft_strncmp(last, "||", 2) && ft_strlen(last) > 1)
-		return (free(last), ft_dprintf(2, PARSE_ERR_SYSTR, "||"));
+		return (free(last), ft_dprintf(2, MINI PARSE_ERR_SYSTR, "||"));
 	else if (!ft_strcmp(last, "<") || !ft_strcmp(last, "<<")
 		|| !ft_strcmp(last, "<<<") || !ft_strcmp(last, ">")
 		|| !ft_strcmp(last, ">>") || !ft_strcmp(last, "<>"))
-		return (free(last), ft_dprintf(2, PARSE_ERR_SYSTR, "newline"));
+		return (free(last), ft_dprintf(2, MINI PARSE_ERR_SYSTR, "newline"));
 	return (free(last), 0);
 }
 

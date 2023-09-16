@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+         #
+#    By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/06 16:33:49 by vanitas           #+#    #+#              #
-#    Updated: 2023/09/15 11:54:38 by bvaujour         ###   ########.fr        #
+#    Updated: 2023/09/16 14:52:12 by vanitas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRC		=	main.c						\
 			src/process.c				\
 			src/parsing.c				\
 			src/init.c					\
+			src/init2.c					\
 			src/end.c					\
 			src/utils.c					\
 			src/utils2.c				\

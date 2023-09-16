@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stock_op_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 00:05:43 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/15 01:27:23 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/16 14:50:24 by vanitas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ void	fill_cmd(t_data *data)
 	clone = data->input;
 	while (clone[i])
 	{
-		edit_lit(data, clone[i]);
-		edit_par(data, clone[i]);
+		(edit_lit(data, clone[i]), edit_par(data, clone[i]));
 		if (in_charset(clone[i], "&|") && !is_lit(data) && !data->par)
 		{
 			data->cmds[j].cmd = ft_strndup(clone, i, 0);
