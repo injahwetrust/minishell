@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 14:18:16 by vanitas           #+#    #+#             */
-/*   Updated: 2023/09/16 21:14:29 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/16 22:04:21 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,35 +44,12 @@ static void	handler_4(int sig)
 	(void)sig;
 }
 
-void	handler_save(int sig)
-{
-	int		fd;
-	char	*str;
-
-	fd = open("/tmp/minishell_save", O_RDONLY);
-	if (fd == -1)
-		printf("\nno saved commands\n");
-	else
-		str = save_option(fd);
-	if (str)
-	{
-		str = ft_strtrim(str, "\n", 1);
-		rl_replace_line(str, 0);
-		free(str);
-	}
-	else
-		rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-	(void)sig;
-}
-
 void	signals(int sig)
 {
 	if (sig == 1)
 	{
 		signal(SIGINT, handler_1);
-		signal(SIGTSTP, handler_save);
+		signal(SIGTSTP,  SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
 	}
 	if (sig == 2)

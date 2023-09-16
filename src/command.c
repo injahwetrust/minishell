@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:28:42 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/16 21:43:10 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/16 22:44:19 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,10 @@ void	constant_built_in(t_data *data, char **s_cmd)
 		ret = print_declare(data);
 	else if (ft_strcmp("history", s_cmd[0]) == 0)
 		ret = print_history();
+	else if (ft_strcmp("save", s_cmd[0]) == 0)
+		ret = save_cmd(data, s_cmd);
+	else if (ft_strcmp("save", s_cmd[0]) == 0)
+		ret = save_cmd(data, s_cmd);
 	if (ret != -1)
 	{
 		step0(data);
@@ -83,8 +87,6 @@ void	active_built_in_norm(t_data *data, int *ret, int i, char **s_cmd)
 		printf("exit\n");
 		end(data);
 	}
-	else if (ft_strcmp("save", s_cmd[0]) == 0)
-		*ret = save_tool(data, s_cmd);
 }
 
 int	active_built_in(t_data *data, char **s_cmd)

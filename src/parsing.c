@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 00:02:28 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/15 01:15:11 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/16 22:42:31 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,8 @@ int	parse_input(t_data *data)
 		return (1);
 	}
 	manage_last_cmd(data);
-	free(data->last_cmd);
-	data->last_cmd = ft_strdup(data->input);
-	// if (!data->last_cmd)
-	// 	end(data);
+	if (!data->last_cmd)
+		exit(666); //revoir
 	if (data->print)
 		printf("%s\n", data->input);
 	manage_dollar(data);

@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 23:59:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/16 17:56:06 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/16 22:42:56 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,10 @@ void	end(t_data *data)
 
 void	end_loop(t_data *data)
 {
-	free(data->input);
 	free(data->prompt);
+	free(data->last_cmd);
+	data->last_cmd = ft_strdup(data->input);
+	free(data->input);
 	if (data->step > 0)
 	{
 		free_cmds(data);

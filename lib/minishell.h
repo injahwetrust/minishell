@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/09/16 21:55:49 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/16 22:27:51 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,8 +247,8 @@ void		exec_norm(t_data *data, int i);
 void		close_and_dup_child(t_data *data);
 int			init_env(t_data *data, char **env);
 void		init_norm(t_data *data, char **env);
-int	    	save_tool(t_data *data, char **s_cmd);
-char    	*save_option(int fd);
+int	    	save_cmd(t_data *data, char **s_cmd);
+char    	*cmd_core(int fd);
 void    	boot_history(void);
 
 #endif
