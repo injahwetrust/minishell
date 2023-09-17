@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 00:29:58 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/16 21:48:42 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/17 10:00:45 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	check_ghost(t_data *data, char *str)
 	while (str[i] && str[i] != '=')
 		i++;
 	part = ft_strndup(str, i, 0);
-	if (is_in_env(data, part))
+	if (is_in_env(data, part) == 2)
 		remove_from_ghost(data, part);
 	free(part);
 }

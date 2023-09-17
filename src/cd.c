@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:25:47 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/24 16:58:46 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/09/17 09:59:19 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ int	cd(t_data *data, char **s_cmd)
 		perror("Minishell: cd");
 		return (1);
 	}
-	if (i == 1 || (i == 2 && ft_strcmp("--", s_cmd[1]) == 0))
+	if (i == 1 || (i == 2 && (!ft_strcmp("--", s_cmd[1])
+		|| !ft_strcmp("~", s_cmd[1]))))
 	{
 		if (cd_home(data))
 			return (1);
