@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/09/17 11:07:14 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/17 11:13:34 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@
 # define HEADER3		"  / /|_/ / / __ \\/ / ___/ __ \\/ _ \\/ / /\n"
 # define HEADER4		" / /  / / / / / / (__  ) / / /  __/ / /\n"
 # define HEADER5		"/_/  /_/_/_/ /_/_/____/_/ /_/\\___/_/_/"
-# define HEADER6		"\e[92;5;118m X  X  X\n"
+# define HEADER6		"\e[92;5;118m⚡⚡⚡\n"
 //Cd Error for norm
 # define CD_ERR_CHDIR " getcmd: cannot access parent directories: %s\n"
 # define CD_ERR_1 "Minishell: cd: %s: %s\n"
