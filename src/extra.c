@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 17:43:07 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/17 01:41:39 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/17 01:53:51 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int    save_cmd(t_data *data, char **s_cmd)
     i = 0;
     while (s_cmd[i])
         i++;
-    if (i >= 2)
+    if (i > 2)
     {
         printf("Minishell: save: too many arguments\n");
         return (1);
@@ -147,6 +147,7 @@ int	cmd_choice(t_data *data)
 	{
 		cmd_print();
 		printf("\nRerun with index to execute associated command\n");
+		printf("Run rmcmd to delete command\n");
 		return (1);
 	}
 	if (i <= -1)
