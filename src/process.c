@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 23:23:17 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/16 23:58:12 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/17 10:20:27 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static int	get_input(t_data *data)
 	if (data->input == NULL)
 	{
 		printf("exit\n");
-		toggle_signals_off();
 		end(data);
 	}
 	data->input = ft_strtrim(data->input, " \t", 1);
@@ -44,13 +43,8 @@ static int	get_input(t_data *data)
 		end_loop(data);
 		return (1);
 	}
-	history(data);
-	if (ft_strncmp(data->input, "cmd", 3) == 0)
-		if (cmd_choice(data))
-		{
-			end_loop(data);
-			return (1);
-		}
+	if (history(data))
+		return (1);
 	if (parse_input(data))
 	{
 		end_loop(data);

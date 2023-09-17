@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 00:29:58 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/17 10:00:45 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/17 10:11:47 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	check_ghost(t_data *data, char *str)
 	free(part);
 }
 
-void	toggle_signals_on(void)
+void	toggle_signals_off(void)
 {
 	struct termios		terminal;
 
@@ -35,7 +35,7 @@ void	toggle_signals_on(void)
 	tcsetattr(1, TCSANOW, &terminal);
 }
 
-void	toggle_signals_off(void)
+void	toggle_signals_on(void)
 {
 	struct termios		terminal;
 
@@ -65,7 +65,7 @@ int	print_history(void)
 	return (0);
 }
 
-void	history(t_data *data)
+int	history(t_data *data)
 {
 	int			fd;
 
@@ -73,4 +73,11 @@ void	history(t_data *data)
 	add_history(data->input);
 	ft_dprintf(fd, "%s\n", data->input);
 	close(fd);
+	if (ft_strncmp(data->input, "cmd", 3) == 0)
+		if (cmd_choice(data))
+		{
+			end_loop(data);
+			return (1);
+		}
+	return (0);
 }

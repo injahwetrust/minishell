@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 09:30:34 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/17 09:44:12 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/17 10:07:19 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,3 +93,4 @@ int	delete_cmd(t_data *data, char **s_cmd)
 	ft_free_tab(save);
 	return (0);
 }
+

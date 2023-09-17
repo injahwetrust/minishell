@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/09/17 01:18:04 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/17 11:05:02 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,11 @@
 # define BGO_WHITE		"\1\x1B[1m\x1B[47m\2"
 
 # define HEADER1	 	"    __  ____       _      __         ____\n"
-# define HEADER2		"   /  |/  (_)___  (_)____/ /_  ___  / / /\n"
+# define HEADER2		"   /  |/  ( )___  ( )____/ /_  ___  / / /\n"
 # define HEADER3		"  / /|_/ / / __ \\/ / ___/ __ \\/ _ \\/ / /\n"
 # define HEADER4		" / /  / / / / / / (__  ) / / /  __/ / /\n"
-# define HEADER5		"/_/  /_/_/_/ /_/_/____/_/ /_/\\___/_/_/\n"
-
+# define HEADER5		"/_/  /_/_/_/ /_/_/____/_/ /_/\\___/_/_/"
+# define HEADER6		"\e[92;5;118m o  o  o\n"
 //Cd Error for norm
 # define CD_ERR_CHDIR " getcmd: cannot access parent directories: %s\n"
 # define CD_ERR_1 "Minishell: cd: %s: %s\n"
@@ -242,7 +242,7 @@ void		remove_from_ghost(t_data *data, char *str);
 void		toggle_signals_off(void);
 void		toggle_signals_on(void);
 int			print_history(void);
-void		history(t_data *data);
+int			history(t_data *data);
 void		exec_norm(t_data *data, int i);
 void		close_and_dup_child(t_data *data);
 int			init_env(t_data *data, char **env);

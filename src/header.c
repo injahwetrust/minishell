@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:20:41 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/18 15:07:53 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/09/17 10:50:38 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,23 @@ static void	marged_header(struct winsize win)
 	i = -1;
 	while (++i < win.ws_col / 2 - marge)
 		write(1, " ", 1);
-	ft_printf(C_GREEN HEADER1);
+	printf(C_GREEN HEADER1);
 	i = -1;
 	while (++i < win.ws_col / 2 - marge)
 		write(1, " ", 1);
-	ft_printf(HEADER2);
+	printf(HEADER2);
 	i = -1;
 	while (++i < win.ws_col / 2 - marge)
 		write(1, " ", 1);
-	ft_printf(HEADER3);
+	printf(HEADER3);
 	i = -1;
 	while (++i < win.ws_col / 2 - marge)
 		write(1, " ", 1);
-	ft_printf(HEADER4);
+	printf(HEADER4);
 	i = -1;
 	while (++i < win.ws_col / 2 - marge)
 		write(1, " ", 1);
-	ft_printf(HEADER5 RESET);
+	printf(HEADER5 HEADER6 RESET"\n\n");
 }
 
 void	header(void)
