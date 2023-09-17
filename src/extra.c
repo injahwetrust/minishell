@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 17:43:07 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/17 01:53:51 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/17 09:00:07 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,22 +47,20 @@ void	new_save(char **s_cmd, char **save)
 	str = get_next_line(fd);
 	while (str)
 	{
-		save[i] = ft_strdup(str);
+		save[i++] = ft_strdup(str);
 		free(str);
 		str = get_next_line(fd);
-		i++;
 	}
 	save[i] = 0;
 	(close(fd), unlink("/tmp/minishell_save"));
 	fd = open("/tmp/minishell_save", O_WRONLY | O_APPEND | O_CREAT, 0644);
-	i = 0;
-	while (save[i])
+	i = -1;
+	while (save[++i])
 	{
 		str = get_next_line(fd);
 		if (i != ft_atoi(s_cmd[1]) - 1)
 			ft_dprintf(fd, "%s", save[i]);
 		free(str);
-		i++;
 	}
 	close(fd);
 }
@@ -115,7 +113,7 @@ void	cmd_print(void)
     int     i;
 	int		fd;
 
-	printf("cmd Saved commands\n\n");
+	printf("\e[33;3mcmd Saved commands\n\n");
 	fd = open("/tmp/minishell_save", O_RDONLY);
     i = 1;
     str = get_next_line(fd);
@@ -127,7 +125,7 @@ void	cmd_print(void)
 	}
     while (str)
     {
-        printf("(%d): %s", i, str);
+        printf("  %d):  %s", i, str);
         free(str);
         str = get_next_line(fd);
         i++;
@@ -169,6 +167,7 @@ int	cmd_choice(t_data *data)
 		close(fd);
 		return (1);
 	}
+	ft_printf("\e[33;3m\e[33;2;37m%s\e[0m", str);
 	free(data->input);
 	data->input = ft_strtrim(str, "\n", 1);
 	close(fd);
