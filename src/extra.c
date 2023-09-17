@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 17:43:07 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/17 09:50:20 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/17 11:41:51 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int    save_cmd(t_data *data, char **s_cmd)
         i++;
     if (i > 2)
     {
-        printf("Minishell: save: too many arguments\n");
+        printf("Minishell: save: can save only one argument,");
+		printf(" no argument will save last command\n");
         return (1);
     }
     fd = open("/tmp/minishell_save", O_CREAT | O_APPEND | O_WRONLY, 0644);
@@ -49,7 +50,8 @@ void	cmd_print(void)
     str = get_next_line(fd);
     if (!str)
 	{
-		close (fd);
+		if (fd != -1)
+			close (fd);
 		ft_dprintf(2, "Minishell: cmd: no command saved\n");
 		return ;
 	}
