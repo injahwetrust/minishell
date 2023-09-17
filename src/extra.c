@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 17:43:07 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/17 09:00:07 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/17 09:28:16 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,31 @@ void	new_save(char **s_cmd, char **save)
 	close(fd);
 }
 
+int	count_cmd(void)
+{
+	int	i;
+	int	fd;
+	char	*str;
+
+	i = 0;
+	fd = open("/tmp/minishell_save", O_RDONLY);
+	if (fd == -1)
+	{
+		ft_dprintf(2, "Minishell: cmd: no command saved\n");
+		return (-1);
+	}
+	str = get_next_line(fd);
+	while (str)
+	{
+		free(str);
+		str = get_next_line(fd);
+		i++;
+	}
+	close(fd);
+	return (i);
+}
 int	delete_cmd(t_data *data, char **s_cmd)
 {
-	int		fd;
-	char	*str;
 	char	**save;
 	int		i;
 
@@ -85,23 +106,12 @@ int	delete_cmd(t_data *data, char **s_cmd)
 		unlink("/tmp/minishell_save");
 		return (0);
 	}
-	fd = open("/tmp/minishell_save", O_RDONLY);
-	if (fd == -1)
-	{
-		ft_dprintf(2, "Minishell: cmd: no command saved\n");
+	i = count_cmd();
+	if (i == -1)
 		return (1);
-	}
-	str = get_next_line(fd);
-	while (str)
-	{
-		free(str);
-		str = get_next_line(fd);
-		i++;
-	}
 	save = malloc(sizeof(char *) * (i + 1));
 	if (!save)
 		end(data);
-	close(fd);
 	new_save(s_cmd, save);
 	ft_free_tab(save);
 	return (0);
@@ -133,10 +143,31 @@ void	cmd_print(void)
 	close(fd);
 }
 
+int	cmd_replace(t_data *data, int fd, int i)
+{
+	char	*str;
+
+	str = get_next_line(fd);
+    while (str)
+    {
+        if (i == 0)
+            break ;
+        free(str);
+        str = get_next_line(fd);
+        i--;
+    }
+	close(fd);
+	if (!str)
+		return (1);
+	ft_printf("\e[33;3m\e[33;2;37m%s\e[0m", str);
+	free(data->input);
+	data->input = ft_strtrim(str, "\n", 1);
+	return (0);
+}
+
 int	cmd_choice(t_data *data)
 {
 	int		fd;
-	char	*str;
     int     i;
 
 	if (ft_strlen(data->input) > 3)
@@ -152,26 +183,8 @@ int	cmd_choice(t_data *data)
 		return (1);
 	fd = open("/tmp/minishell_save", O_RDONLY);
 	if (fd == -1)
-		return (ft_dprintf(2, "no saved commands\n"), 1);
-    str = get_next_line(fd);
-    while (str)
-    {
-        if (i == 0)
-            break ;
-        free(str);
-        str = get_next_line(fd);
-        i--;
-    }
-	if (!str)
-	{
-		close(fd);
-		return (1);
-	}
-	ft_printf("\e[33;3m\e[33;2;37m%s\e[0m", str);
-	free(data->input);
-	data->input = ft_strtrim(str, "\n", 1);
-	close(fd);
-    return (0);
+		return (ft_dprintf(2, "Minishell: cmd: no command saved\n"), 1);
+    return (cmd_replace(data, fd, i));
 }
 
 void    boot_history(void)
