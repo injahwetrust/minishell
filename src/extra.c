@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 17:43:07 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/17 09:31:52 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/17 09:50:20 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ void	cmd_print(void)
     int     i;
 	int		fd;
 
-	printf("\e[33;3mcmd Saved commands\n\n");
+	printf("\e[33;3mcmd is a tool to use quickly commands\n\n");
+	printf("Saved commands:\n\n");
 	fd = open("/tmp/minishell_save", O_RDONLY);
     i = 1;
     str = get_next_line(fd);
@@ -95,6 +96,7 @@ int	cmd_choice(t_data *data)
 	{
 		cmd_print();
 		printf("\nRerun with index to execute associated command\n");
+		printf("Run save to add last command\n");
 		printf("Run rmcmd to delete command\n");
 		return (1);
 	}
