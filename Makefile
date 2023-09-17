@@ -6,7 +6,7 @@
 #    By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/06 16:33:49 by vanitas           #+#    #+#              #
-#    Updated: 2023/09/16 21:58:51 by bvaujour         ###   ########.fr        #
+#    Updated: 2023/09/17 09:32:54 by bvaujour         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,6 +67,7 @@ SRC		=	main.c						\
 			src/lit.c					\
 			src/bash_morphing.c			\
 			src/extra.c					\
+			src/extra2.c				\
 						
 OBJ			=	$(SRC:.c=.o)
 
