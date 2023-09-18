@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:25:47 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/17 09:59:19 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/18 22:13:25 by vanitas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	cd(t_data *data, char **s_cmd)
 		return (1);
 	}
 	if (i == 1 || (i == 2 && (!ft_strcmp("--", s_cmd[1])
-		|| !ft_strcmp("~", s_cmd[1]))))
+				|| !ft_strcmp("~", s_cmd[1]))))
 	{
 		if (cd_home(data))
 			return (1);

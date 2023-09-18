@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 14:18:16 by vanitas           #+#    #+#             */
-/*   Updated: 2023/09/16 22:04:21 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/18 22:14:39 by vanitas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	signals(int sig)
 	if (sig == 1)
 	{
 		signal(SIGINT, handler_1);
-		signal(SIGTSTP,  SIG_IGN);
+		signal(SIGTSTP, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
 	}
 	if (sig == 2)

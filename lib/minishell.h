@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/09/17 17:07:38 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/18 22:15:38 by vanitas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,9 +250,9 @@ void		exec_norm(t_data *data, int i);
 void		close_and_dup_child(t_data *data);
 int			init_env(t_data *data, char **env);
 void		init_norm(t_data *data, char **env);
-int	    	save_cmd(t_data *data, char **s_cmd);
+int			save_cmd(t_data *data, char **s_cmd);
 void		cmd_print(void);
-void    	boot_history(void);
+void		boot_history(void);
 int			cmd_choice(t_data *data);
 int			delete_cmd(t_data *data, char **s_cmd);
 

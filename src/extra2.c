@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extra2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 09:30:34 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/17 10:07:19 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/18 22:14:03 by vanitas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static void	new_save(char **s_cmd, char **save)
 {
-	int	fd;
-	int	i;
+	int		fd;
+	int		i;
 	char	*str;
 
 	i = 0;
@@ -43,8 +43,8 @@ static void	new_save(char **s_cmd, char **save)
 
 static int	count_cmd(void)
 {
-	int	i;
-	int	fd;
+	int		i;
+	int		fd;
 	char	*str;
 
 	i = 0;
@@ -93,4 +93,3 @@ int	delete_cmd(t_data *data, char **s_cmd)
 	ft_free_tab(save);
 	return (0);
 }
-
