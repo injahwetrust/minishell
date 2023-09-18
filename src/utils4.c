@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils4.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 00:29:58 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/17 18:32:55 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/18 22:12:55 by vanitas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,35 +26,35 @@ void	check_ghost(t_data *data, char *str)
 	free(part);
 }
 
-void toggle_signals_off(void)
+void	toggle_signals_off(void)
 {
-    struct termios terminal;
+	struct termios	terminal;
 
-    if (tcgetattr(1, &terminal) != 0)
-        return ;
-    if (terminal.c_lflag & ECHOCTL)
+	if (tcgetattr(1, &terminal) != 0)
+		return ;
+	if (terminal.c_lflag & ECHOCTL)
 	{
-        terminal.c_lflag &= ~ECHOCTL;
-        if (tcsetattr(1, TCSANOW, &terminal) != 0)
+		terminal.c_lflag &= ~ECHOCTL;
+		if (tcsetattr(1, TCSANOW, &terminal) != 0)
 		{
-            perror("tcsetattr");
-            return ;
-        }
-    }
+			perror("tcsetattr");
+			return ;
+		}
+	}
 }
 
-void toggle_signals_on(void)
+void	toggle_signals_on(void)
 {
-    struct termios terminal;
+	struct termios	terminal;
 
-    if (tcgetattr(1, &terminal) != 0) 
-        return ;
-    terminal.c_lflag |= ECHOCTL;
-    if (tcsetattr(1, TCSANOW, &terminal) != 0) 
+	if (tcgetattr(1, &terminal) != 0)
+		return ;
+	terminal.c_lflag |= ECHOCTL;
+	if (tcsetattr(1, TCSANOW, &terminal) != 0)
 	{
-        perror("tcsetattr");
-        return ;
-    }
+		perror("tcsetattr");
+		return ;
+	}
 }
 
 int	print_history(void)
