@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 00:29:58 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/17 10:11:47 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/17 18:32:55 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,35 @@ void	check_ghost(t_data *data, char *str)
 	free(part);
 }
 
-void	toggle_signals_off(void)
+void toggle_signals_off(void)
 {
-	struct termios		terminal;
+    struct termios terminal;
 
-	tcgetattr(1, &terminal);
-	terminal.c_lflag &= ~ECHOCTL;
-	tcsetattr(1, TCSANOW, &terminal);
+    if (tcgetattr(1, &terminal) != 0)
+        return ;
+    if (terminal.c_lflag & ECHOCTL)
+	{
+        terminal.c_lflag &= ~ECHOCTL;
+        if (tcsetattr(1, TCSANOW, &terminal) != 0)
+		{
+            perror("tcsetattr");
+            return ;
+        }
+    }
 }
 
-void	toggle_signals_on(void)
+void toggle_signals_on(void)
 {
-	struct termios		terminal;
+    struct termios terminal;
 
-	tcgetattr(1, &terminal);
-	terminal.c_lflag |= ECHOCTL;
-	tcsetattr(1, TCSANOW, &terminal);
+    if (tcgetattr(1, &terminal) != 0) 
+        return ;
+    terminal.c_lflag |= ECHOCTL;
+    if (tcsetattr(1, TCSANOW, &terminal) != 0) 
+	{
+        perror("tcsetattr");
+        return ;
+    }
 }
 
 int	print_history(void)
@@ -67,17 +80,20 @@ int	print_history(void)
 
 int	history(t_data *data)
 {
-	int			fd;
+	int	fd;
+	int	ret;
 
+	ret = 0;
+	if (ft_strncmp(data->input, "cmd", 3) == 0)
+		if (cmd_choice(data))
+			ret = 1;
+	if (ft_strcmp(data->input, data->last_cmd) == 0)
+		return (ret);
 	fd = open("/tmp/minishell_history", O_RDWR | O_CREAT | O_APPEND, 0644);
 	add_history(data->input);
 	ft_dprintf(fd, "%s\n", data->input);
 	close(fd);
-	if (ft_strncmp(data->input, "cmd", 3) == 0)
-		if (cmd_choice(data))
-		{
-			end_loop(data);
-			return (1);
-		}
-	return (0);
+	if (ret)
+		end_loop(data);
+	return (ret);
 }

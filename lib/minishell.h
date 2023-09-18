@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/09/17 11:34:22 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/17 17:07:38 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include <sys/ioctl.h>
 # include <termios.h>
 //couleurs normales texte
-# define RESET			"\1\1\x1B[0m\2"
+# define RESET			"\1\x1B[0m\2"
 # define BLACK			"\1\x1B[30m\2"
 # define RED			"\1\x1B[31m\2"
 # define GREEN			"\1\x1B[32m\2"
@@ -88,13 +88,16 @@
 # define BGO_MAGENTA	"\1\x1B[1m\x1B[45m\2"
 # define BGO_CYAN		"\1\x1B[1m\x1B[46m\2"
 # define BGO_WHITE		"\1\x1B[1m\x1B[47m\2"
+# define CURSIVE		"\e[33;3m"
+# define GRAY			"\e[33;2;37m"
 
 # define HEADER1	 	"    __  ____       _      __         ____\n"
 # define HEADER2		"   /  |/  ( )___  ( )____/ /_  ___  / / /\n"
 # define HEADER3		"  / /|_/ / / __ \\/ / ___/ __ \\/ _ \\/ / /\n"
 # define HEADER4		" / /  / / / / / / (__  ) / / /  __/ / /\n"
 # define HEADER5		"/_/  /_/_/_/ /_/_/____/_/ /_/\\___/_/_/"
-# define HEADER6		"\e[92;5;118m ⚡⚡"
+# define HEADER6		"\e[92;5;118m⚡"
+# define HEADER7		"bvaujour/mablatie\e[92;5;118m⚡"
 //Cd Error for norm
 # define CD_ERR_CHDIR " getcmd: cannot access parent directories: %s\n"
 # define CD_ERR_1 "Minishell: cd: %s: %s\n"

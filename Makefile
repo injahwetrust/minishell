@@ -6,7 +6,7 @@
 #    By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/06 16:33:49 by vanitas           #+#    #+#              #
-#    Updated: 2023/09/17 09:32:54 by bvaujour         ###   ########.fr        #
+#    Updated: 2023/09/17 16:59:20 by bvaujour         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,7 +91,7 @@ push: fclean
 	git add *
 	git commit -m 'auto'
 	git push
-	
+
 .c.o:
 	@$(CC) $(FLAG) -c $< -o $@
 	@printf "$(CURSIVE)$(GRAY)Compiling Minishell files.....%-25s \r" $@
