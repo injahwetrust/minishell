@@ -6,7 +6,7 @@
 /*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 17:51:27 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/08/22 16:34:19 by mablatie         ###   ########.fr       */
+/*   Updated: 2023/09/22 14:24:38 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static char	*get_part(t_data *data, char *begin, char *part)
 		str2 = ft_strjoin(begin, part, 1);
 	else if (ft_strncmp(macro, "?", 1) == 0)
 	{
-		str2 = ft_strjoin(begin, ft_itoa(g_last_ret), 3);
+		str2 = ft_strjoin(begin, ft_itoa(data->heredoc_ret), 3);
 		str2 = ft_strjoin(str2, ft_strndup(part, -i, 0), 3);
 	}
 	else if (get_env(data, macro))
@@ -64,7 +64,7 @@ static char	*get_part(t_data *data, char *begin, char *part)
 	return (str2);
 }
 
-static char	*str_dollar(t_data *data, char *str)
+char	*str_dollar(t_data *data, char *str)
 {
 	int		i;
 	char	*replaced;

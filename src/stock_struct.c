@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:31:00 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/15 01:30:09 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/20 13:28:39 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	trim_cmds(t_data *data)
 	{
 		data->cmds[i].cmd = ft_strtrim(data->cmds[i].cmd, " ", 1);
 		if (!data->cmds[i].cmd)
-			exit(666); //revoir
+			exit(666);
 		if (i > 0)
 			data->cmds[i].prev_op = data->cmds[i - 1].next_op;
 		i++;
@@ -72,7 +72,7 @@ void	stock(t_data *data)
 	data->step++;
 	data->cmds = malloc(sizeof(t_cmd) * data->count);
 	if (!data->cmds)
-		exit(666); //revoir
+		exit(666);
 	init_cmds(data);
 	fill_cmd(data);
 	fill_op(data);

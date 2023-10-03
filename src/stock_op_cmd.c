@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stock_op_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 00:05:43 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/16 14:50:24 by vanitas          ###   ########.fr       */
+/*   Updated: 2023/09/20 13:32:39 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	fill_cmd(t_data *data)
 	}
 	data->cmds[j].cmd = ft_strndup(clone, i, 0);
 	if (!data->cmds[j].cmd)
-		exit(666); //revoir
+		exit(666);
 }
 
 void	manage_last_cmd(t_data *data)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 14:18:16 by vanitas           #+#    #+#             */
-/*   Updated: 2023/09/18 22:14:39 by vanitas          ###   ########.fr       */
+/*   Updated: 2023/09/22 18:17:15 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,20 @@ static void	handler_back_slash(int sig)
 	(void)sig;
 }
 
-static void	handler_4(int sig)
+// static void	handler_4(int sig)
+// {
+// 	// kill(g_last_ret, SIGKILL);
+// 	//close(0);
+// 	ft_dprintf(2, "\n");
+// 	g_last_ret = 130;
+// 	(void)sig;
+// }
+
+static void	handler_5(int sig)
 {
-	kill(g_last_ret, SIGKILL);
-	ft_dprintf(2, "\n");
 	g_last_ret = 130;
+	ft_dprintf(2, "\n");
+	close(0);
 	(void)sig;
 }
 
@@ -59,12 +68,12 @@ void	signals(int sig)
 	}
 	if (sig == 3)
 	{
-		signal(SIGINT, SIG_IGN);
+		signal(SIGINT, handler_5);
 		signal(SIGQUIT, SIG_IGN);
 	}
 	if (sig == 4)
 	{
-		signal(SIGINT, handler_4);
+		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
 	}
 }

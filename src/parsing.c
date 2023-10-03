@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 00:02:28 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/16 22:42:31 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/22 14:00:01 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	parse_export(t_data *data, char *input)
 	i = 0;
 	if (in_charset(input[0], "0123456789="))
 	{
-		ft_dprintf(2, MINI "export: « %s » not a valid identifier\n", input);
+		ft_dprintf(2, MINI " export: « %s » not a valid identifier\n", input);
 		return (1);
 	}
 	while (input[i] && input[i] != '=')
@@ -101,9 +101,10 @@ int	parse_input(t_data *data)
 	}
 	manage_last_cmd(data);
 	if (!data->last_cmd)
-		exit(666); //revoir
+		exit(666);
 	if (data->print)
 		printf("%s\n", data->input);
+	data->heredoc_ret = g_last_ret;
 	manage_dollar(data);
 	g_last_ret = -1;
 	data->input = wildcards(data);

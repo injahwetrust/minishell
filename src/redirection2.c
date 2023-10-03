@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 16:38:13 by mablatie          #+#    #+#             */
-/*   Updated: 2023/09/14 15:26:28 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/22 14:29:35 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,33 @@ void	redirect_close(t_data *data)
 		(perror("Minishell"), end(data));
 	if (close(data->fd.p_fd[1]) == -1)
 		(perror("Minishell"), end(data));
+}
+
+char	*manage_dollar_heredoc(t_data *data, char *here)
+{
+	int		i;
+	int		dol;
+	char	*str;
+
+	dol = 0;
+	i = -1;
+	while (here[++i])
+	{
+		edit_lit(data, here[i]);
+		if (here[i] == '$' && !data->lit
+			&& (in_charset(here[i + 1], data->ex)
+				|| in_charset(here[i + 1], "\"'?")))
+			dol++;
+	}
+	while (dol)
+	{
+		str = str_dollar(data, here);
+		free(here);
+		here = ft_strdup(str);
+		free(str);
+		dol--;
+		data->d_lit = 0;
+		data->lit = 0;
+	}
+	return (here);
 }

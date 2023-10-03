@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+         #
+#    By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/06 16:33:49 by vanitas           #+#    #+#              #
-#    Updated: 2023/09/17 16:59:20 by bvaujour         ###   ########.fr        #
+#    Updated: 2023/09/22 18:30:40 by mablatie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ NAME		=	minishell
 
 CC			=	cc
 
-FLAG		=	-Wall -Wextra -Werror -g -MMD
+FLAG		=	-Wall -Wextra -Werror
 
 VFLAGS		=	valgrind --trace-children=yes -s --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes
 

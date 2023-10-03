@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extra.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 17:43:07 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/18 22:11:21 by vanitas          ###   ########.fr       */
+/*   Updated: 2023/09/20 13:31:11 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,8 @@ int	cmd_replace(t_data *data, int fd, int i)
 
 int	cmd_choice(t_data *data)
 {
-	int	fd;
-	int	i;
+	int		fd;
+	int		i;
 
 	if (ft_strlen(data->input) > 3)
 		i = ft_atoi(data->input + 3) - 1;

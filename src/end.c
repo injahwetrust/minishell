@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 23:59:30 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/17 10:10:55 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/22 16:43:47 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	step0(t_data *data)
 void	end(t_data *data)
 {
 	step0(data);
-	toggle_signals_on();
+	unlink("/tmp/here_doc_mini");
 	exit(0);
 }
 

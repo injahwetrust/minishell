@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vanitas <vanitas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:34 by injah             #+#    #+#             */
-/*   Updated: 2023/09/18 22:15:38 by vanitas          ###   ########.fr       */
+/*   Updated: 2023/09/22 14:29:25 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@
 # define C_WHITE		"\1\x1B[97m\2"
 
 //couleurs grasses texte
-# define BO_BLACK		"\1\x1B[1m\x1B[30\2m"
+# define BO_BLACK		"\1\x1B[1m\x1B[30m\2"
 # define BO_RED			"\1\x1B[1m\x1B[31m\2"
-# define BO_GREEN		"\1\x1B[1m\x1B[32\2m"
+# define BO_GREEN		"\1\x1B[1m\x1B[32m\2"
 # define BO_YELLOW		"\1\x1B[1m\x1B[33m\2"
 # define BO_BLUE		"\1\x1B[1m\x1B[34m\2"
 # define BO_MAGENTA		"\1\x1B[1m\x1B[35m\2"
@@ -96,8 +96,7 @@
 # define HEADER3		"  / /|_/ / / __ \\/ / ___/ __ \\/ _ \\/ / /\n"
 # define HEADER4		" / /  / / / / / / (__  ) / / /  __/ / /\n"
 # define HEADER5		"/_/  /_/_/_/ /_/_/____/_/ /_/\\___/_/_/"
-# define HEADER6		"\e[92;5;118m⚡"
-# define HEADER7		"bvaujour/mablatie\e[92;5;118m⚡"
+# define HEADER6		" injah/vanitas"
 //Cd Error for norm
 # define CD_ERR_CHDIR " getcmd: cannot access parent directories: %s\n"
 # define CD_ERR_1 "Minishell: cd: %s: %s\n"
@@ -172,6 +171,7 @@ typedef struct s_data
 	int			argc;
 	int			active_ret;
 	int			step1;
+	int			heredoc_ret;
 }	t_data;
 
 extern int	g_last_ret;
@@ -255,5 +255,7 @@ void		cmd_print(void);
 void		boot_history(void);
 int			cmd_choice(t_data *data);
 int			delete_cmd(t_data *data, char **s_cmd);
+char		*str_dollar(t_data *data, char *str);
+char		*manage_dollar_heredoc(t_data *data, char *here);
 
 #endif

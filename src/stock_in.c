@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 01:25:02 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/15 01:19:53 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/20 13:32:53 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	fill_in(t_data *data)
 		len = count_in(data, data->cmds[i].cmd) + 1;
 		data->cmds[i].in = malloc(sizeof(char *) * len);
 		if (!data->cmds[i].in)
-			exit(666); //revoir
+			exit(666);
 		get_in(data, data->cmds[i].cmd, data->cmds[i].in);
 		i++;
 	}

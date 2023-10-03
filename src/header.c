@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mablatie <mablatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:20:41 by bvaujour          #+#    #+#             */
-/*   Updated: 2023/09/17 17:08:26 by bvaujour         ###   ########.fr       */
+/*   Updated: 2023/09/22 12:17:09 by mablatie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	marged_header(struct winsize win)
 	i = -1;
 	while (++i < win.ws_col / 2 - marge)
 		write(1, " ", 1);
-	printf(HEADER5 HEADER6 RESET CURSIVE GRAY HEADER7 RESET"\n\n");
+	printf(HEADER5 RESET GRAY HEADER6 RESET"\n\n");
 }
 
 void	header(void)
